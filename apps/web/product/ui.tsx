@@ -3,10 +3,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import NumberFlow from '@number-flow/react';
 import {
-  SquaresFour, Browsers, Handshake, UsersThree, Receipt, SlidersHorizontal, UploadSimple,
+  SquaresFour, Browsers, Handshake, UsersThree, Receipt, SlidersHorizontal, UploadSimple, Wallet,
 } from '@phosphor-icons/react';
 import type { ReactNode } from 'react';
 import { useLive, useEvents } from './api';
+import { WalletRailButton } from './wallet';
 
 export function Logo({ size = 32 }: { size?: number }) {
   return (
@@ -24,7 +25,8 @@ const NAV = [
   { href: '/app/specialist', label: 'Specialist hires', icon: Handshake },
   { href: '/app/bloc', label: 'Bloc room', icon: UsersThree },
   { href: '/app/receipts', label: 'Receipts', icon: Receipt },
-  { href: '/app/control', label: 'Demo control', icon: SlidersHorizontal },
+  { href: '/app/wallet', label: 'My wallet', icon: Wallet },
+  ...(process.env.NEXT_PUBLIC_DEMO_CONTROL === '1' ? [{ href: '/app/control', label: 'Demo control', icon: SlidersHorizontal }] : []),
 ];
 
 export function Rail() {
@@ -44,7 +46,7 @@ export function Rail() {
         );
       })}
       <div className="spacer" />
-      <div className="avatar" title="Alex Rivera (demo user)">AR</div>
+      <WalletRailButton />
     </nav>
   );
 }
