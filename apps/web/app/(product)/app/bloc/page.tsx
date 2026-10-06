@@ -35,8 +35,9 @@ export default function BlocRoom() {
   const { data } = useLive<Bloc>('/api/bloc', ['bloc.pledged', 'bloc.bid', 'bloc.settled'], EMPTY);
   const c = data.campaign;
   const best = [...data.bids].filter((b) => b.valid).sort((a, b) => a.unitPrice - b.unitPrice)[0];
-  const unit = c?.unitLabel ?? 'tADA';
-  const fmtPrice = (v: number) => `${(v / 1_000_000).toFixed(2)} ${unit}`;
+  const fmtPrice = (v: number) => `${(v / 1_000_000).toFixed(2)} tADA`;
+  // Providers re-bid as rivals move; show each provider's latest bid, best first.
+  const latest = [...new Map([...data.bids].sort((a, b) => a.at.localeCompare(b.at)).map((b) => [b.provider, b])).values()].sort((a, b) => a.unitPrice - b.unitPrice);
   const saving = c && best ? ((c.marketPrice - best.unitPrice) / c.marketPrice) * 100 : 0;
 
   return (
@@ -124,9 +125,11 @@ export default function BlocRoom() {
         <div className="op-grid">
           <div className="op-card">
             <h2 style={{ marginBottom: 12 }}>Provider bids</h2>
-            <div className="op-muted" style={{ fontSize: 13, marginBottom: 10 }}>Fictional eSIM providers, simulated bidder agents. Bids are ed25519-signed.</div>
-            {data.bids.length ? (
-              data.bids.map((b) => (
+            <div className="op-muted" style={{ fontSize: 13, marginBottom: 10 }}>
+              Fictional eSIM providers, simulated bidder agents. Bids are ed25519-signed. Prices per member{c ? `, ${c.unitLabel}` : ''}.
+            </div>
+            {latest.length ? (
+              latest.map((b) => (
                 <div key={b.id} style={{ padding: '10px 0', borderTop: '1px solid var(--line)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <b>{b.provider}</b>
