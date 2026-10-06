@@ -85,7 +85,7 @@ export default function FleetPage() {
               <Money cents={data.recoveredCents} />
             </div>
             <div className="card-sub num">
-              {done} confirmed on the merchants’ own status pages
+              {done} confirmed on the demo merchants’ status pages
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>

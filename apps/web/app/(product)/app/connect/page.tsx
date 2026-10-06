@@ -107,9 +107,9 @@ export default function Connect() {
               <LockSimple size={20} />
               <h2 style={{ fontSize: 17 }}>How your data is handled</h2>
             </div>
-            <Point text="Processed on this machine. Raw exports are not kept after the session." />
+            <Point text="Processed on this machine. Raw exports are never written to disk." />
             <Point text="Card numbers, addresses and phone numbers are redacted before any model sees text." />
-            <Point text="Never used to train models. Delete on request." />
+            <Point text="Never used to train models." />
           </div>
         </div>
       </div>

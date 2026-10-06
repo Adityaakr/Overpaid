@@ -124,7 +124,7 @@ export default function SpecialistPage() {
             {s?.firstParty !== false ? <span className="op-pill dark">First-party specialist, built by the Overpaid team</span> : null}
             <span className="op-pill">{s?.registered ? 'Registered on Masumi preprod' : 'Not yet on the Masumi registry'}</span>
           </div>
-          <Row k="Fee" v={s?.fee ?? '—'} />
+          <Row k="Fee" v={s?.fee ? `${s.fee}, paid by Overpaid’s agent wallet, not you` : '—'} />
           <Row k="Endpoint" v={s?.url ?? '—'} mono />
           <Row k="Seller wallet" v={s?.sellerAddress ?? '—'} mono />
           {s?.masumiAgentId ? <Row k="Masumi agent id" v={s.masumiAgentId} mono /> : null}
