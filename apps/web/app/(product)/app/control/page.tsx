@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { api, useLive } from '@/product/api';
+import { api, operatorToken, useLive } from '@/product/api';
 import { PageHead } from '@/product/ui';
 
 type Health = { services: { name: string; url: string; ok: boolean; detail?: string }[]; chain: { ready: boolean; reason: string | null } };
@@ -21,6 +21,13 @@ export default function Control() {
   const { data, reload } = useLive<Health>('/api/health/services', [], { services: [], chain: { ready: false, reason: null } });
   const [log, setLog] = useState<string[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
+  const [token, setToken] = useState(() => operatorToken() ?? '');
+  const saveToken = (v: string) => {
+    setToken(v);
+    try {
+      localStorage.setItem('overpaid.operator', v);
+    } catch {}
+  };
 
   const run = async (a: (typeof ACTIONS)[number]) => {
     setBusy(a.id);
@@ -56,6 +63,17 @@ export default function Control() {
           ))}
         </div>
         <div className="op-grid">
+          <div className="op-card" style={{ display: 'grid', gap: 10 }}>
+            <h2>Operator token</h2>
+            <div className="card-sub">Needed for actions that spend Overpaid&apos;s own preprod funds. Stored only in this browser.</div>
+            <input
+              type="password"
+              value={token}
+              onChange={(e) => saveToken(e.target.value)}
+              placeholder="OPERATOR_TOKEN from .env"
+              style={{ height: 44, borderRadius: 12, border: '1px solid var(--line)', padding: '0 14px', font: 'inherit' }}
+            />
+          </div>
           <div className="op-card">
             <div className="op-card-head">
               <h2>Services</h2>

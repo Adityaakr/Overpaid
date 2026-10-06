@@ -3,10 +3,24 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 
 export const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
 
+/** Operator token for actions that spend Overpaid's own funds (entered once on the control page). */
+export function operatorToken(): string | null {
+  try {
+    return typeof window === 'undefined' ? null : localStorage.getItem('overpaid.operator');
+  } catch {
+    return null;
+  }
+}
+
 export async function api<T = unknown>(path: string, init?: RequestInit & { json?: unknown }): Promise<T> {
   const res = await fetch(`${API}${path}`, {
     ...init,
-    headers: { ...(init?.json !== undefined ? { 'content-type': 'application/json' } : {}), ...(init?.headers ?? {}) },
+    headers: {
+      ...(init?.json !== undefined ? { 'content-type': 'application/json' } : {}),
+      'x-overpaid-client': 'web',
+      ...(operatorToken() ? { 'x-operator-token': operatorToken()! } : {}),
+      ...(init?.headers ?? {}),
+    },
     body: init?.json !== undefined ? JSON.stringify(init.json) : init?.body,
   });
   if (!res.ok) throw new Error(`${res.status} ${await res.text().catch(() => '')}`.trim());

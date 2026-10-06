@@ -2,12 +2,13 @@
 # Act 1 + Act 2 end to end against the running stack, approving every step like a user would.
 set -e
 A=localhost:4000
-curl -s -XPOST $A/api/demo/reset >/dev/null
-curl -s -XPOST $A/api/find/run -H 'content-type: application/json' -d '{"mode":"demo"}' >/dev/null
-curl -s -XPOST $A/api/fix -H 'content-type: application/json' -d '{"opportunityIds":"all"}' >/dev/null
+H=(-H 'x-overpaid-client: script' -H "x-operator-token: ${OPERATOR_TOKEN:-}")
+curl -s "${H[@]}" -XPOST $A/api/demo/reset >/dev/null
+curl -s "${H[@]}" -XPOST $A/api/find/run -H 'content-type: application/json' -d '{"mode":"demo"}' >/dev/null
+curl -s "${H[@]}" -XPOST $A/api/fix -H 'content-type: application/json' -d '{"opportunityIds":"all"}' >/dev/null
 for i in {1..40}; do
   for id in $(curl -s "$A/api/approvals?state=pending" | python3 -c "import json,sys;print(' '.join(a['id'] for a in json.load(sys.stdin)))"); do
-    curl -s -XPOST $A/api/approvals/$id -H 'content-type: application/json' -d '{"approved":true}' -o /dev/null
+    curl -s "${H[@]}" -XPOST $A/api/approvals/$id -H 'content-type: application/json' -d '{"approved":true}' -o /dev/null
   done
   left=$(curl -s $A/api/tasks | python3 -c "import json,sys;print(sum(1 for t in json.load(sys.stdin)['tasks'] if t['state'] in ('queued','running','needs_approval')))")
   [ "$left" = "0" ] && break

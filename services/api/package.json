@@ -17,7 +17,8 @@
     "p-queue": "^9.3.3",
     "zod": "^4.6.5",
     "@overpaid/find": "workspace:*",
-    "@overpaid/cardano": "workspace:*"
+    "@overpaid/cardano": "workspace:*",
+    "@evolution-sdk/evolution": "0.5.13"
   },
   "devDependencies": {
     "@types/node": "^22",

@@ -1,10 +1,11 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import {
-  approvals, desc, eq, evidence, inArray, opportunities, recoveries, sources, sql, tasks, transactions, subscriptions,
+  approvals, desc, eq, evidence, fees, inArray, opportunities, recoveries, sources, sql, tasks, transactions, subscriptions,
 } from '@overpaid/db';
 import { MERCHANTS } from '@overpaid/shared';
 import { FLEET_PUBLIC_URL, type Orchestrator } from '../orchestrator.js';
+import { feeView } from './fees.js';
 import { runFindAndPersist } from '../find.js';
 import type { Ctx } from './core.js';
 
@@ -152,7 +153,9 @@ export async function registerProductRoutes(app: FastifyInstance, { db, bus }: C
       .orderBy(desc(recoveries.confirmedAt));
     const evs = await db.select().from(evidence);
     const evBy = new Map(evs.map((e) => [e.taskId, e]));
+    const feeBy = new Map((await db.select().from(fees)).map((f) => [f.recoveryId, f]));
     return rows.map(({ r, t, o }) => ({
+      fee: feeView(feeBy.get(r.id), r.amount, o.merchant),
       id: r.id,
       merchant: o.merchant,
       vigilType: o.vigilType,
