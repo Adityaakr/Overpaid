@@ -17,3 +17,22 @@ Status updates per milestone: what is done and the proof, what is next, risks, a
 - **Bloc.** Service, providers and settlement planner done (27 tests). `scripts/capacity.ts`: 40 pledges = 70.7% of memory, 7.8 KB with a reference script; hard maximum 53; `N_max` = 40.
 - **Next.** With a Blockfrost key and funding: `check-x402`, `check-masumi`, refund paths (a) and (b), a long-timer collection, then campaign, pledges and one settlement of 40 on preprod. With AWS: agent mode, AgentCore sessions and the live-view port.
 - **Needs.** Blockfrost preprod key; faucet funding (buyer and seller about 20 tADA each, bloc admin about 40, treasury about 1,400 for 300 simulated pledges, room wallets 5 each); AWS or Anthropic credentials; a fixed tunnel hostname.
+
+## 6 Oct 2026, Cardano on preprod: every money path proven
+
+Funding: faucet 10,000 tADA to the treasury, spread by `scripts/fund.ts` ([c644d916](https://preprod.cardanoscan.io/transaction/c644d916345006062194456d8de32aa353d466f4e6a36133128275133f1d7042)).
+
+| Path | Transactions |
+|---|---|
+| Specialist hire over x402 masumi (`check-masumi` passed) | lock [26ba25f4](https://preprod.cardanoscan.io/transaction/26ba25f48d920d4f522d6625ac69d5d98045b929565cad5727f28278cb899797), result [8b690eb4](https://preprod.cardanoscan.io/transaction/8b690eb460ff1eb9adebc68538ee22cc477a233c858e6292f47741754ab1e89d), collect [3fc5a9c2](https://preprod.cardanoscan.io/transaction/3fc5a9c215e17d915f75d0ab85a265d73f11d2e900ec320a8a69db6507036df2). Overpaid re-checked the airline status page and the evidence hash: both matched. |
+| Long-timer hire | lock [bbd95cd8](https://preprod.cardanoscan.io/transaction/bbd95cd8440f1e6e8d9e1c47eb2dff815877dc99dcfae7dc3b3e92fec7823fff), result [9369a749](https://preprod.cardanoscan.io/transaction/9369a749ee12eb78de630378b9dad519623a364f4c123111c006520e1cab3fe5), collect [252e4064](https://preprod.cardanoscan.io/transaction/252e4064826b21bb80c9ffa626272d8e04d14bf35a5b08de5b82c7fe10b1cf8f) |
+| Refund path (a), no result | lock [e119483f](https://preprod.cardanoscan.io/transaction/e119483f9f723b5f74d38609e82453a0d7a9fe5ffefe59b4dae83d9f96bfb207), SetRefundRequested [9c108c0b](https://preprod.cardanoscan.io/transaction/9c108c0be6c003d9534953ce412dc39317f42f9387bb95484c533f20bc84d5ae), WithdrawRefund [40b13f57](https://preprod.cardanoscan.io/transaction/40b13f575b55d0670b341cc0d0081947966a953ab83d4b5c31bad8306db54bd4) |
+| Refund path (b), result then dispute | lock [0dbe7d01](https://preprod.cardanoscan.io/transaction/0dbe7d010b0a12b0c120df1a15ff57830911c7e3e68f5cee2e09512975f4b776), result [7f144e0c](https://preprod.cardanoscan.io/transaction/7f144e0ca52a58d78f519536e846f5f701adcc35d2904bc9a967ac6377c8b40b), dispute [f23d9f64](https://preprod.cardanoscan.io/transaction/f23d9f640b7fb1aa4171491ca47301ab6659b40aa423d095ecdddde72bd653a2), AuthorizeRefund [118d512e](https://preprod.cardanoscan.io/transaction/118d512e3f37b11cd7576d798102a42bfbfd5ef4177efc9d57b917e7270f1d88), WithdrawRefund [cb6eeb51](https://preprod.cardanoscan.io/transaction/cb6eeb51f15367578269351e44be28612d08b39e9d1146ab005c630120dc1ac1) |
+| Bloc campaign (NFT mint, campaign lock, stake registration) | [4898118e](https://preprod.cardanoscan.io/transaction/4898118ea73514dc7252e2d9f57e6251a13631f9a24c921f3c5488dd0ed24212) |
+| 60 simulated pledges in one transaction | [d38c0be0](https://preprod.cardanoscan.io/transaction/d38c0be00155bc5f6226e1b5aec3d5f082b38a2c9e47acce0d1c40001ee7eb6d) |
+| Settlement, 30 pledges at 1.47 tADA, atomic | [01362f7d](https://preprod.cardanoscan.io/transaction/01362f7d133499769bb93a08136093bbb7aa9819716fd2ebc7bdf96d0bae0ff7) |
+| Settlement, 30 pledges at 1.38 tADA, atomic | [9b1f0e2a](https://preprod.cardanoscan.io/transaction/9b1f0e2a98b385bde870df7a70be3bc3d80593a8a37e4c6d8234d86ae6be40fb) |
+
+Bugs found and fixed on the way: the API read the specialist's job view with the wrong field names; a re-run of Find could revive fixed ledger lines and create duplicate tasks; later "done" events could erase confirmation codes; batch two of a settlement reused a stale UTxO snapshot (now re-read per batch).
+
+Still open: a settlement of exactly `N_max` = 40 pledges, real room pledges through `/join` (needs a public hostname), agent mode and AgentCore (needs AWS or Anthropic credentials), Masumi registry registration (needs the hostname).
