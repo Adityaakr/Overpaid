@@ -56,7 +56,7 @@ Open http://localhost:3000/app, choose **Use demo data**, then **Approve and fix
 Optional keys in `.env`:
 
 - `BLOCKFROST_PROJECT_ID` and funded wallets (`npx tsx scripts/wallets.ts` prints addresses): specialist hires and the bloc on preprod.
-- AWS credentials (`ap-southeast-1`) or `ANTHROPIC_API_KEY`: agent mode and AgentCore browsers. Without them the fleet runs recorded paths, labelled "scripted".
+- AWS credentials (`ap-southeast-1`), `ANTHROPIC_API_KEY` or `OPENROUTER_API_KEY`: agent mode and AgentCore browsers. Without them the fleet runs recorded paths, labelled "scripted".
 
 ## Repository
 

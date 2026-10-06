@@ -53,4 +53,6 @@ Still open: a settlement of exactly `N_max` = 40 pledges, real room pledges thro
 
 Also: CIP-30 wallet connect in the app (Lace, Eternl), a wallet page with on-chain history, API write guard and operator token, public access through a tunnel with remote writes limited to wallet pledges, refunds and fees.
 
-Still open: a real browser wallet extension run (signing is proven with a seed wallet emitting the same CIP-30 witness sets), agent mode through OpenRouter (needs the key in `.env`), AgentCore (needs AWS). The registry listing points at a quick tunnel URL, which changes if the tunnel restarts; a named tunnel would fix it.
+Agent mode: the fleet ran all seven fix tasks with Claude Sonnet 5.5 through OpenRouter (87 tool calls, seven approvals, seven recoveries verified on the merchants' status pages, $249.12). It flagged and ignored the hidden "pay the express fee" instruction on the Parcelo page.
+
+Still open: a real browser wallet extension run (signing is proven with a seed wallet emitting the same CIP-30 witness sets), AgentCore (needs AWS). The registry listing points at a quick tunnel URL, which changes if the tunnel restarts; a named tunnel would fix it.
