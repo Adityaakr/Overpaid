@@ -1,0 +1,32 @@
+# dependencies and builds
+node_modules
+.next
+*.tsbuildinfo
+
+# secrets (seeds live in .env.wallets)
+.env
+.env.*
+!.env.example
+!infra/env/.env.example
+*.mnemonic
+
+# runtime data
+evidence/
+data/real/
+data/bloc/
+
+# design working files (large screenshots, old template, render output)
+design/necta/
+design/ombud-shots/
+design/makro/site-shots/
+design/makro/shots/
+design/makro/ocr/
+design/copy-map.json
+design/blog-posts.json
+design/render/out/
+design/render/node_modules
+.tmp
+
+# local tooling
+.prism/
+.DS_Store

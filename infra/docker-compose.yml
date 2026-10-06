@@ -1,0 +1,11 @@
+# For machines without a local Postgres. The build machine runs Homebrew Postgres instead (docs/DECISIONS.md D2).
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: overpaid
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+volumes:
+  pgdata: {}

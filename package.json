@@ -1,0 +1,34 @@
+{
+  "name": "overpaid",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm -r --parallel --filter './services/*' --filter web dev",
+    "dev:web": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "db:migrate": "pnpm --filter @overpaid/db migrate",
+    "demo:reset": "tsx scripts/demo-reset.ts",
+    "demo:check": "tsx scripts/check-all.ts",
+    "demo:data": "tsx scripts/generate-demo-data.ts",
+    "typecheck:scripts": "tsc -p scripts",
+    "bloc:capacity": "tsx scripts/capacity.ts"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "@overpaid/cardano": "workspace:*",
+    "@overpaid/shared": "workspace:*",
+    "@react-email/render": "^2.1.0",
+    "@scure/bip39": "^2.4.0",
+    "@types/node": "^22.20.5",
+    "@types/nodemailer": "^8.0.2",
+    "@types/react": "19.3.0",
+    "nodemailer": "^10.0.15",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3"
+  },
+  "packageManager": "pnpm@11.23.0"
+}
