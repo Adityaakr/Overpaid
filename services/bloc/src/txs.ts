@@ -13,11 +13,11 @@
  * Redeemers are passed as Evolution Data (the ledger CBOR encoder keeps `pairs` a real map). Never route them
  * through CBOR.AIKEN_DEFAULT_OPTIONS (maps become pair lists).
  */
-import { Address, Assets, Data as EvoData, InlineDatum, TransactionHash, type UTxO } from '@evolution-sdk/evolution';
+import { Address, Assets, Data as EvoData, InlineDatum, ScriptHash, TransactionHash, type UTxO } from '@evolution-sdk/evolution';
 import type { TransactionBuilderBase } from '@evolution-sdk/evolution/sdk/builders/TransactionBuilder';
 import type { IndexedInput } from '@evolution-sdk/evolution/sdk/builders/RedeemerBuilder';
 import {
-  blocStakeCredential, campaignDatumData, campaignMintRedeemer, outRefData, pledgeDatumData, plutusAddressToBech32,
+  blocStakeCredential, campaignDatumData, decodePledgeDatum, campaignMintRedeemer, outRefData, pledgeDatumData, plutusAddressToBech32,
   providerOutputDatum, publishRedeemer, refundOutputDatum, refundSpendRedeemer, settleRedeemerData, settleSpendRedeemer,
   type AppliedScript, type Bid, type CampaignDatum, type Hex, type OutRef, type PledgeDatum,
 } from '@overpaid/bloc-contract';
@@ -36,6 +36,37 @@ export function chainPledgeOf(u: UTxO.UTxO, campaignPolicy: Hex, asset: { policy
     datum: d instanceof InlineDatum.InlineDatum ? d.data : null,
     holdsCampaignToken: Assets.getUnits(u.assets).some((unit) => unit.startsWith(campaignPolicy)),
   };
+}
+
+/**
+ * The reference-script UTxO to use for the bloc script: only one whose script hash IS the bloc script hash (and that
+ * carries no datum). Anyone can park a UTxO with some other reference script at the bloc address; using it would make
+ * every settle/refund fail, so anything else is ignored and the script is attached inline instead.
+ */
+export function pickReferenceScript(utxos: ReadonlyArray<UTxO.UTxO>, blocHash: Hex): UTxO.UTxO | undefined {
+  return utxos.find((u) => {
+    if (u.scriptRef === undefined || (u as { datumOption?: unknown }).datumOption) return false;
+    try {
+      return ScriptHash.toHex(ScriptHash.fromScript(u.scriptRef)).toLowerCase() === blocHash.toLowerCase();
+    } catch {
+      return false;
+    }
+  });
+}
+
+/**
+ * A UTxO the permissionless Refund path can return: inline datum that parses as a PledgeDatum (any bloc id, any price)
+ * and no campaign-policy token. `locked` is informational.
+ */
+export function refundablePledgeOf(u: UTxO.UTxO, campaignPolicy: Hex, asset: { policy: Hex; name: Hex }): { utxo: UTxO.UTxO; pledge: ValidPledge } | null {
+  const p = chainPledgeOf(u, campaignPolicy, asset);
+  if (p.holdsCampaignToken || !p.datum) return null;
+  try {
+    const datum = decodePledgeDatum(p.datum);
+    return { utxo: u, pledge: { ref: p.ref, lovelace: p.lovelace, locked: isAda(asset) ? p.lovelace : (p.assetQty ?? 0n), datum } };
+  } catch {
+    return null;
+  }
 }
 
 function assetsOf(lovelace: bigint, asset: { policy: Hex; name: Hex }, qty: bigint): Assets.Assets {

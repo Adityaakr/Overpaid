@@ -4,9 +4,9 @@
  * with the reason. Pattern follows packages/cardano/src/escrow/actions.ts: build (Blockfrost evaluates scripts during
  * build), sign, submit; transactions from one wallet are serialised.
  */
-import { Address, Assets, TransactionHash, type UTxO } from '@evolution-sdk/evolution';
+import { Address, Assets, Client, Transaction, TransactionHash, preprod, type UTxO } from '@evolution-sdk/evolution';
 import {
-  blocAddress, blocScript, campaignPolicy, plutusAddressFromBech32, type Bid, type CampaignDatum, type Hex,
+  blocAddress, blocScript, campaignPolicy, plutusAddressFromBech32, type Bid, type CampaignDatum, type Hex, type PledgeDatum,
 } from '@overpaid/bloc-contract';
 import {
   account, awaitTx, blockfrost, blockfrostConfig, PrerequisiteError, seedMnemonic, serial, type Blockfrost, type BlockfrostConfig,
@@ -14,7 +14,8 @@ import {
 import { pledgeDatumFor } from './offer.js';
 import { validatePledge, type CampaignInfo, type SettlementBatch, type ValidPledge } from './planner.js';
 import type { CampaignRecord } from './store.js';
-import { applyCreateCampaign, applyPledges, applyRefund, applySettle, chainPledgeOf, utxoRef } from './txs.js';
+import { applyCreateCampaign, applyPledges, applyRefund, applySettle, chainPledgeOf, pickReferenceScript, refundablePledgeOf, utxoRef } from './txs.js';
+import { submitCbor } from './usertx.js';
 import { ASSET_ADA, ASSET_LABEL, MARKET_PRICE_LOVELACE, PLEDGE_LOCK_LOVELACE, UNIT_LABEL } from './units.js';
 
 export interface NewCampaign {
@@ -33,6 +34,12 @@ export interface BlocUtxos {
   referenceScriptUtxo?: UTxO.UTxO;
   valid: Array<{ utxo: UTxO.UTxO; pledge: ValidPledge }>;
   invalid: Array<{ utxo: UTxO.UTxO; reason: string }>;
+  /** Every UTxO whose datum parses as a PledgeDatum (any bloc id / price): what the permissionless Refund path can return. */
+  refundable: Array<{ utxo: UTxO.UTxO; pledge: ValidPledge }>;
+}
+
+export interface UnsignedTx {
+  txCbor: string;
 }
 
 export interface ChainOps {
@@ -44,7 +51,14 @@ export interface ChainOps {
   simulateBatch(c: CampaignRecord, firstSim: number, count: number): Promise<{ txHash: string; outputs: Array<{ outputIndex: number; sim: string; refundAddress: string }> }>;
   readBloc(c: CampaignRecord, info: CampaignInfo): Promise<BlocUtxos>;
   settle(c: CampaignRecord, u: BlocUtxos, batch: SettlementBatch, bid: Bid, signature: Hex): Promise<string>;
-  refund(c: CampaignRecord, u: BlocUtxos, pledges: ValidPledge[]): Promise<string>;
+  /** Refund the given pledges (from BlocUtxos.refundable), bloc-admin pays the fee. */
+  refund(c: CampaignRecord, u: BlocUtxos, pledges: Array<{ utxo: UTxO.UTxO; pledge: ValidPledge }>): Promise<string>;
+  /** Unsigned pledge tx paid from the user's own UTxOs (CIP-30), change back to `address`. */
+  buildUserPledge(c: CampaignRecord, address: string, utxos: UTxO.UTxO[], datum: PledgeDatum): Promise<UnsignedTx>;
+  /** Unsigned refund tx for one pledge, fee and collateral from the user's UTxOs. */
+  buildUserRefund(c: CampaignRecord, u: BlocUtxos, pledge: { utxo: UTxO.UTxO; pledge: ValidPledge }, address: string, utxos: UTxO.UTxO[]): Promise<UnsignedTx>;
+  /** Submit exact signed CBOR through Blockfrost. */
+  submitSigned(txCbor: string): Promise<string>;
   awaitTx(txHash: string): Promise<boolean>;
 }
 
@@ -145,15 +159,17 @@ export function makeChain(bfConfig: BlockfrostConfig | null = blockfrostConfig()
       const nftUnit = c.policyId + c.blocIdHex;
       const campaignUtxo = all.find((u) => Assets.getByUnit(u.assets, nftUnit) === 1n);
       if (!campaignUtxo) throw new Error(`campaign UTxO with ${nftUnit} not found at ${c.scriptAddress}`);
-      const referenceScriptUtxo = all.find((u) => u.scriptRef !== undefined && !(u as { datumOption?: unknown }).datumOption);
-      const valid: BlocUtxos['valid'] = [], invalid: BlocUtxos['invalid'] = [];
+      const referenceScriptUtxo = pickReferenceScript(all, c.blocHash);
+      const valid: BlocUtxos['valid'] = [], invalid: BlocUtxos['invalid'] = [], refundable: BlocUtxos['refundable'] = [];
       for (const u of all) {
         if (u === campaignUtxo || u === referenceScriptUtxo) continue;
         const r = validatePledge(info, chainPledgeOf(u, c.policyId, c.asset));
         if (r.ok) valid.push({ utxo: u, pledge: r.pledge });
         else invalid.push({ utxo: u, reason: r.reason });
+        const rf = refundablePledgeOf(u, c.policyId, c.asset);
+        if (rf) refundable.push(rf);
       }
-      return { campaignUtxo, ...(referenceScriptUtxo ? { referenceScriptUtxo } : {}), valid, invalid };
+      return { campaignUtxo, ...(referenceScriptUtxo ? { referenceScriptUtxo } : {}), valid, invalid, refundable };
     },
 
     async settle(c, u, batch, bid, signature) {
@@ -182,16 +198,38 @@ export function makeChain(bfConfig: BlockfrostConfig | null = blockfrostConfig()
         const tip = await bf.tipMs();
         const validFrom = BigInt(c.refundDeadline) + 2_000n;
         if (tip <= validFrom) throw new Error(`refund deadline not reached on chain (tip ${new Date(Number(tip)).toISOString()})`);
-        const keys = new Set(pledges.map((p) => `${p.ref.txHash}#${p.ref.index}`));
-        const chosen = u.valid.filter((v) => keys.has(`${v.pledge.ref.txHash}#${v.pledge.ref.index}`));
         const wallet = (await client.getWalletUtxos()).filter(plainAda);
+        if (!wallet.length) throw new Error(`bloc-admin ${a.address} has no tADA for fees/collateral`);
         const built = await applyRefund(client.newTx(), {
           bloc: blocScript(c.policyId), campaignUtxo: u.campaignUtxo, ...(u.referenceScriptUtxo ? { referenceScriptUtxo: u.referenceScriptUtxo } : {}),
-          pledges: chosen, validFrom, validTo: tip + 20n * 60_000n,
+          pledges, validFrom, validTo: tip + 20n * 60_000n,
         }).build({ availableUtxos: wallet, changeAddress: a.ledgerAddress });
         return submit(a, built);
       });
     },
+
+    async buildUserPledge(c, address, utxos, datum) {
+      const client = Client.make(preprod).withBlockfrost(bfConfig).withAddress(address);
+      const built = await applyPledges(client.newTx(), c.scriptAddress, c.asset, [{ datum, lovelace: PLEDGE_LOCK_LOVELACE }])
+        .build({ availableUtxos: utxos, changeAddress: Address.fromBech32(address) });
+      return { txCbor: Transaction.toCBORHex(await built.toTransaction()) };
+    },
+
+    async buildUserRefund(c, u, pledge, address, utxos) {
+      const tip = await bf.tipMs();
+      const validFrom = BigInt(c.refundDeadline) + 2_000n;
+      if (tip <= validFrom) throw new Error(`refund deadline not reached on chain (tip ${new Date(Number(tip)).toISOString()})`);
+      const client = Client.make(preprod).withBlockfrost(bfConfig).withAddress(address);
+      const built = await applyRefund(client.newTx(), {
+        bloc: blocScript(c.policyId), campaignUtxo: u.campaignUtxo, ...(u.referenceScriptUtxo ? { referenceScriptUtxo: u.referenceScriptUtxo } : {}),
+        pledges: [pledge], validFrom, validTo: tip + 20n * 60_000n,
+      // Evolution defaults to 5 tADA collateral, which leaves a sub-min-UTxO collateral return on small wallets.
+      // 2 tADA covers 150% of a one-pledge refund fee by a wide margin.
+      }).build({ availableUtxos: utxos, changeAddress: Address.fromBech32(address), setCollateral: 2_000_000n });
+      return { txCbor: Transaction.toCBORHex(await built.toTransaction()) };
+    },
+
+    submitSigned: (txCbor) => submitCbor(bfConfig, txCbor),
   };
 }
 
