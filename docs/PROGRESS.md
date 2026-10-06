@@ -36,3 +36,20 @@ Funding: faucet 10,000 tADA to the treasury, spread by `scripts/fund.ts` ([c644d
 Bugs found and fixed on the way: the API read the specialist's job view with the wrong field names; a re-run of Find could revive fixed ledger lines and create duplicate tasks; later "done" events could erase confirmation codes; batch two of a settlement reused a stale UTxO snapshot (now re-read per batch).
 
 Still open: a settlement of exactly `N_max` = 40 pledges, real room pledges through `/join` (needs a public hostname), agent mode and AgentCore (needs AWS or Anthropic credentials), Masumi registry registration (needs the hostname).
+
+## 7 Oct 2026, real users on preprod: own wallets, success fees, hardened flows
+
+| Path | Transaction |
+|---|---|
+| Success fee paid from a user wallet for a confirmed $400 recovery (6 tADA) | [a4f94140](https://preprod.cardanoscan.io/transaction/a4f94140e181b320267683f76349e330a93164cbf6ee9b3fb3c999d220d2522e) |
+| User-signed bloc pledge through the product API, refund address = the user | [a7ba2fb6](https://preprod.cardanoscan.io/transaction/a7ba2fb674794eec5aff7ed70672ac2802048534804b580a016e129a9fcc0f1a) |
+| User-signed pledge (bloc service) | [791a0b9f](https://preprod.cardanoscan.io/transaction/791a0b9f1879bda45c49a86e898798339fead29a88a4844fe309b8db100aa615) |
+| Self-service refund signed by the user | [0569c611](https://preprod.cardanoscan.io/transaction/0569c6114bededff467196b49d556d1d3e7d24058f2f366e72c4e7b8ddd97871) |
+| Automatic refunds after the deadline | [f827c154](https://preprod.cardanoscan.io/transaction/f827c154110156352c041b73607174ec9677cc4435ea053bad61f72152baed2a), [bb6f60f0](https://preprod.cardanoscan.io/transaction/bb6f60f0ee16661e4c25f3cd3987f894483777cdd2f4f3d2f2c91988c9472233), [1ee2bc78](https://preprod.cardanoscan.io/transaction/1ee2bc786ca447bce648c190fbcfe8818891d6bbd20ce6b6a9984a0afaf0e456) |
+| Hardened hire: lock, result, verified, collected | [33600ae7](https://preprod.cardanoscan.io/transaction/33600ae715d3f094fac04248be54312d4df60ba252c8164a4336502ee32e679e), [aa40d3d8](https://preprod.cardanoscan.io/transaction/aa40d3d866944f6d7f0ae515abfdbf783aeaae106f9fa3226848cd95597b48cc), collect ce3308ff |
+| Specialist moved to its own seed (sweep) | [83f6b81e](https://preprod.cardanoscan.io/transaction/83f6b81e5981319e083709ce978eafef965fad4b6200cedf067161aea7a8f276) |
+| Hire against the new seller; survived an API restart mid-payment | lock [ee9c0c33](https://preprod.cardanoscan.io/transaction/ee9c0c332f90), result [335ad843](https://preprod.cardanoscan.io/transaction/335ad843890f), verified |
+
+Also: CIP-30 wallet connect in the app (Lace, Eternl), a wallet page with on-chain history, API write guard and operator token, public access through a tunnel with remote writes limited to wallet pledges, refunds and fees.
+
+Still open: a real browser wallet extension run (signing is proven with a seed wallet emitting the same CIP-30 witness sets), agent mode and AgentCore (need AWS or Anthropic credentials), Masumi registry registration (needs a fixed hostname; the quick tunnel URL changes on restart).
