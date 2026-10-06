@@ -16,6 +16,7 @@
     "bloc:capacity": "tsx scripts/capacity.ts"
   },
   "devDependencies": {
+    "@evolution-sdk/evolution": "0.5.13",
     "@faker-js/faker": "^10.6.0",
     "@overpaid/cardano": "workspace:*",
     "@overpaid/shared": "workspace:*",
