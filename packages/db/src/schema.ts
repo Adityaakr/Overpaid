@@ -204,3 +204,16 @@ export const idempotency = pgTable('idempotency', {
   result: jsonb('result'),
   createdAt: created(),
 });
+
+// Success fees: paid by the user from their own wallet, only after a recovery is confirmed.
+export const fees = pgTable('fees', {
+  id: text('id').primaryKey(),
+  recoveryId: text('recovery_id').notNull().unique(),
+  lovelace: bigint('lovelace', { mode: 'number' }).notNull(),
+  payerAddress: text('payer_address'),
+  payTo: text('pay_to').notNull(),
+  txHash: text('tx_hash'),
+  state: text('state').notNull().default('unpaid'), // unpaid | submitted | paid
+  createdAt: created(),
+  paidAt: ts('paid_at'),
+});

@@ -22,6 +22,13 @@
       "when": 1791242736660,
       "tag": "0002_light_crusher_hogan",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791311513848,
+      "tag": "0003_clumsy_luckman",
+      "breakpoints": true
     }
   ]
 }
