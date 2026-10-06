@@ -1,0 +1,32 @@
+{
+  "name": "@overpaid/bloc",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Bargain act coordinator: bloc campaign, pledges (room + simulated), signed provider bids, batched settlement on the Aiken bloc contract (preprod).",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./wire": "./src/wire.ts"
+  },
+  "scripts": {
+    "dev": "tsx --env-file-if-exists=../../.env src/main.ts",
+    "start": "tsx --env-file-if-exists=../../.env src/main.ts",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@evolution-sdk/evolution": "0.5.13",
+    "@overpaid/bloc-contract": "workspace:*",
+    "@overpaid/cardano": "workspace:*",
+    "@overpaid/shared": "workspace:*",
+    "fastify": "^5.12.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.3"
+  }
+}

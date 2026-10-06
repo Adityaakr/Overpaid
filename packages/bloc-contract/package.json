@@ -1,0 +1,28 @@
+{
+  "name": "@overpaid/bloc-contract",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Off-chain helpers for the Aiken bloc contract: blueprint loading, parameter application, script hashes/addresses, datums/redeemers as Evolution Data, and the signed bid message.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p .",
+    "test": "vitest run",
+    "vectors": "tsx scripts/gen-vectors.ts",
+    "measure": "tsx scripts/measure.ts"
+  },
+  "dependencies": {
+    "@evolution-sdk/evolution": "0.5.13",
+    "@noble/curves": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.3",
+    "tsx": "^4.23.15"
+  }
+}
