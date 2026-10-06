@@ -8,7 +8,7 @@ for (let run = 1; run <= RUNS; run++) {
   const { tasks } = await call('/api/fix', { opportunityIds: 'all' });
   ok(tasks.length === 8, `run ${run}: 8 tasks created`);
   let approvals = 0;
-  const deadline = Date.now() + 180000;
+  const deadline = Date.now() + Number(process.env.FIX_TIMEOUT_MS ?? 180000);
   for (;;) {
     const pending = await call<any[]>('/api/approvals?state=pending');
     for (const a of pending) {
@@ -18,7 +18,7 @@ for (let run = 1; run <= RUNS; run++) {
     const f = await call('/api/tasks');
     const active = f.tasks.filter((t: any) => ['queued', 'running', 'needs_approval'].includes(t.state));
     if (!active.length) break;
-    if (Date.now() > deadline) ok(false, `run ${run}: tasks finished within 3 minutes`);
+    if (Date.now() > deadline) ok(false, `run ${run}: tasks finished in time`);
     await sleep(2000);
   }
   const f = await call('/api/tasks');
