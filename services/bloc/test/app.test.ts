@@ -22,10 +22,13 @@ const fakeChain = (): ChainOps => ({
   settle: async () => 'dd'.repeat(32),
   refund: async () => 'ee'.repeat(32),
   awaitTx: async () => true,
+  buildUserPledge: async () => ({ txCbor: '00' }),
+  buildUserRefund: async () => ({ txCbor: '00' }),
+  submitSigned: async () => 'ff'.repeat(32),
 });
 
 async function setup(chain: ChainOps | null) {
-  const cfg = { ...loadConfig({}), stateFile: null, publicBaseUrl: 'https://room.example' };
+  const cfg = { ...loadConfig({}), stateFile: null, tokensFile: null, autoRefundMs: 0, publicBaseUrl: 'https://room.example' };
   const store = new BlocStore(null);
   const app = await buildApp({ cfg, store, chain, chainReason: chain ? null : 'needs BLOCKFROST_PROJECT_ID', log: () => {} });
   return { app, store };

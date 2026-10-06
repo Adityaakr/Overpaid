@@ -4,7 +4,7 @@
  */
 import { chainReadiness, makeChain } from './chain.js';
 import { loadConfig } from './config.js';
-import { buildApp } from './app.js';
+import { blocOf, buildApp } from './app.js';
 import { BlocStore } from './store.js';
 
 const cfg = loadConfig();
@@ -15,6 +15,7 @@ if (!chain) console.warn(`[bloc] chain disabled: ${chainReason}`);
 
 const app = await buildApp({ cfg, store, chain, chainReason });
 await app.listen({ host: cfg.host, port: cfg.port });
+void blocOf(app).reconcile().catch((e: Error) => console.warn(`[bloc] reconcile failed: ${e.message}`));
 console.log(`[bloc] listening on http://${cfg.host}:${cfg.port} (N_max ${cfg.nMax}; public ${cfg.publicBaseUrl ?? 'unset'})`);
 
 const shutdown = async () => {

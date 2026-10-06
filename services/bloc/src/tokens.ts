@@ -3,6 +3,8 @@
  * can't drain the wallets; cap 150). Also assigns room wallets room-001..room-150 in order.
  */
 import { randomBytes } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 import { MEMBERS_CAP } from './units.js';
 
 export interface JoinTokenOptions {
@@ -11,6 +13,10 @@ export interface JoinTokenOptions {
   perIp?: number;
   windowMs?: number;
   now?: () => number;
+  /** JSON file the tokens and the next room slot are persisted to (null = memory only). */
+  file?: string | null;
+  /** Wallet names already used by recorded pledges: nextSlot starts past the highest room-NNN among them. */
+  usedWallets?: ReadonlyArray<string | null | undefined>;
 }
 
 export type ConsumeResult =
@@ -33,6 +39,36 @@ export class JoinTokens {
     this.perIp = o.perIp ?? 3;
     this.windowMs = o.windowMs ?? 10 * 60_000;
     this.now = o.now ?? Date.now;
+    this.file = o.file ?? null;
+    if (this.file && existsSync(this.file)) {
+      try {
+        const j = JSON.parse(readFileSync(this.file, 'utf8')) as { nextSlot?: number; tokens?: Array<[string, boolean, number]> };
+        for (const [t, used, createdAt] of j.tokens ?? []) this.tokens.set(t, { used, createdAt });
+        if (Number.isInteger(j.nextSlot) && j.nextSlot! > 0) this.nextSlot = j.nextSlot!;
+      } catch (e) {
+        console.warn(`[bloc] ignoring unreadable join-token file ${this.file}: ${(e as Error).message}`);
+      }
+    }
+    let highest = 0;
+    for (const w of o.usedWallets ?? []) {
+      const m = w ? /^room-(\d{3})$/.exec(w) : null;
+      if (m) highest = Math.max(highest, Number(m[1]));
+    }
+    if (this.nextSlot <= highest) this.nextSlot = highest + 1;
+  }
+
+  private readonly file: string | null;
+
+  private save(): void {
+    if (!this.file) return;
+    mkdirSync(path.dirname(this.file), { recursive: true });
+    const tmp = `${this.file}.tmp`;
+    writeFileSync(tmp, JSON.stringify({ nextSlot: this.nextSlot, tokens: [...this.tokens].map(([t, s]) => [t, s.used, s.createdAt]) }));
+    renameSync(tmp, this.file);
+  }
+
+  get next(): number {
+    return this.nextSlot;
   }
 
   issue(count = 1): string[] {
@@ -42,6 +78,7 @@ export class JoinTokens {
       this.tokens.set(t, { used: false, createdAt: this.now() });
       out.push(t);
     }
+    this.save();
     return out;
   }
 
@@ -80,11 +117,13 @@ export class JoinTokens {
     if (this.nextSlot > this.cap) return { ok: false, status: 409, error: `the room is full (${this.cap} members)` };
     s.used = true;
     const slot = this.nextSlot++;
+    this.save();
     return { ok: true, slot, wallet: roomWalletName(slot) };
   }
 
   /** Give a slot back after a failed pledge (the token stays spent). */
   release(slot: number): void {
     if (slot === this.nextSlot - 1) this.nextSlot--;
+    this.save();
   }
 }

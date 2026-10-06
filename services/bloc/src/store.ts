@@ -44,9 +44,11 @@ export interface PledgeRecord {
   maxUnitPrice: string; // lovelace
   locked: string; // lovelace
   /** How the pledge reached the chain. */
-  via: 'x402-script' | 'direct-submit' | 'simulated-batch';
+  via: 'cip30' | 'custodial-demo' | 'x402-script' | 'direct-submit' | 'simulated-batch';
   state: 'submitted' | 'settled' | 'refunded' | 'invalid';
   reason?: string;
+  settlementTxHash?: string;
+  refundTxHash?: string;
   at: number;
 }
 
@@ -112,11 +114,12 @@ export class BlocStore {
     this.data.pledges.push(...ps);
     this.save();
   }
-  markPledges(keys: Set<string>, state: PledgeRecord['state'], reason?: string): void {
+  markPledges(keys: Set<string>, state: PledgeRecord['state'], reason?: string, patch: Partial<Pick<PledgeRecord, 'settlementTxHash' | 'refundTxHash'>> = {}): void {
     for (const p of this.data.pledges) {
-      if (keys.has(`${p.txHash}#${p.outputIndex}`)) {
+      if (keys.has(`${p.txHash.toLowerCase()}#${p.outputIndex}`)) {
         p.state = state;
         if (reason) p.reason = reason;
+        Object.assign(p, patch);
       }
     }
     this.save();
