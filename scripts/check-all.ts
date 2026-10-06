@@ -6,6 +6,8 @@ const checks: [string, string[], Record<string, string>?][] = [
   ['check-fix', ['scripts/check-fix.ts'], { RUNS: process.env.RUNS ?? '3' }],
   ['check-specialist-core', ['services/specialist/scripts/dry-run-work.ts']],
   ['check-masumi', ['scripts/check-masumi.ts']],
+  ['check-fee', ['scripts/check-fee.ts']],
+  ['check-pledge', ['scripts/check-pledge.ts']],
 ];
 const results: string[] = [];
 let failed = false;
