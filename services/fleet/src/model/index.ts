@@ -24,9 +24,10 @@ export async function selectModelClient(cfg: FleetConfig, env: NodeJS.ProcessEnv
   if ((pref === 'auto' || pref === 'anthropic') && anthropic) {
     return { client: new AnthropicClient(cfg.anthropicModel), bedrock, anthropic, reason: `anthropic ${cfg.anthropicModel}` };
   }
-  if (pref === 'auto' && env.OPENROUTER_API_KEY) {
+  const orKey = env.OPENROUTER_API_KEY || env.OPENROUTER_KEY;
+  if (pref === 'auto' && orKey) {
     const model = env.OPENROUTER_MODEL ?? 'anthropic/claude-sonnet-5.5';
-    return { client: new OpenRouterClient(model, env.OPENROUTER_API_KEY), bedrock, anthropic, reason: `openrouter ${model}` };
+    return { client: new OpenRouterClient(model, orKey), bedrock, anthropic, reason: `openrouter ${model}` };
   }
   return { client: null, bedrock, anthropic, reason: 'no model credentials (AWS chain, ANTHROPIC_API_KEY or OPENROUTER_API_KEY); tasks run scripted' };
 }
