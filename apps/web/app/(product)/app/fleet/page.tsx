@@ -116,6 +116,8 @@ function Tile({ t }: { t: FleetTask }) {
         ) : t.frameUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={t.frameUrl} alt={`Last frame for ${t.merchant}`} style={{ filter: t.state === 'done' ? 'saturate(0.6)' : undefined }} />
+        ) : t.state === 'needs_specialist' ? (
+          <HireButton taskId={t.id} />
         ) : (
           <div className="idle">{t.state === 'queued' ? 'Starting browser…' : 'No frame'}</div>
         )}
@@ -139,6 +141,30 @@ function Tile({ t }: { t: FleetTask }) {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function HireButton({ taskId }: { taskId: string }) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const hire = async () => {
+    setBusy(true);
+    setErr(null);
+    try {
+      await api('/api/hires', { method: 'POST', json: { taskId } });
+    } catch (e) {
+      setErr((e as Error).message.replace(/^\d+\s*/, '').slice(0, 120));
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="idle" style={{ display: 'grid', gap: 8, justifyItems: 'center', padding: 12, textAlign: 'center' }}>
+      <button className="op-btn lime small" onClick={hire} disabled={busy}>
+        {busy ? 'Locking fee in escrow…' : 'Hire specialist'}
+      </button>
+      <span style={{ fontSize: 12 }}>{err ?? 'Pays 5 tADA into Masumi escrow on preprod'}</span>
     </div>
   );
 }
