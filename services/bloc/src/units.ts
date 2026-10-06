@@ -17,7 +17,7 @@ export const LOVELACE_PER_CENT = 1_000n;
 
 export const ASSET_ADA = { policy: '', name: '' } as const;
 export const ASSET_LABEL = 'tADA (preprod test ADA)';
-export const UNIT_LABEL = '1 x eSIM Europe 30-day 10GB';
+export const UNIT_LABEL = '1 x eSIM Asia 20 GB, one month';
 
 /** Max a member can pay per unit (the pledge cap). */
 export const MAX_PLEDGE_LOVELACE = 3_000_000n;

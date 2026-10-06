@@ -208,7 +208,7 @@ export async function buildApp(d: AppDeps) {
       const stamp = new Date(tip).toISOString().slice(0, 16).replace(/[-:T]/g, '');
       const bidDeadline = tip + (b.bidMinutes ?? 90) * 60_000;
       const rec = await chain.createCampaign({
-        id: (b.id ?? `esim-eu-${stamp}`).slice(0, 32), item: b.item ?? 'eSIM Europe 30-day 10GB',
+        id: (b.id ?? `esim-asia-${stamp}`).slice(0, 32), item: b.item ?? 'eSIM Asia 20 GB, monthly',
         membersLimit: b.membersLimit ?? MEMBERS_CAP, minBatch: b.minBatch ?? 1, bidDeadline,
         refundDeadline: Math.max(bidDeadline + 60_000, tip + (b.refundMinutes ?? 180) * 60_000), providerVkeys: vkeys.map((k) => k.toLowerCase()),
         publishReferenceScript: b.publishReferenceScript ?? true,
@@ -263,7 +263,9 @@ export async function buildApp(d: AppDeps) {
     return { simulating: job.simOn, batchSize: cfg.simulateBatchSize, intervalMs: cfg.simulateIntervalMs, label: 'simulated pledgers (treasury-funded)' };
   });
 
-  app.post('/admin/settle', async (_req, reply) => {
+  app.post('/admin/settle', async (req, reply) => {
+    // Optional cap: settle at most `limit` pledges now (e.g. exactly N_max in one transaction); the rest stay pledged.
+    const limit = Number((req.body as { limit?: number } | null)?.limit ?? 0) || 0;
     const chain = needChain(reply);
     if (!chain) return reply;
     const c = store.data.campaign;
@@ -282,7 +284,8 @@ export async function buildApp(d: AppDeps) {
     const best = chooseBestBid(ranked, info, tip);
     if (!best) return reply.code(409).send({ error: 'no valid, unexpired bid to settle with' });
     const u = await chain.readBloc(c, info);
-    const plan = planSettlement(info, u.valid.map((v) => v.pledge), best.bid.unitPrice, { nMax: store.data.nMax ?? cfg.nMax });
+    const eligible = u.valid.map((v) => v.pledge);
+    const plan = planSettlement(info, limit ? eligible.slice(0, limit) : eligible, best.bid.unitPrice, { nMax: store.data.nMax ?? cfg.nMax });
     if (!plan.batches.length) return reply.code(409).send({ error: 'no eligible pledges', skipped: plan.skipped.length });
     store.markPledges(new Set(u.invalid.map((x) => refKey(utxoRef(x.utxo)))), 'invalid', 'failed datum/value validation');
     job.busy = 'settle';
@@ -290,14 +293,16 @@ export async function buildApp(d: AppDeps) {
     void (async () => {
       try {
         for (const batch of plan.batches) {
-          const txHash = await chain.settle(c, u, batch, best.bid, best.signature);
+          // Re-read the chain before every batch: the previous batch spent wallet UTxOs this one must not reuse.
+          const fresh = batch === plan.batches[0] ? u : await chain.readBloc(c, info);
+          const txHash = await chain.settle(c, fresh, batch, best.bid, best.signature);
           store.addSettlement({ id: randomUUID(), txHash, pledgeCount: batch.pledges.length, unitPrice: best.bid.unitPrice.toString(), bidId: best.id, kind: 'settle', at: Date.now() });
           store.markPledges(new Set(batch.pledges.map((p) => refKey(p.ref))), 'settled');
           emit('bloc.settled', { txHash, txUrl: txUrl(txHash), pledgeCount: batch.pledges.length, unitPrice: Number(best.bid.unitPrice), provider: best.rec.provider, providerTotal: Number(batch.providerTotal) });
           log(`settled ${batch.pledges.length} pledges at ${best.bid.unitPrice} lovelace: ${txHash}`);
           await chain.awaitTx(txHash);
         }
-        store.patchCampaign({ state: 'settled' });
+        store.patchCampaign({ state: limit && eligible.length > limit ? 'open' : 'settled' });
       } catch (e) {
         job.lastError = `settle: ${(e as Error).message}`;
         store.patchCampaign({ state: 'open' });
