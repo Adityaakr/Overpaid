@@ -1,0 +1,32 @@
+{
+  "name": "@overpaid/specialist",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "First-party airline-compensation specialist agent: MIP-003 + x402 masumi escrow hire, Skylane claim worker, SubmitResult/collect on vested_pay v2 (preprod).",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env src/main.ts",
+    "start": "tsx --env-file-if-exists=../../.env src/main.ts",
+    "register": "tsx --env-file-if-exists=../../.env scripts/register.ts",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@overpaid/cardano": "workspace:*",
+    "@overpaid/shared": "workspace:*",
+    "@x402/cardano": "2.26.0",
+    "@x402/core": "2.26.0",
+    "fastify": "^5.12.5",
+    "playwright": "1.63.0",
+    "postgres": "^3.4.9",
+    "zod": "^4.6.5",
+    "@overpaid/merchants": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.3",
+    "@evolution-sdk/evolution": "0.5.13"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@overpaid/cardano",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cardano preprod plumbing: named wallets, Blockfrost provider, Masumi vested_pay v2 escrow tx builders, x402 buyer helpers.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@evolution-sdk/evolution": "0.5.13",
+    "@overpaid/shared": "workspace:*",
+    "@x402/cardano": "2.26.0",
+    "@x402/core": "2.26.0",
+    "@noble/hashes": "2.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.3"
+  }
+}
