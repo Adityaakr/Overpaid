@@ -59,8 +59,11 @@ export class Orchestrator {
       .from(opportunities)
       .where(ids === 'all' ? eq(opportunities.status, 'open') : and(inArray(opportunities.id, ids), eq(opportunities.status, 'open')));
     const created: string[] = [];
+    // One live task per ledger line: skip lines that already have a task that hasn't failed.
+    const existing = rows.length ? await this.db.select().from(tasks).where(inArray(tasks.opportunityId, rows.map((o) => o.id))) : [];
+    const busy = new Set(existing.filter((t) => t.state !== 'failed').map((t) => t.opportunityId));
     for (const o of rows) {
-      if (o.vigilType === 'bill_above_market') continue;
+      if (o.vigilType === 'bill_above_market' || busy.has(o.id)) continue;
       const id = newId('task');
       if (o.vigilType === 'flight_compensation') {
         await this.db.insert(tasks).values({ id, opportunityId: o.id, recipeId: 'skylane-claim', state: 'needs_specialist', mode: 'agent', step: 'Needs an airline-compensation specialist' });
@@ -192,10 +195,14 @@ export class Orchestrator {
           .returning({ id: recoveries.id });
         if (inserted.length) await this.bus.emit('money.recovered', { taskId: t.id, amountCents: d.amountCents, confirmationCode: d.confirmationCode ?? null });
       }
-      await this.db
-        .update(tasks)
-        .set({ step: d.confirmationCode ? `Confirmed ${d.confirmationCode}` : `Accepted${d.verifiedStatus ? ` (${d.verifiedStatus})` : ''}` })
-        .where(eq(tasks.id, t.id));
+      // The fleet may report "done" more than once; never replace a confirmation code with a weaker step.
+      const [cur] = await this.db.select().from(tasks).where(eq(tasks.id, t.id));
+      if (d.confirmationCode || !cur?.step?.startsWith('Confirmed ')) {
+        await this.db
+          .update(tasks)
+          .set({ step: d.confirmationCode ? `Confirmed ${d.confirmationCode}` : `Accepted${d.verifiedStatus ? ` (${d.verifiedStatus})` : ''}` })
+          .where(eq(tasks.id, t.id));
+      }
     }
     await this.bus.emit('task.updated', { taskId: t.id, state: d.state ?? t.state });
     await this.refreshMetrics();

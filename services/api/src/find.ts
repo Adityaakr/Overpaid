@@ -26,6 +26,8 @@ export async function runFindAndPersist({ db, bus }: { db: Db; bus: Bus }, input
   const kindOf = (k: string) => (k === 'eml' || k === 'mbox' ? 'email' : k.startsWith('statement') ? 'statement' : k);
   const durationMs = Math.round(performance.now() - t0);
 
+  // Opportunity ids are deterministic, so a re-run keeps the status of lines that already have tasks.
+  const prior = new Map((await db.select({ id: opportunities.id, status: opportunities.status }).from(opportunities)).map((o) => [o.id, o.status]));
   await db.execute(sql`truncate sources, transactions, subscriptions, opportunities`);
   const demo = input.mode === 'demo';
   if (result.sources.length)
@@ -49,7 +51,7 @@ export async function runFindAndPersist({ db, bus }: { db: Db; bus: Bus }, input
     await db.insert(opportunities).values(
       result.opportunities.map((o) => ({
         id: o.id, vigilType: o.vigilType, merchant: o.merchant, valueEstimate: o.valueEstimate, currency: o.currency,
-        confidence: o.confidence, reason: o.reason, sourceRecordIds: o.sourceRecordIds, status: 'open',
+        confidence: o.confidence, reason: o.reason, sourceRecordIds: o.sourceRecordIds, status: prior.get(o.id) ?? 'open',
         meta: { ...(o.meta ?? {}), sourceLabels: Object.fromEntries(o.sourceRecordIds.map((id) => [id, labels.get(id) ?? id])) },
       })),
     );
