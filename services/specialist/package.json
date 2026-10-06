@@ -5,9 +5,9 @@
   "type": "module",
   "description": "First-party airline-compensation specialist agent: MIP-003 + x402 masumi escrow hire, Skylane claim worker, SubmitResult/collect on vested_pay v2 (preprod).",
   "scripts": {
-    "dev": "tsx watch --env-file-if-exists=../../.env src/main.ts",
-    "start": "tsx --env-file-if-exists=../../.env src/main.ts",
-    "register": "tsx --env-file-if-exists=../../.env scripts/register.ts",
+    "dev": "WALLETS_FILE=../../.env.wallets.specialist tsx watch --env-file-if-exists=../../.env src/main.ts",
+    "start": "WALLETS_FILE=../../.env.wallets.specialist tsx --env-file-if-exists=../../.env src/main.ts",
+    "register": "WALLETS_FILE=../../.env.wallets.specialist tsx --env-file-if-exists=../../.env scripts/register.ts",
     "typecheck": "tsc -p .",
     "test": "vitest run"
   },

@@ -40,7 +40,7 @@ function walletsFile(): Record<string, string> {
   return fileCache;
 }
 
-export type SeedName = 'A' | 'B' | 'C';
+export type SeedName = 'A' | 'B' | 'C' | 'S';
 /** Returns the mnemonic for a seed or throws PrerequisiteError. Callers must never log it. */
 export function seedMnemonic(seed: SeedName): string {
   const key = `SEED_${seed}`;

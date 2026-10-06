@@ -11,7 +11,8 @@ import { SELLER_MNEMONIC, signedQuote } from './fixtures.js';
 describe('named accounts', () => {
   it('maps names to seed + account index', () => {
     expect(accountSpec('treasury')).toEqual({ name: 'treasury', seed: 'A', accountIndex: 0 });
-    expect(accountSpec('specialist-seller')).toMatchObject({ seed: 'A', accountIndex: 1 });
+    expect(accountSpec('specialist-seller')).toMatchObject({ seed: 'S', accountIndex: 0 });
+    expect(accountSpec('specialist-seller-legacy')).toMatchObject({ seed: 'A', accountIndex: 1 });
     expect(accountSpec('bloc-admin')).toMatchObject({ seed: 'A', accountIndex: 2 });
     expect(accountSpec('overpaid-buyer')).toMatchObject({ seed: 'B', accountIndex: 0 });
     expect(accountSpec('provider-3')).toMatchObject({ seed: 'B', accountIndex: 3 });
@@ -23,8 +24,8 @@ describe('named accounts', () => {
   });
   it('derives the same address as x402 masumi seller signer, distinct per account, without exposing the mnemonic', () => {
     const seller = accountFromMnemonic('specialist-seller', SELLER_MNEMONIC);
-    const treasury = accountFromMnemonic('treasury', SELLER_MNEMONIC);
-    expect(seller.address).toBe(toMasumiSellerSigner({ mnemonic: SELLER_MNEMONIC, network: 'cardano:preprod', accountIndex: 1 }).sellerAddress);
+    const treasury = accountFromMnemonic('provider-1', SELLER_MNEMONIC);
+    expect(seller.address).toBe(toMasumiSellerSigner({ mnemonic: SELLER_MNEMONIC, network: 'cardano:preprod', accountIndex: 0 }).sellerAddress);
     expect(seller.masumiSeller().sellerAddress).toBe(seller.address);
     expect(seller.address).not.toBe(treasury.address);
     expect(seller.address.startsWith('addr_test1q')).toBe(true);

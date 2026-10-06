@@ -24,7 +24,9 @@ export interface AccountSpec {
 
 const FIXED: Record<string, Omit<AccountSpec, 'name'>> = {
   treasury: { seed: 'A', accountIndex: 0 },
-  'specialist-seller': { seed: 'A', accountIndex: 1 },
+  // The specialist runs on the tunnelled host, so it gets its own seed (S), never seed A.
+  'specialist-seller': { seed: 'S', accountIndex: 0 },
+  'specialist-seller-legacy': { seed: 'A', accountIndex: 1 },
   'bloc-admin': { seed: 'A', accountIndex: 2 },
   'overpaid-buyer': { seed: 'B', accountIndex: 0 },
   'ombud-buyer': { seed: 'B', accountIndex: 0 },
