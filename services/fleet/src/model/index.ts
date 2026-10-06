@@ -2,6 +2,7 @@ import type { FleetConfig } from '../config.js';
 import { awsCredentialsAvailable } from '../providers/agentcore.js';
 import { AnthropicClient } from './anthropic.js';
 import { BedrockConverseClient } from './bedrock.js';
+import { OpenRouterClient } from './openrouter.js';
 import type { ModelClient } from './types.js';
 
 export interface ModelAvailability {
@@ -11,7 +12,7 @@ export interface ModelAvailability {
   reason: string;
 }
 
-/** Bedrock when AWS creds are on the default chain, else Anthropic when ANTHROPIC_API_KEY is set, else none (scripted). */
+/** Bedrock when AWS creds exist, else the Anthropic API, else OpenRouter, else none (scripted). */
 export async function selectModelClient(cfg: FleetConfig, env: NodeJS.ProcessEnv = process.env): Promise<ModelAvailability> {
   const anthropic = Boolean(env.ANTHROPIC_API_KEY);
   const pref = cfg.modelClient;
@@ -23,6 +24,10 @@ export async function selectModelClient(cfg: FleetConfig, env: NodeJS.ProcessEnv
   if ((pref === 'auto' || pref === 'anthropic') && anthropic) {
     return { client: new AnthropicClient(cfg.anthropicModel), bedrock, anthropic, reason: `anthropic ${cfg.anthropicModel}` };
   }
-  return { client: null, bedrock, anthropic, reason: 'no model credentials (AWS chain or ANTHROPIC_API_KEY); tasks run scripted' };
+  if (pref === 'auto' && env.OPENROUTER_API_KEY) {
+    const model = env.OPENROUTER_MODEL ?? 'anthropic/claude-sonnet-5.5';
+    return { client: new OpenRouterClient(model, env.OPENROUTER_API_KEY), bedrock, anthropic, reason: `openrouter ${model}` };
+  }
+  return { client: null, bedrock, anthropic, reason: 'no model credentials (AWS chain, ANTHROPIC_API_KEY or OPENROUTER_API_KEY); tasks run scripted' };
 }
 export type { ModelClient } from './types.js';

@@ -30,7 +30,7 @@ export interface Conversation {
   sendToolResults(results: ToolResult[], extra?: UserPart[]): Promise<ModelTurn>;
 }
 export interface ModelClient {
-  readonly kind: 'bedrock' | 'anthropic';
+  readonly kind: 'bedrock' | 'anthropic' | 'openrouter';
   readonly model: string;
   start(system: string, tools: ToolDef[]): Conversation;
 }
