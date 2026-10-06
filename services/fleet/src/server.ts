@@ -35,7 +35,8 @@ export async function buildFleet(cfg: FleetConfig, opts: { models?: ModelAvailab
   const manager = new TaskManager(cfg, recipes, provider, models.client, verifier);
 
   // Request logs are info-level; the http child logs warnings and errors only (frame polling would flood the log).
-  const app = Fastify({ loggerInstance: logger.child({ component: 'http' }, { level: 'warn' }) as unknown as FastifyBaseLogger });
+  const streams = new Set<import('node:http').ServerResponse>();
+  const app = Fastify({ forceCloseConnections: true, loggerInstance: logger.child({ component: 'http' }, { level: 'warn' }) as unknown as FastifyBaseLogger });
 
   app.setErrorHandler((err, _req, reply) => {
     if (err instanceof TaskError) return reply.code(err.statusCode).send({ error: err.message });
@@ -137,6 +138,7 @@ export async function buildFleet(cfg: FleetConfig, opts: { models?: ModelAvailab
   app.get('/events', async (req, reply) => {
     reply.hijack();
     const res = reply.raw;
+    streams.add(res);
     res.writeHead(200, {
       'content-type': 'text/event-stream',
       'cache-control': 'no-store',
@@ -156,6 +158,7 @@ export async function buildFleet(cfg: FleetConfig, opts: { models?: ModelAvailab
     req.raw.on('close', () => {
       manager.events.off('event', onEvent);
       clearInterval(ping);
+      streams.delete(res);
     });
   });
 
@@ -167,6 +170,7 @@ export async function buildFleet(cfg: FleetConfig, opts: { models?: ModelAvailab
     recipes,
     close: async () => {
       await manager.shutdown();
+      for (const r of streams) r.end();
       await app.close();
       await provider.close();
       await verifier.close();

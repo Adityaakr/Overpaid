@@ -25,6 +25,7 @@ logger.info(
 
 const stop = async (sig: string) => {
   logger.info({ sig }, 'shutting down');
+  setTimeout(() => process.exit(1), 10_000).unref();
   await fleet.close().catch(() => {});
   process.exit(0);
 };
