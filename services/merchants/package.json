@@ -1,0 +1,29 @@
+{
+  "name": "@overpaid/merchants",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Four fictional demo merchant websites (Vistaflix, Cartwell, Skylane Air, Parcelo Market) for the Overpaid hackathon.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./scripted": "./scripted/index.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "start": "tsx src/main.ts",
+    "test": "playwright test",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@overpaid/shared": "workspace:*",
+    "fastify": "^5.12.5",
+    "postgres": "^3.4.9",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3"
+  }
+}
