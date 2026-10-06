@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState, useCallback } from 'react';
 
-export const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+export const API = process.env.NEXT_PUBLIC_API_URL ?? '';
 
 /** Operator token for actions that spend Overpaid's own funds (entered once on the control page). */
 export function operatorToken(): string | null {
