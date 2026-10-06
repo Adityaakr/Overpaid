@@ -46,6 +46,25 @@ export async function registerBlocRoutes(app: FastifyInstance, { bus }: { bus: B
     return reply.code(r.status).send(r.json);
   });
 
+  // Public, non-custodial: the server builds unsigned txs from the user's CIP-30 UTxOs, the browser wallet signs,
+  // and the bloc service re-validates before submitting. Bodies pass through unchanged.
+  for (const p of ['pledge/build', 'pledge/submit', 'refund/build', 'refund/submit'] as const) {
+    app.post(`/api/bloc/${p}`, async (req, reply) => {
+      const r = await forward(`/${p}`, req.body);
+      return reply.code(r.status).send(r.json);
+    });
+  }
+
+  app.get('/api/bloc/pledges', async (req, reply) => {
+    const address = (req.query as { address?: string }).address ?? '';
+    try {
+      const r = await fetch(`${BLOC_URL}/pledges?address=${encodeURIComponent(address)}`, { signal: AbortSignal.timeout(5000) });
+      return reply.code(r.status).send(await r.json());
+    } catch {
+      return reply.code(503).send({ error: 'Bloc service is not running' });
+    }
+  });
+
   for (const [route, target] of [
     ['/api/bloc/campaign', '/admin/campaign'],
     ['/api/bloc/simulate', '/admin/simulate'],
