@@ -18,6 +18,7 @@ import { ESCROW_ADDRESS, NETWORK, txUrl } from './constants.js';
 import { requireBlockfrost, type BlockfrostConfig } from './env.js';
 import { blockfrost, type Blockfrost } from './provider.js';
 import type { NamedAccount } from './wallets.js';
+import { followEscrow } from './escrow/reader.js';
 import { setRefundRequested as setRefundRequestedTx, withdrawRefund as withdrawRefundTx, type ActionOptions } from './escrow/actions.js';
 
 export const SPECIALIST_PAID_PATH = '/x402/start_job';
@@ -41,6 +42,24 @@ export interface HireRequest {
   identifierFromPurchaser?: string;
   blockfrost?: BlockfrostConfig;
   fetchImpl?: typeof fetch;
+  /**
+   * Called once the lock tx is signed (its hash is known) and BEFORE the paid request is sent. Persist it here: the
+   * lock can land even if the paid request then times out. If this throws, the paid request is not sent.
+   */
+  onLockBuilt?: (lock: LockBuilt) => Promise<void> | void;
+}
+
+export interface LockBuilt {
+  txLock: string;
+  blockchainIdentifier: string;
+  payBy: number;
+  submitResultTime: number;
+  unlockTime: number;
+  externalDisputeUnlockTime: number;
+  amountLovelace: string;
+  sellerAddress: string;
+  onchainInputHash: string;
+  identifierFromPurchaser: string;
 }
 
 export interface HireResult {
@@ -127,6 +146,13 @@ export async function hireSpecialist(req: HireRequest): Promise<HireResult> {
 
   const payload = await http.createPaymentPayload({ ...required, accepts: [chosen] });
   const txLock = decodeCardanoTransaction(String((payload.payload as { transaction: string }).transaction)).txHash;
+  const t = extra.terms;
+  await req.onLockBuilt?.({
+    txLock, blockchainIdentifier: extra.blockchainIdentifier,
+    payBy: Number(t.payByTime), submitResultTime: Number(t.submitResultTime), unlockTime: Number(t.unlockTime),
+    externalDisputeUnlockTime: Number(t.externalDisputeUnlockTime), amountLovelace: chosen.amount, sellerAddress: t.sellerAddress,
+    onchainInputHash: t.inputHash, identifierFromPurchaser: identifier,
+  });
   const paid = await doFetch(url, { ...init, headers: { ...init.headers, ...http.encodePaymentSignatureHeader(payload) }, signal: AbortSignal.timeout(240_000) });
   let settlement: SettleResponse | null = null;
   try {
@@ -135,7 +161,6 @@ export async function hireSpecialist(req: HireRequest): Promise<HireResult> {
     settlement = null;
   }
   const specialistResponse = await paid.json().catch(() => null);
-  const t = extra.terms;
   const result: HireResult = {
     jobId: (specialistResponse as { job_id?: string } | null)?.job_id ?? null,
     blockchainIdentifier: extra.blockchainIdentifier,
@@ -167,4 +192,9 @@ export async function requestRefund(buyer: NamedAccount, h: EscrowHandle, opts: 
 /** Buyer: WithdrawRefund (no result hash; after submitResultTime, or anytime once RefundAuthorized). */
 export async function withdrawRefund(buyer: NamedAccount, h: EscrowHandle, opts: ActionOptions & { bf?: Blockfrost } = {}) {
   return withdrawRefundTx(buyer, { txHash: h.txLock, referenceSignature: refSig(h) }, { ...opts, bf: opts.bf ?? blockfrost() });
+}
+
+/** Current on-chain status of the escrow behind a hire (follows the spend chain from the lock tx). */
+export async function hireEscrowStatus(h: EscrowHandle, bf: Blockfrost = blockfrost()) {
+  return followEscrow(bf, h.txLock, refSig(h));
 }
