@@ -49,7 +49,8 @@ Still open: a settlement of exactly `N_max` = 40 pledges, real room pledges thro
 | Hardened hire: lock, result, verified, collected | [33600ae7](https://preprod.cardanoscan.io/transaction/33600ae715d3f094fac04248be54312d4df60ba252c8164a4336502ee32e679e), [aa40d3d8](https://preprod.cardanoscan.io/transaction/aa40d3d866944f6d7f0ae515abfdbf783aeaae106f9fa3226848cd95597b48cc), collect ce3308ff |
 | Specialist moved to its own seed (sweep) | [83f6b81e](https://preprod.cardanoscan.io/transaction/83f6b81e5981319e083709ce978eafef965fad4b6200cedf067161aea7a8f276) |
 | Hire against the new seller; survived an API restart mid-payment | lock [ee9c0c33](https://preprod.cardanoscan.io/transaction/ee9c0c332f90), result [335ad843](https://preprod.cardanoscan.io/transaction/335ad843890f), verified |
+| Specialist listed on the Masumi preprod registry (agent NFT minted by its seller wallet) | [92fac474](https://preprod.cardanoscan.io/transaction/92fac474f90b1070ddd11500756748ff12cd22dde682fe524b7f3846f3bea973) |
 
 Also: CIP-30 wallet connect in the app (Lace, Eternl), a wallet page with on-chain history, API write guard and operator token, public access through a tunnel with remote writes limited to wallet pledges, refunds and fees.
 
-Still open: a real browser wallet extension run (signing is proven with a seed wallet emitting the same CIP-30 witness sets), agent mode and AgentCore (need AWS or Anthropic credentials), Masumi registry registration (needs a fixed hostname; the quick tunnel URL changes on restart).
+Still open: a real browser wallet extension run (signing is proven with a seed wallet emitting the same CIP-30 witness sets), agent mode through OpenRouter (needs the key in `.env`), AgentCore (needs AWS). The registry listing points at a quick tunnel URL, which changes if the tunnel restarts; a named tunnel would fix it.
