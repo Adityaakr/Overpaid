@@ -1,0 +1,1060 @@
+{
+ "Store": {
+  "id": "Z3mbGZh6h",
+  "fields": [
+   {
+    "id": "NnM2s2uMB",
+    "name": "Title",
+    "type": "string"
+   },
+   {
+    "id": "S5zxyAate",
+    "name": "Order",
+    "type": "number"
+   },
+   {
+    "id": "n1KTrhP9B",
+    "name": "Short Description",
+    "type": "string"
+   },
+   {
+    "id": "qWbyrng6d",
+    "name": "Long Description",
+    "type": "string"
+   },
+   {
+    "id": "kwBCpSt66",
+    "name": "Tags",
+    "type": "string"
+   },
+   {
+    "id": "FnzRriTfB",
+    "name": "Price",
+    "type": "number"
+   },
+   {
+    "id": "fIs9qDpmm",
+    "name": "Extra Tag Content",
+    "type": "string"
+   },
+   {
+    "id": "dbK5uz5tT",
+    "name": "Extra Tag BG Color",
+    "type": "color"
+   },
+   {
+    "id": "LQszkgV3A",
+    "name": "Extra Tag Text Color",
+    "type": "color"
+   },
+   {
+    "id": "WPM1GyWye",
+    "name": "Strikethrough",
+    "type": "boolean"
+   },
+   {
+    "id": "Ic5F2hKlR",
+    "name": "Image",
+    "type": "image"
+   },
+   {
+    "id": "Mi9oZ2ZjU",
+    "name": "Demo Link",
+    "type": "link"
+   },
+   {
+    "id": "v1PfG6gtU",
+    "name": "Checkout Link",
+    "type": "link"
+   },
+   {
+    "id": "CMaVHYhCv",
+    "name": "Screenshot 1",
+    "type": "image"
+   },
+   {
+    "id": "s5eG9RWqg",
+    "name": "Screenshot 2",
+    "type": "image"
+   },
+   {
+    "id": "kbfTyRRzF",
+    "name": "Screenshot 3",
+    "type": "image"
+   },
+   {
+    "id": "gTGCs7mUM",
+    "name": "Content",
+    "type": "formattedText"
+   },
+   {
+    "id": "VxJsdwfcc",
+    "name": "Features",
+    "type": "formattedText"
+   }
+  ],
+  "items": [
+   {
+    "id": "kG5osUkoG",
+    "slug": "bravo",
+    "data": {
+     "NnM2s2uMB": "Bravo",
+     "S5zxyAate": 0,
+     "n1KTrhP9B": "A high-converting agency",
+     "qWbyrng6d": "Bravo is a high-converting agency website template full of surprising and catchy details. It works well with productized services, unlimited subscriptions, and classic models. Set it up in an hour, and your own agency will be live!  ",
+     "kwBCpSt66": "portfolio, personal, agency, landing",
+     "FnzRriTfB": 59,
+     "fIs9qDpmm": "NEW",
+     "dbK5uz5tT": "rgb(255, 68, 0)",
+     "LQszkgV3A": "rgb(0, 0, 0)",
+     "WPM1GyWye": false,
+     "Ic5F2hKlR": "https://framerusercontent.com/images/Vt5KN0de1UhApUZT5if6bwcRLE.png",
+     "Mi9oZ2ZjU": "bravo.framer.website",
+     "v1PfG6gtU": "https://stfn.lemonsqueezy.com/buy/6e70112f-a933-46f1-810d-a28fd57d27cb",
+     "gTGCs7mUM": "",
+     "VxJsdwfcc": "<ul><li data-preset-tag=\"p\"><p>Convert visitors into leads</p></li><li data-preset-tag=\"p\"><p>Ton of catchy interactions</p></li><li data-preset-tag=\"p\" style=\"--framer-text-color: var(--token-cecefbc2-3137-4c31-97a2-c273c08d7ba5, rgba(0, 0, 0, 0.5)); --framer-font-size: 16px; --framer-letter-spacing: -0.3px; --framer-text-transform: none; --framer-text-decoration: none; --framer-line-height: 1.8em; --framer-text-alignment: start;\"><p>Extremely easy to setup</p></li><li data-preset-tag=\"p\" style=\"--framer-text-color: var(--token-cecefbc2-3137-4c31-97a2-c273c08d7ba5, rgba(0, 0, 0, 0.5)); --framer-font-size: 16px; --framer-letter-spacing: -0.3px; --framer-text-transform: none; --framer-text-decoration: none; --framer-line-height: 1.8em; --framer-text-alignment: start;\"><p>Good for both unlimited subscriptions and classic models</p></li></ul>"
+    }
+   },
+   {
+    "id": "S14m9Scml",
+    "slug": "nitro",
+    "data": {
+     "NnM2s2uMB": "Nitro",
+     "S5zxyAate": 1,
+     "n1KTrhP9B": "Portfolio template bestseller",
+     "qWbyrng6d": "Nitro is a neatly crafted and CMS-based portfolio template with floating cards effect and advanced grid layout ready to showcase your work in the best way possible.",
+     "kwBCpSt66": "personal, portfolio",
+     "FnzRriTfB": 69,
+     "fIs9qDpmm": "Bestseller",
+     "dbK5uz5tT": "rgb(255, 89, 0)",
+     "LQszkgV3A": "rgb(255, 255, 255)",
+     "WPM1GyWye": false,
+     "Ic5F2hKlR": "https://framerusercontent.com/images/Vt5KN0de1UhApUZT5if6bwcRLE.png",
+     "Mi9oZ2ZjU": "nitro.framer.website",
+     "v1PfG6gtU": "https://stfn.lemonsqueezy.com/checkout/buy/967ba5bf-e70b-4edf-bfaa-4136b331d441",
+     "gTGCs7mUM": "<p><br class=\"trailing-break\"></p>",
+     "VxJsdwfcc": "<ul><li data-preset-tag=\"p\"><p>2 CMS Collections</p></li><li data-preset-tag=\"p\"><p>7 Unique Pages</p></li><li data-preset-tag=\"p\"><p>4 Breakpoints</p></li><li data-preset-tag=\"p\"><p>Advanced animations</p></li><li data-preset-tag=\"p\"><p>Unique Grid Layout</p></li><li data-preset-tag=\"p\"><p>Included to <a>Unlimited Access</a></p></li></ul>"
+    }
+   },
+   {
+    "id": "aTa8Unnpy",
+    "slug": "haze",
+    "data": {
+     "NnM2s2uMB": "Haze",
+     "S5zxyAate": 2,
+     "n1KTrhP9B": "Full-screen horizontal portfolio",
+     "qWbyrng6d": "Haze is fullscreen horizontal portfolio showcase. Works good with branding projects full of sweet visuals. Take your best 5 projects, add color to each slide and get your best high-ticket clients easier. ",
+     "kwBCpSt66": "personal, portfolio",
+     "FnzRriTfB": 59,
+     "fIs9qDpmm": "",
+     "dbK5uz5tT": {
+      "id": "aa303802-e5d1-4856-bfe5-30475052d91c",
+      "name": "Background",
+      "path": "/Dark/Background",
+      "light": "rgb(53, 54, 59)",
+      "dark": null
+     },
+     "LQszkgV3A": "rgb(0, 0, 0)",
+     "WPM1GyWye": false,
+     "Ic5F2hKlR": "https://framerusercontent.com/images/Vt5KN0de1UhApUZT5if6bwcRLE.png",
+     "Mi9oZ2ZjU": "haze.framer.website",
+     "v1PfG6gtU": "https://stfn.lemonsqueezy.com/checkout/buy/45a3eda2-6c36-4577-ad47-285cb437bf5f",
+     "gTGCs7mUM": "",
+     "VxJsdwfcc": "<ul><li data-preset-tag=\"p\"><p>Horizontal Layout</p></li><li data-preset-tag=\"p\"><p>Seamless Transitions</p></li><li data-preset-tag=\"p\"><p>5 Projects </p></li><li data-preset-tag=\"p\"><p>10 Images per Project</p></li><li data-preset-tag=\"p\"><p>Changeable color styles</p></li></ul>"
+    }
+   }
+  ]
+ },
+ "Blog": {
+  "id": "H9TS5v5sF",
+  "fields": [
+   {
+    "id": "jxL6T6oSu",
+    "name": "Title",
+    "type": "string"
+   },
+   {
+    "id": "hQtetsnbS",
+    "name": "Date",
+    "type": "date"
+   },
+   {
+    "id": "fuXubcIvm",
+    "name": "Image",
+    "type": "image"
+   },
+   {
+    "id": "Qty87A7Nz",
+    "name": "Category",
+    "type": "enum"
+   },
+   {
+    "id": "pXTH3rlM6",
+    "name": "Content",
+    "type": "formattedText"
+   }
+  ],
+  "items": [
+   {
+    "id": "WtBqImTBT",
+    "slug": "how-to-spot-a-cash-crunch-early-(before-it-becomes-a-crisis)",
+    "data": {
+     "jxL6T6oSu": "How to Spot a Cash Crunch Early (Before It Becomes a Crisis)",
+     "hQtetsnbS": "2026-01-25T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/cJFRgSE8SjRYAegdyD4KYaLlk4.jpg",
+     "Qty87A7Nz": "Cashflow & Forecasting",
+     "pXTH3rlM6": "<p dir=\"auto\">Cash crunches almost never start with a dramatic moment. They start with small timing issues that compound: a few invoices paid late, a “temporary” expense that becomes permanent, a tax bill that wasn’t modeled. If you can spot the pattern early, you get choices. If you spot it late, you get pressure.</p><blockquote><p dir=\"auto\">“A cash crunch isn’t low cash. It’s losing control of timing.”</p></blockquote><h2 dir=\"auto\">What a cash crunch really is</h2><p dir=\"auto\">A low bank balance is a snapshot. A cash crunch is a trend where your near-term obligations become predictable, but your near-term income becomes uncertain. Payroll, rent, and vendor bills have dates. Customer payments have “maybe” energy. The gap between those two is where crunches form.</p><h3 dir=\"auto\">Why founders misread it</h3><p dir=\"auto\">Many teams feel safe because revenue looks healthy, or because they’re “profitable on paper.” But cash doesn’t follow the income statement on schedule. If you invoice today and get paid in 30–60 days, your business might look fine while your cash position weakens every week.</p><blockquote><p dir=\"auto\">“Profit can be real and still not arrive in time.”</p></blockquote><h2 dir=\"auto\">The four early signals to watch weekly</h2><p dir=\"auto\">You don’t need a finance department to catch a crunch early. You need a weekly check that focuses on a few signals that move before the crisis does.</p><h3 dir=\"auto\">Runway is shrinking faster than your plan</h3><p dir=\"auto\">Runway isn’t “months of cash.” It’s how many weeks you have at your current net burn rate. If your runway drops meaningfully compared to last month and you can’t explain why in one sentence, that’s a signal. Another signal is when your plan depends on one or two large payments landing “on time” to avoid trouble.</p><h3 dir=\"auto\">Receivables are rising, but cash isn’t</h3><p dir=\"auto\">When invoices stack up, it’s easy to feel like the money is “basically there.” It isn’t. A/R can grow while cash stays flat, especially if overdue invoices start creeping up. Pay attention to whether the delayed payments come from the same clients repeatedly, and whether a big chunk of your expected cash-in depends on one customer.</p><blockquote><p dir=\"auto\">“Receivables are not cash. They’re risk.”</p></blockquote><h3 dir=\"auto\">Your payment timing is inverted</h3><p dir=\"auto\">A common squeeze happens when you pay vendors quickly but customers pay slowly. Even a healthy business gets strained when outflows happen now and inflows happen later. If you find yourself delaying bills manually, moving payments around, or constantly thinking about which account to pay from, you’re already in the timing problem.</p><h3 dir=\"auto\">Fixed costs quietly increased</h3><p dir=\"auto\">Crunches often start with “small” decisions that harden into fixed costs: a few extra subscriptions, a contractor who becomes ongoing, a new tool stack, a bigger office or a higher baseline ad spend. The warning sign is not that costs increased. It’s that costs became harder to reduce quickly if you needed to protect cash.</p><blockquote><p dir=\"auto\">“The business becomes fragile when most spending is locked in.”</p></blockquote><h2 dir=\"auto\">The 15-minute routine that prevents surprises</h2><p dir=\"auto\">You can catch most cash issues early with a weekly review that looks forward, not backward. The goal is to see the next few weeks clearly enough that nothing major can surprise you.</p><h3 dir=\"auto\">Look ahead using real dates</h3><p dir=\"auto\">Open one view that includes your expected cash-in and cash-out with actual due dates. Cash-in should be only what you’re confident will land soon: invoices already sent, recurring subscriptions, payments already agreed. Cash-out should include payroll, rent, vendors, taxes, debt payments, and any renewals you know are coming.</p><h3 dir=\"auto\">Stress test the next 2–4 weeks</h3><p dir=\"auto\">Ask one question: “If two expected payments arrive late, do we still comfortably cover our must-pay obligations?” If the answer is no, you’re not in crisis yet, but you are exposed. That’s the moment to act while you still have leverage.</p><blockquote><p dir=\"auto\">“Forecasting isn’t predicting. It’s removing surprise.”</p></blockquote><h2 dir=\"auto\">What to do the moment you see risk</h2><p dir=\"auto\">Early action is usually simple, because you still have time. Late action is messy, because you’re negotiating under pressure.</p><h4 dir=\"auto\">Stabilize the next two weeks</h4><p dir=\"auto\">Start by making the next 14 days safe. Get clarity on what must be paid and when, then reduce uncertainty on collections. Late invoices deserve immediate follow-up, not a polite delay. If spending approvals are loose, tighten them for a short period so you’re not leaking cash while you evaluate.</p><h4 dir=\"auto\">Pull cash forward, don’t just “sell more”</h4><p dir=\"auto\">New sales often take time to turn into money. The fastest improvements usually come from moving payment timing forward: deposits, milestone billing, shorter terms on new work, or a clear policy that prevents your team from “delivering everything first and invoicing later.”</p><h4 dir=\"auto\">Push cash out carefully</h4><p dir=\"auto\">If you need breathing room, negotiate timing, not relationships. Many vendors prefer a transparent plan over silence. The goal is to smooth the schedule of payments so you stay current on critical obligations without damaging trust.</p><h2 dir=\"auto\">Summary</h2><ul><li data-preset-tag=\"p\"><p dir=\"auto\">A cash crunch is a timing trend, not a low balance</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Track runway based on current net burn, and watch for unexplained drops</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Treat rising receivables and growing overdue invoices as early danger signals</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Watch for inverted payment timing: fast outflows and slow inflows</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Fixed costs that are hard to cut quickly make the business fragile</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Do a weekly forward-looking check using real dates for cash-in and cash-out</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">When risk appears, stabilize the next 14 days, pull cash forward, and negotiate timing early</p></li></ul>"
+    }
+   },
+   {
+    "id": "Lv1Mi1jB6",
+    "slug": "when-to-hire-an-accountant-vs.-automate-finance-ops",
+    "data": {
+     "jxL6T6oSu": "When to Hire an Accountant vs. Automate Finance Ops",
+     "hQtetsnbS": "2026-01-25T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/JHtgrA2UySZSMQFBrB58McLcM8.jpg",
+     "Qty87A7Nz": "Cashflow & Forecasting",
+     "pXTH3rlM6": "<p>One of the most expensive mistakes founders make is hiring the wrong finance help at the wrong time. Hire a CFO too early, and you burn cash on strategy when you just needed bookkeeping. Rely on automation too long, and you might face a tax audit.</p><p>Here is the roadmap for scaling your finance stack.</p><h2>Stage 1: The \"Robot\" CFO ($0 - $500k ARR)</h2><p>At this stage, you do not need a human accountant on payroll. You need clean data.</p><ul><li data-preset-tag=\"p\"><p><strong>The Stack:</strong> Xero/Quickbooks + A receipt capture tool (Dext) + A spend management card (Ramp/Brex).</p></li><li data-preset-tag=\"p\"><p><strong>The Human:</strong> You (the founder) spend 1 hour a week categorizing transactions.</p></li><li data-preset-tag=\"p\"><p><strong>Why:</strong> You need to understand your own unit economics before you hand them off.</p></li></ul><h2>Stage 2: The Fractional Controller ($500k - $2M ARR)</h2><p>You are too busy to categorize receipts, and the complexity is increasing (payroll across states, sales tax).</p><ul><li data-preset-tag=\"p\"><p><strong>The Hire:</strong> A fractional bookkeeper or controller agency.</p></li><li data-preset-tag=\"p\"><p><strong>The Role:</strong> They close the books monthly, reconcile accounts, and handle tax compliance. They do <em>not</em> provide strategy. They provide accuracy.</p></li><li data-preset-tag=\"p\"><p><strong>The Trap:</strong> Don't ask them for financial modeling. That is not their job.</p></li></ul><h2>Stage 3: The Strategic CFO ($5M+ ARR)</h2><p>This is when you are preparing for Series B, an acquisition, or complex M&amp;A.</p><ul><li data-preset-tag=\"p\"><p><strong>The Hire:</strong> A VP of Finance or CFO.</p></li><li data-preset-tag=\"p\"><p><strong>The Role:</strong> They look forward, not backward. They negotiate debt, manage investor relations, and plan capital allocation.</p></li><li data-preset-tag=\"p\"><p><strong>The Cost:</strong> Expensive. Do not make this hire until the ROI of their strategy outweighs their salary.</p></li></ul>"
+    }
+   },
+   {
+    "id": "L7c_e4gXf",
+    "slug": "turning-messy-transactions-into-decisions-with-ai",
+    "data": {
+     "jxL6T6oSu": "Turning Messy Transactions into Decisions with AI",
+     "hQtetsnbS": "2026-01-25T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/bavupwwf0ogB0ORBpJ4wBQWE9U.jpg",
+     "Qty87A7Nz": "Business Insights & AI Ops",
+     "pXTH3rlM6": "<p>For decades, bookkeeping was a manual drudgery. You would download a CSV file, look at a line item that said \"AMZN MKTPLC,\" and guess whether it was office supplies or server equipment. This manual categorization is slow, error-prone, and boring.</p><p>AI has fundamentally changed this workflow. We are moving from \"Data Entry\" to \"Data Intelligence.\"</p><h2>Automated Categorization</h2><p>Modern finance tools use Large Language Models (LLMs) to understand context. They don't just match keywords; they understand vendor behavior.</p><ul><li data-preset-tag=\"p\"><p><em>Old Way:</em> Rules-based. \"If text = Uber, then Travel.\"</p></li><li data-preset-tag=\"p\"><p><em>AI Way:</em> Context-based. The AI sees an Uber charge at 2 AM on a Saturday near your home and flags it as potentially \"Personal\" rather than \"Business,\" asking you to review.</p></li></ul><h2>Anomaly Detection</h2><p>AI is excellent at pattern recognition. It can scan thousands of transactions instantly and ask:</p><ul><li data-preset-tag=\"p\"><p><em>\"Why is the AWS bill 15% higher this month than the 6-month average?\"</em></p></li><li data-preset-tag=\"p\"><p><em>\"Why did this vendor charge us twice on the same day?\"</em><br>Humans miss these details because we are skimming. AI catches them because it checks every pixel.</p></li></ul><h2>Predictive Cash Flow</h2><p>Instead of just looking backward, AI tools can analyze your past payment cycles to predict the future.</p><ul><li data-preset-tag=\"p\"><p><em>\"Client X usually pays 4 days late.\"</em></p></li><li data-preset-tag=\"p\"><p><em>\"Payroll is due on Friday and it's a 3-paycheck month.\"</em><br>The AI can project your bank balance 30 days out with surprising accuracy, warning you of a cash dip that hasn't happened yet.</p></li></ul>"
+    }
+   },
+   {
+    "id": "TzUa5BjwH",
+    "slug": "kpi-dashboard-for-small-businesses-what-matters-(and-what-doesn’t)",
+    "data": {
+     "jxL6T6oSu": "KPI Dashboard for Small Businesses: What Matters (And What Doesn’t)",
+     "hQtetsnbS": "2026-01-26T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/1UhD5XtYd8PcrMlq5AioxjSr7Zo.jpg",
+     "Qty87A7Nz": "Business Insights & AI Ops",
+     "pXTH3rlM6": "<p>Data is abundant, but insight is scarce. It is easy to build a dashboard with 50 different charts: Total Users, Website Visits, Twitter Followers, Email Opens. But most of these are \"Vanity Metrics.\" They make you feel good because they go up and to the right, but they don't help you make difficult decisions.</p><p>A great dashboard for a small business should fit on a single screen and focus on \"North Star\" metrics.</p><h2>1. Customer Acquisition Cost (CAC) &amp; Payback Period</h2><p>How much cash do you burn to get a new customer? If you spend $500 on ads to get a customer who pays you $50 a month, it takes 10 months to get your money back.</p><ul><li data-preset-tag=\"p\"><p><em>The Trap:</em> Ignoring the payback period. If your payback period is 18 months but you only have 6 months of runway, you will grow yourself into bankruptcy.</p></li></ul><h2>2. Net Burn &amp; Runway</h2><p>This is the survival metric.</p><ul><li data-preset-tag=\"p\"><p><strong>Gross Burn:</strong> Total money out.</p></li><li data-preset-tag=\"p\"><p><strong>Net Burn:</strong> Total money out minus total revenue in.</p></li><li data-preset-tag=\"p\"><p><strong>Runway:</strong> Cash / Net Burn.<br>If your runway dips below 6 months, this metric should turn flashing red on your dashboard.</p></li></ul><h2>3. Churn (The Leaky Bucket)</h2><p>For recurring revenue businesses, Churn is more important than Sales.</p><ul><li data-preset-tag=\"p\"><p><em>The Metric:</em> Net Revenue Retention (NRR).</p></li><li data-preset-tag=\"p\"><p>If you lose 5% of your customers every month, you have to grow by 5% just to stay flat. Fix the bucket before you pour more water in.</p></li></ul><h2>4. Gross Margin</h2><p>Not all revenue is equal. If you sell a service for $1,000 but it costs you $800 in labor to deliver it, you only have $200 to run the business. Track your margin percentage religiously. If it starts compressing, you either need to raise prices or cut delivery costs.</p><p><br><br class=\"trailing-break\"></p>"
+    }
+   },
+   {
+    "id": "gmE216zUz",
+    "slug": "the-weekly-finance-review-a-20-minute-ritual-for-better-decisions",
+    "data": {
+     "jxL6T6oSu": "The Weekly Finance Review: A 20-Minute Ritual for Better Decisions",
+     "hQtetsnbS": "2026-01-26T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/j3qbhPpNzzYbCq4OXVLySpicz6s.jpg",
+     "Qty87A7Nz": "Business Insights & AI Ops",
+     "pXTH3rlM6": "<p>Most founders only look at their finances once a month—usually when the bookkeeper sends the P&amp;L. By then, the data is 20 days old. You are making decisions today based on what happened three weeks ago. That is too slow for a modern business.</p><p>To gain control, you don't need to become an accountant; you just need a ritual. The \"Weekly Finance Review\" is a non-negotiable 20-minute meeting (even if it's just with yourself) to calibrate your compass.</p><h2>Minute 0-5: The Cash Position (The Truth)</h2><p>Open your bank accounts. Not your accounting software—the actual bank.</p><ul><li data-preset-tag=\"p\"><p><strong>Total Cash on Hand:</strong> How much liquidity do we have today?</p></li><li data-preset-tag=\"p\"><p><strong>The Burn Check:</strong> How much left the bank this week?</p></li><li data-preset-tag=\"p\"><p><strong>The Runway:</strong> Divide Cash by Burn. Has the number of months changed since last week?<br>Seeing the raw number every seven days desensitizes you to the fear and sensitizes you to the trend.</p></li></ul><h2>Minute 5-15: The Inflows (The Pulse)</h2><p>Look at your Accounts Receivable and Pipeline.</p><ul><li data-preset-tag=\"p\"><p><strong>Who owes us money?</strong> If a client is 5 days late, flag it now. Do not wait for them to be 30 days late.</p></li><li data-preset-tag=\"p\"><p><strong>Pipeline Velocity:</strong> Did the deals we expected to close this week actually close? If they pushed to next week, <em>why</em>?</p></li><li data-preset-tag=\"p\"><p><strong>Lead Volume:</strong> Did we get enough new leads to hit next month’s target?</p></li></ul><h2>Minute 15-20: The Outflows (The sanity Check)</h2><p>Scan the credit card transaction log for the week.</p><ul><li data-preset-tag=\"p\"><p>Are there any duplicate charges?</p></li><li data-preset-tag=\"p\"><p>Did a trial subscription flip to paid?</p></li><li data-preset-tag=\"p\"><p>Is travel spend creeping up?</p></li></ul><h2>The Outcome</h2><p>By the end of these 20 minutes, you aren't looking at a static report; you have a gut feel for the business. You know if you need to push sales harder or cut costs immediately. You enter the weekend with clarity, not anxiety.</p>"
+    }
+   },
+   {
+    "id": "Yz_jgv2nN",
+    "slug": "from-bank-feed-to-clean-reports-the-minimal-system",
+    "data": {
+     "jxL6T6oSu": "From Bank Feed to Clean Reports: The Minimal System",
+     "hQtetsnbS": "2026-01-26T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/Im3xlyKKwsizpS9fo0aLl1svMSo.jpg",
+     "Qty87A7Nz": "Expenses & Spend Control",
+     "pXTH3rlM6": "<p>The goal of a finance system is to go from \"Credit Card Swipe\" to \"Investor Report\" with as few human touches as possible. The days of manual data entry are over. Here is the minimal tech stack for a streamlined operation.</p><h2>The Source of Truth: The Bank Feed</h2><p>Your accounting software (Xero/Quickbooks) must be connected to your bank accounts live.<br><strong>Rule:</strong> Never manually type a transaction. If it’s not in the bank feed, it didn't happen.</p><h2>The OCR Layer (Optical Character Recognition)</h2><p>You need a tool that reads receipts. Tools like Dext or Hubdoc sit between your receipt and your accounting software. You take a photo, the AI reads the date, amount, and vendor, and pushes it to the accounting software.</p><ul><li data-preset-tag=\"p\"><p><em>Human effort:</em> 0 minutes.</p></li><li data-preset-tag=\"p\"><p><em>Accuracy:</em> 99%.</p></li></ul><h2>Bank Rules</h2><p>You visit the same coffee shop every week? You pay Google Workspace every month? Set up \"Bank Rules\" in your software.</p><ul><li data-preset-tag=\"p\"><p><em>If text contains \"Starbucks\" -&gt; Categorize as \"Meals &amp; Entertainment\".</em></p></li><li data-preset-tag=\"p\"><p><em>If text contains \"Google\" -&gt; Categorize as \"Software\".</em></p></li></ul><p>With these rules, 80% of your transactions categorize themselves before you even log in. Your job shifts from \"Data Entry\" to \"Reviewer.\"</p>"
+    }
+   },
+   {
+    "id": "MrmAQUo65",
+    "slug": "what-to-track-cogs-opex-one-offs-and-“hidden”-costs",
+    "data": {
+     "jxL6T6oSu": "What to Track: COGS, OPEX, One-Offs, and “Hidden” Costs",
+     "hQtetsnbS": "2026-01-27T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/kW6l6ioJ35P7aEK5N7LR5WLLw0.jpg",
+     "Qty87A7Nz": "Expenses & Spend Control",
+     "pXTH3rlM6": "<p>Not all expenses are created equal. Spending $10,000 on server hosting is fundamentally different from spending $10,000 on a team retreat. To understand your business model, you need to separate your costs into the right buckets.</p><h2>COGS (Cost of Goods Sold)</h2><p>These are the costs directly tied to delivering your product. If you acquire one more customer, these costs go up.</p><ul><li data-preset-tag=\"p\"><p><strong>Hosting:</strong> AWS, Azure, Google Cloud.</p></li><li data-preset-tag=\"p\"><p><strong>Support:</strong> Customer success salaries.</p></li><li data-preset-tag=\"p\"><p><strong>Third-party Data:</strong> API calls required to run your app.</p></li><li data-preset-tag=\"p\"><p><em>Why it matters:</em> This determines your <strong>Gross Margin</strong>. If your COGS are too high, you can't scale your way to profitability.</p></li></ul><h2>OPEX (Operating Expenses)</h2><p>These are the costs to run the business, regardless of how many customers you have.</p><ul><li data-preset-tag=\"p\"><p><strong>R&amp;D:</strong> Engineering salaries.</p></li><li data-preset-tag=\"p\"><p><strong>S&amp;M:</strong> Sales and Marketing.</p></li><li data-preset-tag=\"p\"><p><strong>G&amp;A:</strong> Rent, legal, finance, exec salaries.</p></li></ul><h2>One-Offs vs. Recurring</h2><p>When analyzing burn rate, strip out the one-offs. Buying laptops for new hires is a \"One-Off.\" paying for Slack is \"Recurring.\" Your \"True Burn Rate\" should only include the recurring costs. If you mix them, you might panic over a high-spend month that was actually just a hardware purchase month.</p>"
+    }
+   },
+   {
+    "id": "TTcns2K4l",
+    "slug": "subscriptions-audit-how-to-save-money-in-one-afternoon",
+    "data": {
+     "jxL6T6oSu": "Subscriptions Audit: How to Save Money in One Afternoon",
+     "hQtetsnbS": "2026-01-26T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/Y6WQ7WIqkeQglLY8bndikb4BDM.jpg",
+     "Qty87A7Nz": "Expenses & Spend Control",
+     "pXTH3rlM6": "<p>SaaS subscriptions are the silent killers of cash flow. It starts small—$29 here, $99 there—but eventually, you are paying for five project management tools because different teams went rogue. A \"Zombie Subscription\" audit can often extend your runway by a full month.</p><h2>The \"Export and Sort\" Method</h2><p>Don't look at your P&amp;L. Look at your bank statement.</p><ol><li data-preset-tag=\"p\"><p>Export the last 3 months of bank transactions to CSV.</p></li><li data-preset-tag=\"p\"><p>Filter for recurring same-amount payments.</p></li><li data-preset-tag=\"p\"><p>Sort by Vendor.</p></li></ol><h2>The \"Seat Count\" Trap</h2><p>The most common waste isn't the tool itself, but the phantom seats. You are paying for 10 seats on Figma, but you only have 6 designers. You are paying for a Sales Navigator license for an employee who quit three months ago.<br><strong>The Fix:</strong> Assign an \"Admin\" to every tool. That person is responsible for downgrading seats the day an employee offboards.</p><h2>Virtual Cards for Trials</h2><p>Never give your main credit card number for a \"Free Trial.\" Use a virtual card service (like Ramp, Brex, or Privacy.com) that allows you to set a hard expiration date or a spend limit of $1. When the trial ends and they try to charge you, the transaction fails, and you decide if you actually want to buy it.</p>"
+    }
+   },
+   {
+    "id": "EbZyx1bj9",
+    "slug": "the-founder’s-guide-to-expense-hygiene-(so-month-end-isn’t-painful)",
+    "data": {
+     "jxL6T6oSu": "The Founder’s Guide to Expense Hygiene (So Month-End Isn’t Painful)",
+     "hQtetsnbS": "2026-01-26T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/vb8uHkAYin1AGDyx21ElJ6isSFQ.jpg",
+     "Qty87A7Nz": "Expenses & Spend Control",
+     "pXTH3rlM6": "<p>\"Closing the books\" at the end of the month is often a source of dread for founders. It usually involves hunting for lost receipts in old jean pockets or trying to remember what that $45.00 Amazon charge was from three weeks ago. This pain is self-inflicted. Good expense hygiene is about shifting the work from \"once a month\" to \"real-time.\"</p><h2>The 3-Second Rule</h2><p>Do not put the receipt in your pocket. Do not leave it in your email inbox. Deal with it in 3 seconds.</p><ul><li data-preset-tag=\"p\"><p><strong>Physical Receipt:</strong> Snap a photo with your accounting app (Quickbooks/Xero app) immediately at the table. Throw the paper away.</p></li><li data-preset-tag=\"p\"><p><strong>Digital Receipt:</strong> Forward the email immediately to your accounting software's \"Inbox\" address.</p></li></ul><h2>Separate Church and State</h2><p>Never, ever buy personal items on the business card. The moment you buy a coffee for yourself on the company Amex, you create 10 minutes of accounting work to \"reconcile\" that transaction as a personal draw. It muddies the water. Keep the business card for business.</p><h2>The Weekly Sweep</h2><p>Block off 15 minutes on Friday morning. Log in to your bank feed. Match the transactions from the week. If you do this weekly, your memory is fresh. If you wait 30 days, you will never remember what \"PAYPAL *VENDOR77\" was.</p>"
+    }
+   },
+   {
+    "id": "znJKglXSJ",
+    "slug": "smart-expense-categories-a-clean-setup-that-scales",
+    "data": {
+     "jxL6T6oSu": "Smart Expense Categories: A Clean Setup That Scales",
+     "hQtetsnbS": "2026-01-26T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/DT6m8ZzP8oonOXybdkdOwJZdHA.jpg",
+     "Qty87A7Nz": "Expenses & Spend Control",
+     "pXTH3rlM6": "<p>When you start a business, you might be tempted to lump everything under \"Office Expenses\" or the dreaded \"Miscellaneous.\" But as you scale, bad categorization turns your financial data into a useless blurry mess. A clean Chart of Accounts (your categorization system) is the foundation of strategic decision-making.</p><h2>The \"No Miscellaneous\" Rule</h2><p>If you take nothing else from this post, take this: <strong>Delete your \"Miscellaneous\" category.</strong><br>It is a black hole where insights go to die. If an expense doesn't fit a category, create a new one, or put it in \"General Administrative.\" \"Miscellaneous\" implies you don't know what you are spending money on.</p><h2>Parent and Child Categories</h2><p>Don't have a list of 100 flat categories. Use a hierarchy.</p><ul><li data-preset-tag=\"p\"><p><strong>Parent:</strong> Marketing</p><ul><li data-preset-tag=\"p\"><p><em>Child:</em> Ad Spend (Facebook/Google)</p></li><li data-preset-tag=\"p\"><p><em>Child:</em> Software (HubSpot, Mailchimp)</p></li><li data-preset-tag=\"p\"><p><em>Child:</em> Contractors (Designers, Copywriters)</p></li></ul></li></ul><h2>Consistency is King</h2><p>The goal of categorization isn't tax compliance; it's comparison. You want to be able to compare \"Marketing Software\" in January vs. July. If you book HubSpot to \"Software\" one month and \"Marketing\" the next, you lose the ability to spot trends. Pick a lane and stay in it.</p>"
+    }
+   },
+   {
+    "id": "MgLeY6OiE",
+    "slug": "payment-terms-that-improve-cash-collection-(without-losing-clients)",
+    "data": {
+     "jxL6T6oSu": "Payment Terms That Improve Cash Collection (Without Losing Clients)",
+     "hQtetsnbS": "2026-01-26T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/F8m8qg8OrDYYPUsR6i9pb5fwuM.png",
+     "Qty87A7Nz": "Invoicing, AR/AP & Payments",
+     "pXTH3rlM6": "<p><br>Here are the 5 new blog posts. I have removed the quote brackets and kept the formatting clean with rich text headers.</p><h3>1. Invoice Status Explained: Paid, Pending, Overdue — What to Do Next</h3><p><strong>Midjourney Prompt:</strong><br>A minimalist 3D design of three floating notifications or cards, colored green, yellow, and red, representing financial status, clean white background, soft shadows, high quality render</p><p><strong>Blog Post:</strong></p><p>Managing invoices often feels like you are speaking a different language than your clients. While your accounting software spits out terms like \"Aging\" and \"Net 30,\" your client is just trying to figure out if they need to pay you today or next month. Understanding the lifecycle of an invoice—and taking the right action at each stage—is the key to a healthy bank balance.</p><h2>Pending (The \"In Limbo\" Phase)</h2><p>This is the status immediately after you hit send. The invoice is out there, but money hasn't moved.<br><strong>The Mistake:</strong> Most founders fire and forget. They send the invoice and assume the client received it.<br><strong>The Fix:</strong> Use software that tracks \"Views.\" If an invoice is \"Pending\" for 3 days and hasn't been viewed, don't wait for the due date. Send a polite check-in: \"Just ensuring this didn't land in spam.\"</p><h2>Overdue (The Danger Zone)</h2><p>The due date has passed. This is where anxiety sets in.<br><strong>The Mistake:</strong> Waiting too long to follow up because you don't want to seem desperate.<br><strong>The Fix:</strong> Escalation.</p><ul><li data-preset-tag=\"p\"><p><strong>Day 1 Late:</strong> Automated reminder.</p></li><li data-preset-tag=\"p\"><p><strong>Day 7 Late:</strong> Personal email from the founder/account manager.</p></li><li data-preset-tag=\"p\"><p><strong>Day 30 Late:</strong> Phone call. Stop emailing. Pick up the phone.</p></li></ul><h2>Paid (The Finish Line)</h2><p>The money is in the bank.<br><strong>The Mistake:</strong> Doing nothing.<br><strong>The Fix:</strong> This is a customer success opportunity. Send a thank you note, or better yet, trigger a workflow that asks for a referral or review. The moment a client pays is often when they feel the most committed to your value.</p><h3>2. How to Reduce Late Payments Without Awkward Follow-Ups</h3><p><strong>Midjourney Prompt:</strong><br>A friendly robotic hand gently placing an envelope into a mailbox, soft pastel colors, friendly atmosphere, 3d illustration, clean composition</p><p><strong>Blog Post:</strong></p><p>Chasing money is the most uncomfortable part of running a business. It feels confrontational. But late payments usually aren't malicious; they are a result of friction. If you remove the friction, you get paid faster without ever having to send an awkward \"Where is my money?\" email.</p><h2>1. The \"Upfront\" Conversation</h2><p>The best way to avoid chasing payments is to set expectations before the work starts. Discuss billing cycles during the sales process. Ask the client: <em>\"Who is the best person to send invoices to so they get processed quickly?\"</em> Often, you are emailing the CEO when you should be emailing the external bookkeeper.</p><h2>2. Automate the \"Nudge\"</h2><p>Awkwardness comes from personal confrontation. Automation removes the emotion. Set up automated email reminders:</p><ul><li data-preset-tag=\"p\"><p><strong>3 Days Before Due Date:</strong> \"Heads up, this is coming due.\"</p></li><li data-preset-tag=\"p\"><p><strong>On Due Date:</strong> \"Just a reminder, this is due today.\"</p></li><li data-preset-tag=\"p\"><p><strong>3 Days Late:</strong> \"This might have been missed.\"</p></li></ul><p>Because these look like system-generated emails, the client doesn't feel judged, but they do get the notification.</p><h2>3. Remove Payment Friction</h2><p>If your invoice requires the client to print a PDF, write a check, and mail it, you are begging for a late payment.<br><strong>The Fix:</strong> embed a \"Pay Now\" button directly in the invoice. Allow credit card payments or one-click bank transfers (ACH). Yes, you pay a small transaction fee (usually ~3%), but the speed of cash flow is almost always worth the cost.</p><h3>3. A Simple Accounts Receivable Workflow for Small Teams</h3><p><strong>Midjourney Prompt:</strong><br>A clean isometric flowchart diagram on a table, showing a streamlined process with gears and checkmarks, organized business concept, matte finish</p><p><strong>Blog Post:</strong></p><p>When you are a small team, you don't need a dedicated AR (Accounts Receivable) department. But you do need a system. Without a workflow, invoices slip through the cracks, and you end up realizing in November that you were never paid for that project in July.</p><p>Here is a foolproof 4-step workflow for teams of 1-5 people.</p><h2>Step 1: The \"Trigger\" (Immediate)</h2><p>Never batch your invoicing at the end of the month. It delays cash flow.<br><strong>The Rule:</strong> The moment the milestone is hit or the contract is signed, the invoice is generated and sent. If you finish the work on Tuesday, invoice on Tuesday.</p><h2>Step 2: The Verification (Day 3)</h2><p>Check your invoicing software. Has the client opened the email?</p><ul><li data-preset-tag=\"p\"><p><strong>If Yes:</strong> Do nothing.</p></li><li data-preset-tag=\"p\"><p><strong>If No:</strong> Send a quick distinct email (not a reply to the invoice) with the subject line: \"Invoice reception check.\"</p></li></ul><h2>Step 3: The Pre-Deadline (Day 25 of 30)</h2><p>Most accounting software allows you to automate a \"Upcoming Due Date\" reminder. Ensure this is turned on. It serves as a gentle prompt for their accounts payable team to queue the payment for this week's run.</p><h2>Step 4: The Weekly Review (Fridays)</h2><p>Every Friday morning, pull up your \"Aged Receivables\" report.</p><ul><li data-preset-tag=\"p\"><p>Identify everyone who is late.</p></li><li data-preset-tag=\"p\"><p>Assign an owner. Who owns the relationship? The CEO? The Sales Rep?</p></li><li data-preset-tag=\"p\"><p>That person must contact the client before the weekend. Do not let unpaid invoices drift into the next week without an action item.</p></li></ul><h3>4. Cashflow vs. Profit: Why Invoices Don’t Equal Money</h3><p><strong>Midjourney Prompt:</strong><br>An optical illusion art piece showing a piece of paper turning into gold coins, split composition, dark background, cinematic lighting</p><p><strong>Blog Post:</strong></p><p>There is a dangerous hallucination in business called \"Accrual Accounting.\" In this world, the moment you send an invoice for $10,000, your Profit &amp; Loss statement says you made $10,000. You feel rich. You might even decide to buy a new laptop or hire a freelancer based on that profit.</p><p>But in the real world (Cash Accounting), you have $0. This gap between \"Paper Profit\" and \"Cash in Bank\" is where businesses die.</p><h2>The Float Trap</h2><p>The time between doing the work and getting the cash is called the \"Float.\"</p><ul><li data-preset-tag=\"p\"><p>You pay your employees every 2 weeks.</p></li><li data-preset-tag=\"p\"><p>You pay your rent on the 1st.</p></li><li data-preset-tag=\"p\"><p>But your client pays you in 45 days.</p></li></ul><p>You are effectively acting as a bank, lending money to your client interest-free while you cover the costs.</p><h2>How to Bridge the Gap</h2><ol><li data-preset-tag=\"p\"><p><strong>Stop Celebrating Invoices:</strong> Do not ring the sales bell when the contract is signed. Ring it when the wire transfer hits.</p></li><li data-preset-tag=\"p\"><p><strong>Shorten the Terms:</strong> If you are small, you cannot afford to be a bank. Push back on \"Net 60\" terms. Ask for \"Net 15\" or \"Due on Receipt.\"</p></li><li data-preset-tag=\"p\"><p><strong>Track \"DSO\" (Days Sales Outstanding):</strong> This metric tells you the average number of days it takes you to get paid. If this number is creeping up, your cash flow is suffocating, even if your profit looks great.</p></li></ol><h3>5. Payment Terms That Improve Cash Collection (Without Losing Clients)</h3><p><strong>Midjourney Prompt:</strong><br>Two hands shaking over a sleek glass desk, balanced scales in the background, business negotiation concept, warm lighting, photorealistic</p><p><strong>Blog Post:</strong></p><p>\"Net 30\" (payment due in 30 days) is the default setting for almost every business interaction. But why? It is an arbitrary standard that hurts small businesses. You have more leverage to negotiate payment terms than you think, and tweaking these terms can dramatically improve your cash position.</p><p>Here are three strategies to adjust terms without angering clients.</p><h2>1. The \"2/10 Net 30\" Discount</h2><p>This is a classic term that works wonders. It means: \"The full bill is due in 30 days, BUT if you pay within 10 days, you get a 2% discount.\"<br><strong>Why it works:</strong> Large companies often have cash sitting around. Their finance departments love saving 2% risk-free. It moves your invoice to the top of their pile.</p><h2>2. Upfront Deposits</h2><p>Never work for free. For service businesses, it is perfectly reasonable to ask for a percentage upfront.</p><ul><li data-preset-tag=\"p\"><p><strong>Standard:</strong> 50% deposit / 50% on completion.</p></li><li data-preset-tag=\"p\"><p><strong>Milestone:</strong> 30% upfront / 30% mid-point / 40% delivery.<br><strong>The Script:</strong> <em>\"To schedule the resources for your project, we require a 30% deposit to lock in the dates.\"</em> This frames the deposit as a benefit to them (securing the timeline).</p></li></ul><h2>3. \"Due On Receipt\" for Small Amounts</h2><p>If the invoice is under $2,000, do not offer Net 30. It takes as much effort to process a $500 payment as a $50,000 one.<br><strong>The Rule:</strong> Set a policy that any invoice under a certain threshold is \"Due on Receipt\" via credit card. Most clients won't blink at putting small vendor costs on a corporate card, which gets you paid instantly.</p>"
+    }
+   },
+   {
+    "id": "RK3NI_Zrv",
+    "slug": "cashflow-vs.-profit-why-invoices-don’t-equal-money",
+    "data": {
+     "jxL6T6oSu": "Cashflow vs. Profit: Why Invoices Don’t Equal Money",
+     "hQtetsnbS": "2026-01-27T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/o5QO7MLW6bIDViPlg8O6oR7lfU.png",
+     "Qty87A7Nz": "Invoicing, AR/AP & Payments",
+     "pXTH3rlM6": "<p>There is a dangerous hallucination in business called \"Accrual Accounting.\" In this world, the moment you send an invoice for $10,000, your Profit &amp; Loss statement says you made $10,000. You feel rich. You might even decide to buy a new laptop or hire a freelancer based on that profit.</p><p>But in the real world (Cash Accounting), you have $0. This gap between \"Paper Profit\" and \"Cash in Bank\" is where businesses die.</p><h2>The Float Trap</h2><p>The time between doing the work and getting the cash is called the \"Float.\"</p><ul><li data-preset-tag=\"p\"><p>You pay your employees every 2 weeks.</p></li><li data-preset-tag=\"p\"><p>You pay your rent on the 1st.</p></li><li data-preset-tag=\"p\"><p>But your client pays you in 45 days.</p></li></ul><p>You are effectively acting as a bank, lending money to your client interest-free while you cover the costs.</p><h2>How to Bridge the Gap</h2><ol><li data-preset-tag=\"p\"><p><strong>Stop Celebrating Invoices:</strong> Do not ring the sales bell when the contract is signed. Ring it when the wire transfer hits.</p></li><li data-preset-tag=\"p\"><p><strong>Shorten the Terms:</strong> If you are small, you cannot afford to be a bank. Push back on \"Net 60\" terms. Ask for \"Net 15\" or \"Due on Receipt.\"</p></li><li data-preset-tag=\"p\"><p><strong>Track \"DSO\" (Days Sales Outstanding):</strong> This metric tells you the average number of days it takes you to get paid. If this number is creeping up, your cash flow is suffocating, even if your profit looks great.</p></li></ol><p><br><br class=\"trailing-break\"></p>"
+    }
+   },
+   {
+    "id": "XFQGNna8W",
+    "slug": "a-simple-accounts-receivable-workflow-for-small-teams",
+    "data": {
+     "jxL6T6oSu": "A Simple Accounts Receivable Workflow for Small Teams",
+     "hQtetsnbS": "2026-01-26T00:00:00.000Z",
+     "fuXubcIvm": "https://framerusercontent.com/images/YDVhF82mbfWcG4QLDk6DRUIoCUo.png",
+     "Qty87A7Nz": "Invoicing, AR/AP & Payments",
+     "pXTH3rlM6": "<p>When you are a small team, you don't need a dedicated AR (Accounts Receivable) department. But you do need a system. Without a workflow, invoices slip through the cracks, and you end up realizing in November that you were never paid for that project in July.</p><p>Here is a foolproof 4-step workflow for teams of 1-5 people.</p><h2>Step 1: The \"Trigger\" (Immediate)</h2><p>Never batch your invoicing at the end of the month. It delays cash flow.<br><strong>The Rule:</strong> The moment the milestone is hit or the contract is signed, the invoice is generated and sent. If you finish the work on Tuesday, invoice on Tuesday.</p><h2>Step 2: The Verification (Day 3)</h2><p>Check your invoicing software. Has the client opened the email?</p><ul><li data-preset-tag=\"p\"><p><strong>If Yes:</strong> Do nothing.</p></li><li data-preset-tag=\"p\"><p><strong>If No:</strong> Send a quick distinct email (not a reply to the invoice) with the subject line: \"Invoice reception check.\"</p></li></ul><h2>Step 3: The Pre-Deadline (Day 25 of 30)</h2><p>Most accounting software allows you to automate a \"Upcoming Due Date\" reminder. Ensure this is turned on. It serves as a gentle prompt for their accounts payable team to queue the payment for this week's run.</p><h2>Step 4: The Weekly Review (Fridays)</h2><p>Every Friday morning, pull up your \"Aged Receivables\" report.</p><ul><li data-preset-tag=\"p\"><p>Identify everyone who is late.</p></li><li data-preset-tag=\"p\"><p>Assign an owner. Who owns the relationship? The CEO? The Sales Rep?</p></li><li data-preset-tag=\"p\"><p>That person must contact the client before the weekend. Do not let unpaid invoices drift into the next week without an action item.</p></li></ul>"
+    }
+   }
+  ]
+ },
+ "Projects": {
+  "id": "eUOlCMwzv",
+  "fields": [
+   {
+    "id": "uLRpQRGcH",
+    "name": "Title",
+    "type": "string"
+   },
+   {
+    "id": "rm2tapp6I",
+    "name": "Live Link",
+    "type": "link"
+   },
+   {
+    "id": "V48QqcuXU",
+    "name": "Description",
+    "type": "string"
+   },
+   {
+    "id": "kjwyROAcK",
+    "name": "Year",
+    "type": "string"
+   },
+   {
+    "id": "bFM7fkszf",
+    "name": "Duration",
+    "type": "string"
+   },
+   {
+    "id": "qlf78p8v0",
+    "name": "Category",
+    "type": "enum"
+   },
+   {
+    "id": "p3Wk6AJvg",
+    "name": "Stack",
+    "type": "string"
+   },
+   {
+    "id": "tS_yc4nrS",
+    "name": "Title Image",
+    "type": "image"
+   },
+   {
+    "id": "GYgSyJ6UE",
+    "name": "Title Video",
+    "type": "string"
+   },
+   {
+    "id": "Z2qGDebK6",
+    "name": "Card Text",
+    "type": "color"
+   },
+   {
+    "id": "UB2QurNX4",
+    "name": "Card BG",
+    "type": "color"
+   },
+   {
+    "id": "jRT14U0Nv",
+    "name": "Problem",
+    "type": "string"
+   },
+   {
+    "id": "bPqRxES8l",
+    "name": "Solution",
+    "type": "string"
+   },
+   {
+    "id": "aKUk5M_TW",
+    "name": "Extra Content",
+    "type": "formattedText"
+   },
+   {
+    "id": "xYWaVR6NU",
+    "name": "Image 1",
+    "type": "image"
+   },
+   {
+    "id": "lJUpYAKhc",
+    "name": "Image Label 1",
+    "type": "string"
+   },
+   {
+    "id": "q7kNp9XE3",
+    "name": "Image 2",
+    "type": "image"
+   },
+   {
+    "id": "gYxANVkuh",
+    "name": "Image Label 2",
+    "type": "string"
+   },
+   {
+    "id": "RiM0i_xs1",
+    "name": "Image 3",
+    "type": "image"
+   },
+   {
+    "id": "Th0A8hjlE",
+    "name": "Image Label 3",
+    "type": "string"
+   },
+   {
+    "id": "SSROb9hZg",
+    "name": "Image 4",
+    "type": "image"
+   },
+   {
+    "id": "AFuoMtIw4",
+    "name": "Image Label 4",
+    "type": "string"
+   },
+   {
+    "id": "JA9e6K2il",
+    "name": "Image 5",
+    "type": "image"
+   },
+   {
+    "id": "vY2ji1OOB",
+    "name": "Image Label 5",
+    "type": "string"
+   }
+  ],
+  "items": [
+   {
+    "id": "rFD0Ng75Z",
+    "slug": "remix-supply",
+    "data": {
+     "uLRpQRGcH": "Blog",
+     "rm2tapp6I": "https://remix.supply",
+     "V48QqcuXU": "Notes about design principles, personal insights, and freelance business processes",
+     "kjwyROAcK": "2024",
+     "bFM7fkszf": "3 Weeks",
+     "qlf78p8v0": "Personal",
+     "p3Wk6AJvg": "Framer",
+     "tS_yc4nrS": "https://framerusercontent.com/images/Vt5KN0de1UhApUZT5if6bwcRLE.png",
+     "GYgSyJ6UE": "https://streamable.com/l/mc498w/mp4-high.mp4",
+     "Z2qGDebK6": "rgb(255, 255, 255)",
+     "UB2QurNX4": "rgb(45, 45, 45)",
+     "jRT14U0Nv": "Designers and makers often struggle to efficiently showcase their skills online, facing challenges such as time constraints and limited resources to create compelling portfolios or presentations of their work.",
+     "bPqRxES8l": "Remix offers a neatly crafted collection of free and premium Framer templates designed for various purposes. These templates are meticulously crafted to help users quickly and effectively showcase their skills, saving them valuable time and resources.",
+     "aKUk5M_TW": "<p><br class=\"trailing-break\"></p>",
+     "xYWaVR6NU": "https://framerusercontent.com/images/DyV7fKrQqiHgVKVDl2OSRiMzSw.jpg",
+     "lJUpYAKhc": "Homepage",
+     "q7kNp9XE3": "https://framerusercontent.com/images/8FtrILgixMVCYlEzAhKV3dMFQ.jpg",
+     "gYxANVkuh": "Listing Page",
+     "RiM0i_xs1": "https://framerusercontent.com/images/7Fk8nCPTGiwHY2QVcT7NGezVss.jpg",
+     "Th0A8hjlE": "Unlimited Access",
+     "AFuoMtIw4": "",
+     "vY2ji1OOB": ""
+    }
+   },
+   {
+    "id": "a_rC0OzxD",
+    "slug": "easyfast",
+    "data": {
+     "uLRpQRGcH": "Easyfast",
+     "rm2tapp6I": "easyfast.design",
+     "V48QqcuXU": "A productized service focused on fast Framer website development. The goal was to launch quickly but with catchy elements that make it memorable. This is where the bunny logo and subtle roll animation came from.",
+     "kjwyROAcK": "2024",
+     "bFM7fkszf": "3 Weeks",
+     "qlf78p8v0": "Personal",
+     "p3Wk6AJvg": "Framer",
+     "tS_yc4nrS": "https://framerusercontent.com/images/Vt5KN0de1UhApUZT5if6bwcRLE.png",
+     "GYgSyJ6UE": "https://streamable.com/l/5fgoep/mp4-high.mp4",
+     "Z2qGDebK6": "rgb(255, 255, 255)",
+     "UB2QurNX4": "rgb(224, 86, 44)",
+     "jRT14U0Nv": "Many businesses struggle with the time and effort required to launch a website quickly while ensuring it is memorable and engaging for their audience.",
+     "bPqRxES8l": "Easyfast provides a productized service focused on fast Framer website development. The incorporation of a bunny logo and subtle roll animation adds catchy elements that make the website memorable, helping businesses launch their online presence quickly and effectively.",
+     "aKUk5M_TW": "<p><br class=\"trailing-break\"></p>",
+     "xYWaVR6NU": "https://framerusercontent.com/images/3TSLjUYOG93NJsPHuWtBrR95U.jpg",
+     "lJUpYAKhc": "Hero Section",
+     "q7kNp9XE3": "https://framerusercontent.com/images/Q4VhyNzVsGG4ahqNlIermqz5Gy0.jpg",
+     "gYxANVkuh": "Core Values",
+     "RiM0i_xs1": "https://framerusercontent.com/images/TdW2ZLfKEX004jE3xElPZmECeo.jpg",
+     "Th0A8hjlE": "Footer",
+     "AFuoMtIw4": "",
+     "vY2ji1OOB": ""
+    }
+   },
+   {
+    "id": "tXEmUq_xG",
+    "slug": "nickstepuk",
+    "data": {
+     "uLRpQRGcH": "Nick Stepuk",
+     "rm2tapp6I": "nickstepuk.com",
+     "V48QqcuXU": "A personal freelance design practice. Booking open",
+     "kjwyROAcK": "2024",
+     "bFM7fkszf": "3 Weeks",
+     "qlf78p8v0": "Personal",
+     "p3Wk6AJvg": "Framer",
+     "tS_yc4nrS": "https://framerusercontent.com/images/Vt5KN0de1UhApUZT5if6bwcRLE.png",
+     "GYgSyJ6UE": "https://streamable.com/l/bur9c9/mp4.mp4",
+     "Z2qGDebK6": "rgb(200, 199, 197)",
+     "UB2QurNX4": "rgb(31, 45, 48)",
+     "jRT14U0Nv": "As a freelance designer, it can be challenging to attract and secure clients in a competitive market, especially without a strong online presence or booking system in place.",
+     "bPqRxES8l": "By launching a personal freelance design practice website with open booking, designers can showcase their portfolio and services effectively, making it easier for clients to find and hire them. This streamlined approach helps freelancers attract more clients and manage bookings efficiently.",
+     "aKUk5M_TW": "<p><br class=\"trailing-break\"></p>",
+     "xYWaVR6NU": "https://framerusercontent.com/images/2hTIOEMu9RdeojgPacbipFuCk.png",
+     "lJUpYAKhc": "",
+     "q7kNp9XE3": "https://framerusercontent.com/images/nzj59MuDOjtXTJ5f4XIu86pb4Y.png",
+     "gYxANVkuh": "",
+     "RiM0i_xs1": "https://framerusercontent.com/images/m31I3q3gqR4CMtldOZ0tA6zYsM.png",
+     "Th0A8hjlE": "",
+     "SSROb9hZg": "https://framerusercontent.com/images/CSRVR48zHOl8OyPDGzNo1lSp5k.png",
+     "AFuoMtIw4": "",
+     "vY2ji1OOB": ""
+    }
+   },
+   {
+    "id": "HuUYZMGYp",
+    "slug": "haze",
+    "data": {
+     "uLRpQRGcH": "Haze Template",
+     "rm2tapp6I": "haze.framer.website",
+     "V48QqcuXU": "The goal of Haze was to deliver a fullscreen horizontal experience to showcase photography and branding projects that look awesome on bigger formats. ",
+     "kjwyROAcK": "2024",
+     "bFM7fkszf": "3 Weeks",
+     "qlf78p8v0": "Personal",
+     "p3Wk6AJvg": "Framer",
+     "tS_yc4nrS": "https://framerusercontent.com/images/Vt5KN0de1UhApUZT5if6bwcRLE.png",
+     "GYgSyJ6UE": "https://streamable.com/l/sil5us/mp4-high.mp4",
+     "Z2qGDebK6": "rgb(238, 181, 255)",
+     "UB2QurNX4": "rgb(15, 15, 182)",
+     "jRT14U0Nv": "Traditional website templates often fail to effectively showcase photography and branding projects on larger formats, lacking a fullscreen horizontal experience that fully immerses the viewer in the content.",
+     "bPqRxES8l": "The Haze template was designed specifically to address this issue, offering a unique fullscreen horizontal layout that elegantly presents photography and branding projects. This design choice maximizes the impact of visual content, ensuring that it looks stunning and engaging on larger screens.",
+     "aKUk5M_TW": "<p><br class=\"trailing-break\"></p>",
+     "xYWaVR6NU": "https://framerusercontent.com/images/rJp1qAQWM3cWy6TpPBpH7xuM3o.jpg",
+     "lJUpYAKhc": "",
+     "q7kNp9XE3": "https://framerusercontent.com/images/7BCuT7TLb9guWHExV0RkVUcFYE.jpg",
+     "gYxANVkuh": "",
+     "RiM0i_xs1": "https://framerusercontent.com/images/AV5Nm8vi6Onfh0Dlh0jMGbtATo.jpg",
+     "Th0A8hjlE": "",
+     "AFuoMtIw4": "",
+     "vY2ji1OOB": ""
+    }
+   },
+   {
+    "id": "qw5658vlr",
+    "slug": "nitro",
+    "data": {
+     "uLRpQRGcH": "Nitro Template",
+     "rm2tapp6I": "nitro.framer.website",
+     "V48QqcuXU": "Nitro is a premium Framer template for designers with an advanced layout and a ton of little big details to catch the visitor. With more than 200 copies sold, it remains one of the most successful templates on a market.",
+     "kjwyROAcK": "2024",
+     "bFM7fkszf": "3 Weeks",
+     "qlf78p8v0": "Personal",
+     "p3Wk6AJvg": "Framer",
+     "tS_yc4nrS": "https://framerusercontent.com/images/Vt5KN0de1UhApUZT5if6bwcRLE.png",
+     "GYgSyJ6UE": "https://streamable.com/l/0ugsvz/mp4-high.mp4",
+     "Z2qGDebK6": "rgb(255, 233, 224)",
+     "UB2QurNX4": "rgb(7, 7, 7)",
+     "jRT14U0Nv": "Designers often struggle to create visually striking and engaging websites that stand out in a competitive market, lacking the time or expertise to implement advanced layouts and intricate details that captivate visitors.",
+     "bPqRxES8l": "Nitro addresses this challenge by offering a premium Framer template designed for designers. With its advanced layout and attention to detail, Nitro enables designers to create visually stunning websites that capture the attention of visitors. Its success, with over 200 copies sold, highlights its effectiveness in helping designers create standout websites in a competitive market.",
+     "aKUk5M_TW": "<p><br class=\"trailing-break\"></p>",
+     "xYWaVR6NU": "https://framerusercontent.com/images/Nv7Y0EONdiLsrTQTVKfynGHZk.jpg",
+     "lJUpYAKhc": "",
+     "q7kNp9XE3": "https://framerusercontent.com/images/vPgjgDdSTcYpr6ZW53k7BHvJlNU.jpg",
+     "gYxANVkuh": "",
+     "RiM0i_xs1": "https://framerusercontent.com/images/yT3Ik3lEHmhWdMWkxOspHhMWJ1M.jpg",
+     "Th0A8hjlE": "",
+     "SSROb9hZg": "https://framerusercontent.com/images/KycbrBP81D8KkiriFRuoUo3jM.jpg",
+     "AFuoMtIw4": "",
+     "JA9e6K2il": "https://framerusercontent.com/images/d3RZidDx3IJnxsZQEyUtz9HCC0.jpg",
+     "vY2ji1OOB": ""
+    }
+   }
+  ]
+ },
+ "FAQ": {
+  "id": "lXv1PLlye",
+  "fields": [
+   {
+    "id": "gwbLlU2PH",
+    "name": "Question",
+    "type": "string"
+   },
+   {
+    "id": "cje2vNEgF",
+    "name": "Category",
+    "type": "enum"
+   },
+   {
+    "id": "YR6I3p2g6",
+    "name": "Answer",
+    "type": "formattedText"
+   }
+  ],
+  "items": [
+   {
+    "id": "Z6RB8LfCb",
+    "slug": "what-support-do-i-get",
+    "data": {
+     "gwbLlU2PH": "What support do I get?",
+     "cje2vNEgF": "Security, privacy & pricing",
+     "YR6I3p2g6": "<p>Standard support includes onboarding help and troubleshooting. Higher tiers can include priority support, guided setup, and custom workflows/integrations.</p>"
+    }
+   },
+   {
+    "id": "CrDInTxk2",
+    "slug": "do-you-offer-a-free-trial",
+    "data": {
+     "gwbLlU2PH": "Do you offer a free trial?",
+     "cje2vNEgF": "Security, privacy & pricing",
+     "YR6I3p2g6": "<p>Makro can offer a trial so you can validate forecasting and insights on your real data before committing.</p>"
+    }
+   },
+   {
+    "id": "wqGTkMzyU",
+    "slug": "what-pricing-plans-are-available",
+    "data": {
+     "gwbLlU2PH": "What pricing plans are available?",
+     "cje2vNEgF": "Security, privacy & pricing",
+     "YR6I3p2g6": "<p>Typically: a Starter plan for small teams, a Pro plan with advanced insights/automation, and an Enterprise plan for larger orgs needing governance and support.</p>"
+    }
+   },
+   {
+    "id": "uSIZYngHG",
+    "slug": "who-can-see-my-data",
+    "data": {
+     "gwbLlU2PH": "Who can see my data?",
+     "cje2vNEgF": "Security, privacy & pricing",
+     "YR6I3p2g6": "<p>Only authorized users in your workspace. Team permissions can limit what each person can view or manage.</p>"
+    }
+   },
+   {
+    "id": "RQQFv1Lku",
+    "slug": "does-makro-have-access-to-move-money",
+    "data": {
+     "gwbLlU2PH": "Does Makro have access to move money?",
+     "cje2vNEgF": "Security, privacy & pricing",
+     "YR6I3p2g6": "<p>Makro is designed to focus on visibility and analysis. Where bank connections exist, access is intended to be read-only whenever possible.</p>"
+    }
+   },
+   {
+    "id": "W3s9WEqQ4",
+    "slug": "is-my-data-secure",
+    "data": {
+     "gwbLlU2PH": "Is my data secure?",
+     "cje2vNEgF": "Security, privacy & pricing",
+     "YR6I3p2g6": "<p>Makro is built with security best practices in mind (access controls, least-privilege permissions, and secure data handling). If you need it, we can share a security overview and data-processing terms.</p>"
+    }
+   },
+   {
+    "id": "GpnfabIk8",
+    "slug": "what-if-makro-categorizes-something-wrong",
+    "data": {
+     "gwbLlU2PH": "What if Makro categorizes something wrong?",
+     "cje2vNEgF": "Setup & integrations",
+     "YR6I3p2g6": "<p>You can override categories, set rules, and train future behavior so the same pattern is handled correctly going forward.</p>"
+    }
+   },
+   {
+    "id": "PRs0yOTX8",
+    "slug": "can-i-export-data-and-reports",
+    "data": {
+     "gwbLlU2PH": "Can I export data and reports?",
+     "cje2vNEgF": "Setup & integrations",
+     "YR6I3p2g6": "<p>Yes—exports are available for sharing with stakeholders or your accountant (e.g., categorized transactions, summaries, invoice lists).</p>"
+    }
+   },
+   {
+    "id": "qgM3MsbBc",
+    "slug": "can-i-invite-my-team",
+    "data": {
+     "gwbLlU2PH": "Can I invite my team?",
+     "cje2vNEgF": "Setup & integrations",
+     "YR6I3p2g6": "<p>Yes—invite teammates with role-based access so operators can review insights while sensitive data stays restricted.</p>"
+    }
+   },
+   {
+    "id": "W1owS3I8Q",
+    "slug": "how-long-does-onboarding-take",
+    "data": {
+     "gwbLlU2PH": "How long does onboarding take?",
+     "cje2vNEgF": "Setup & integrations",
+     "YR6I3p2g6": "<p>A first usable dashboard is usually possible the same day. Deeper cleanliness (recurring rules, invoice mapping, category refinement) improves over the first 1–2 weeks.</p>"
+    }
+   },
+   {
+    "id": "orql7eBPg",
+    "slug": "what-tools-does-makro-integrate-with",
+    "data": {
+     "gwbLlU2PH": "What tools does Makro integrate with?",
+     "cje2vNEgF": "Setup & integrations",
+     "YR6I3p2g6": "<p>Common sources include bank feeds, invoicing platforms, and accounting tools. If a specific integration isn’t available, Makro can typically work via exports or APIs.</p>"
+    }
+   },
+   {
+    "id": "E5EBrilH2",
+    "slug": "how-do-i-get-started",
+    "data": {
+     "gwbLlU2PH": "How do I get started?",
+     "cje2vNEgF": "Setup & integrations",
+     "YR6I3p2g6": "<p>Connect your financial sources (bank, invoicing, accounting), confirm a few key settings (currency, fiscal preferences), and review the first pass of categories.</p>"
+    }
+   },
+   {
+    "id": "EzmLNHLGa",
+    "slug": "does-makro-support-multiple-currencies",
+    "data": {
+     "gwbLlU2PH": "Does Makro support multiple currencies?",
+     "cje2vNEgF": "Forecasting & insights",
+     "YR6I3p2g6": "<p>It can support multi-currency tracking conceptually; practical setup depends on your connected accounts and how you want reporting normalized.</p>"
+    }
+   },
+   {
+    "id": "dXW4gubSD",
+    "slug": "can-i-track-invoices-and-payment-status",
+    "data": {
+     "gwbLlU2PH": "Can I track invoices and payment status?",
+     "cje2vNEgF": "Forecasting & insights",
+     "YR6I3p2g6": "<p>Yes—Makro can provide an invoice status view (sent/overdue/paid), and highlight what needs follow-up.</p>"
+    }
+   },
+   {
+    "id": "FassejqET",
+    "slug": "what-insights-does-makro-surface-automatically",
+    "data": {
+     "gwbLlU2PH": "What insights does Makro surface automatically?",
+     "cje2vNEgF": "Forecasting & insights",
+     "YR6I3p2g6": "<p>Examples: spend spikes, category drift, vendor changes, late-paying clients, invoice risk, and “this week vs last week” drivers.</p>"
+    }
+   },
+   {
+    "id": "snSLlwqjH",
+    "slug": "can-i-model-“what-if”-scenarios",
+    "data": {
+     "gwbLlU2PH": "Can I model “what-if” scenarios?",
+     "cje2vNEgF": "Forecasting & insights",
+     "YR6I3p2g6": "<p>Yes—typical scenarios include hiring, reducing spend, delayed payments, new retainers, and one-time purchases.</p>"
+    }
+   },
+   {
+    "id": "xNf2O7jW2",
+    "slug": "how-accurate-are-the-forecasts",
+    "data": {
+     "gwbLlU2PH": "How accurate are the forecasts?",
+     "cje2vNEgF": "Forecasting & insights",
+     "YR6I3p2g6": "<p>Forecasts are directional by design. Accuracy improves as you connect more sources, tag transactions correctly, and mark recurring items consistently.</p>"
+    }
+   },
+   {
+    "id": "TtvtKFXwG",
+    "slug": "how-does-makro-forecast-cash-flow",
+    "data": {
+     "gwbLlU2PH": "How does Makro forecast cash flow?",
+     "cje2vNEgF": "Forecasting & insights",
+     "YR6I3p2g6": "<p>It uses your historical patterns plus known upcoming items (invoices, recurring expenses) to project runway and future balances—then updates as new data comes in.</p>"
+    }
+   },
+   {
+    "id": "Spnwnx5Kq",
+    "slug": "what-makes-makro-different-from-a-normal-dashboard",
+    "data": {
+     "gwbLlU2PH": "What makes Makro different from a normal dashboard?",
+     "cje2vNEgF": "Product basics",
+     "YR6I3p2g6": "<p>It’s built for decisions, not reporting. Instead of only showing charts, it explains what matters, what changed, and what you should review next.</p>"
+    }
+   },
+   {
+    "id": "aR1YPL2GA",
+    "slug": "how-does-the-ai-help-(in-plain-english)",
+    "data": {
+     "gwbLlU2PH": "How does the AI help (in plain English)?",
+     "cje2vNEgF": "Product basics",
+     "YR6I3p2g6": "<p>It categorizes and summarizes activity, highlights what’s unusual, explains drivers behind changes, and turns raw transactions into an actionable weekly finance brief.</p>"
+    }
+   },
+   {
+    "id": "TdivHEuUe",
+    "slug": "does-makro-replace-my-accountant-or-bookkeeper",
+    "data": {
+     "gwbLlU2PH": "Does Makro replace my accountant or bookkeeper?",
+     "cje2vNEgF": "Product basics",
+     "YR6I3p2g6": "<p>No. Makro complements them by keeping your internal view clean and current—so month-end is easier and decisions are faster.</p>"
+    }
+   },
+   {
+    "id": "thpR06eRz",
+    "slug": "what-problems-does-it-solve-day-to-day",
+    "data": {
+     "gwbLlU2PH": "What problems does it solve day-to-day?",
+     "cje2vNEgF": "Product basics",
+     "YR6I3p2g6": "<p>Forecasting cash flow, organizing expenses, tracking invoice status, spotting anomalies, and keeping a clean weekly “what changed” view of your finances.</p>"
+    }
+   },
+   {
+    "id": "JVXajW4nt",
+    "slug": "who-is-makro-for",
+    "data": {
+     "gwbLlU2PH": "Who is Makro for?",
+     "cje2vNEgF": "Product basics",
+     "YR6I3p2g6": "<p>Small teams, agencies, and digital businesses that want clear visibility into runway, upcoming bills, and what’s driving spend—especially if finance is handled part-time.</p>"
+    }
+   },
+   {
+    "id": "lbgekDPIA",
+    "slug": "what-is-makro",
+    "data": {
+     "gwbLlU2PH": "What is Makro?",
+     "cje2vNEgF": "Product basics",
+     "YR6I3p2g6": "<p>Makro is an AI-powered finance workspace that helps operators and founders stay on top of cash flow, expenses, and invoices—without living in spreadsheets.</p>"
+    }
+   }
+  ]
+ },
+ "Changelog": {
+  "id": "MErJyB6Do",
+  "fields": [
+   {
+    "id": "Cmke7DFHr",
+    "name": "Title",
+    "type": "string"
+   },
+   {
+    "id": "pXd37O07Q",
+    "name": "Version",
+    "type": "string"
+   },
+   {
+    "id": "QVS2Ef1U8",
+    "name": "Content",
+    "type": "formattedText"
+   },
+   {
+    "id": "r6mde3mWY",
+    "name": "Date",
+    "type": "date"
+   },
+   {
+    "id": "W8hkqWWkT",
+    "name": "New",
+    "type": "formattedText"
+   },
+   {
+    "id": "ZRAiBA2LZ",
+    "name": "Improved",
+    "type": "formattedText"
+   },
+   {
+    "id": "qsHFic6_y",
+    "name": "Fixed",
+    "type": "formattedText"
+   }
+  ],
+  "items": [
+   {
+    "id": "bDzKi5HDG",
+    "slug": "invoice-tracking",
+    "data": {
+     "Cmke7DFHr": "Invoice tracking",
+     "pXd37O07Q": "1.2",
+     "QVS2Ef1U8": "<p dir=\"auto\">Makro now tracks your invoices alongside your transactions. Connect your Stripe, QuickBooks, or Xero account and we'll pull in all your invoices automatically. You'll see a unified view of what's been paid, what's pending, and what's overdue.</p><p dir=\"auto\">The magic happens when we match invoices to incoming payments. When a payment hits your account, Makro links it to the corresponding invoice so you always know which clients have paid without digging through multiple tools.<br><br><br class=\"trailing-break\"></p><img alt=\"\" src=\"https://framerusercontent.com/images/NuWg5aIArrlBZcGfM8DjwwGPzTU.png\"><p dir=\"auto\">For the initial release, we're supporting Stripe, QuickBooks Online, and Xero. More integrations coming based on demand.</p>",
+     "r6mde3mWY": "2026-01-20T00:00:00.000Z",
+     "W8hkqWWkT": "<ul><li data-preset-tag=\"p\"><p><code>Invoices</code>  Dedicated invoices tab in main navigation</p></li><li data-preset-tag=\"p\"><p><code>Invoices</code>  Automatic payment-to-invoice matching</p></li><li data-preset-tag=\"p\"><p><code>Sync</code>  OAuth integrations for Stripe, QuickBooks Online, and Xero</p></li><li data-preset-tag=\"p\"><p><code>Dashboard</code>  Accounts receivable widget showing outstanding totals</p></li><li data-preset-tag=\"p\"><p><code>Forecasting</code>  Pending invoices now factor into cash projections</p></li></ul>",
+     "ZRAiBA2LZ": "<ul><li data-preset-tag=\"p\"><p><code>Sync</code>  Faster initial sync for connected accounting platforms</p></li><li data-preset-tag=\"p\"><p><code>Transactions</code>  Matched payments now show linked invoice reference</p></li></ul>",
+     "qsHFic6_y": "<ul dir=\"auto\"><li data-preset-tag=\"p\"><p><code>Sync</code>  Fixed timeout errors on accounts with 500+ monthly transactions</p></li><li data-preset-tag=\"p\"><p><code>Reports</code>  Fixed PDF exports cutting off long client names</p></li></ul>"
+    }
+   },
+   {
+    "id": "LMidDivk3",
+    "slug": "scenario-planning",
+    "data": {
+     "Cmke7DFHr": "Scenario planning",
+     "pXd37O07Q": "1.0",
+     "QVS2Ef1U8": "<p dir=\"auto\">We've added a powerful new way to model your financial future. Scenario planning lets you create multiple \"what if\" forecasts and compare them side by side. Thinking about hiring two engineers? Model it. Considering a price increase? See how it affects runway. Unsure whether to sign that annual contract? Compare monthly vs. yearly.</p><p dir=\"auto\">Each scenario branches from your current forecast, so changes stay isolated until you're ready to commit. You can create up to 10 scenarios per workspace on Pro plans and unlimited on Premium.<br><br class=\"trailing-break\"></p><img alt=\"\" src=\"https://framerusercontent.com/images/c1FmhM6TBn6ZRGJhz5aPnL1s.jpg\"><p dir=\"auto\">This has been our most requested feature since launch, and we're excited to finally ship it.</p>",
+     "r6mde3mWY": "2025-05-06T00:00:00.000Z",
+     "W8hkqWWkT": "<ul><li data-preset-tag=\"p\"><p><code>Forecasting</code>  Scenario planning with side-by-side comparison view</p></li><li data-preset-tag=\"p\"><p><code>Forecasting</code>  Scenario duplication for quick \"what if\" variations</p></li><li data-preset-tag=\"p\"><p><code>Dashboard</code>  Scenario selector dropdown in main dashboard header</p></li><li data-preset-tag=\"p\"><p><code>Reports</code>  Scenario comparison tables in PDF exports</p></li></ul>",
+     "ZRAiBA2LZ": "<ul><li data-preset-tag=\"p\"><p><code>Forecasting</code>  Forecast rendering now 3x faster on complex projections</p></li><li data-preset-tag=\"p\"><p><code>Dashboard</code>  Smoother chart animations when toggling between scenarios</p></li></ul>",
+     "qsHFic6_y": "<ul><li data-preset-tag=\"p\"><p><code>Forecasting</code>  Fixed edge case where very long forecast ranges (24+ months) would slow down rendering</p></li><li data-preset-tag=\"p\"><p><code>API</code>  Fixed webhook payloads not including scenario metadata</p></li></ul>"
+    }
+   },
+   {
+    "id": "GrthQHLPN",
+    "slug": "multi-currency-support",
+    "data": {
+     "Cmke7DFHr": "Multi-currency support",
+     "pXd37O07Q": "1.1",
+     "QVS2Ef1U8": "<p>You can now track accounts and transactions in multiple currencies. Makro automatically converts everything to your base currency using daily exchange rates, so your forecasts and reports stay accurate even when working across USD, EUR, GBP, and 50+ other currencies.</p><p>Set your base currency in workspace settings, and we'll handle the rest. For teams operating internationally, this means no more spreadsheet gymnastics to understand your true cash position.</p>",
+     "r6mde3mWY": "2025-12-06T00:00:00.000Z",
+     "W8hkqWWkT": "<p><br class=\"trailing-break\"></p>",
+     "ZRAiBA2LZ": "<ul><li data-preset-tag=\"p\"><p><code>Forecasting</code>  Projections now factor in historical exchange rate fluctuations</p></li><li data-preset-tag=\"p\"><p><code>Transactions</code>  Bulk edit now supports changing currency on multiple transactions at once</p></li><li data-preset-tag=\"p\"><p><code>Reports</code>  Export PDFs now show both original and converted amounts</p></li><li data-preset-tag=\"p\"><p><code>Dashboard</code>  Added currency indicator badges next to foreign account balances</p></li></ul>",
+     "qsHFic6_y": "<ul><li data-preset-tag=\"p\"><p><code>Sync</code>  Fixed an issue where some multi-currency accounts would fail to connect via Plaid</p></li><li data-preset-tag=\"p\"><p><code>Dashboard</code>  Fixed balance rounding errors that occasionally appeared on converted amounts</p></li><li data-preset-tag=\"p\"><p><code>Categories</code>  Fixed category assignments resetting when editing transaction currency</p></li></ul>"
+    }
+   }
+  ]
+ },
+ "Careers": {
+  "id": "ePaB_24fh",
+  "fields": [
+   {
+    "id": "f3s8VYntU",
+    "name": "Title",
+    "type": "string"
+   },
+   {
+    "id": "eqhYvo3XV",
+    "name": "Category",
+    "type": "string"
+   },
+   {
+    "id": "pUHWBjdqX",
+    "name": "Location",
+    "type": "string"
+   },
+   {
+    "id": "I2gT_JTlG",
+    "name": "Type",
+    "type": "string"
+   },
+   {
+    "id": "vRpoz01bD",
+    "name": "Link",
+    "type": "link"
+   }
+  ],
+  "items": [
+   {
+    "id": "au8XszGnS",
+    "slug": "senior-product-designer",
+    "data": {
+     "f3s8VYntU": "Senior Product Designer",
+     "eqhYvo3XV": "Design",
+     "pUHWBjdqX": "",
+     "I2gT_JTlG": "Full-time",
+     "vRpoz01bD": "https://www.ashbyhq.com/"
+    }
+   },
+   {
+    "id": "cxSI3h3J_",
+    "slug": "full-stack-engineer",
+    "data": {
+     "f3s8VYntU": "Full-Stack Engineer",
+     "eqhYvo3XV": "Engineering",
+     "pUHWBjdqX": "San Francisco",
+     "I2gT_JTlG": "Full-time",
+     "vRpoz01bD": "https://www.ashbyhq.com/"
+    }
+   },
+   {
+    "id": "PCPlFGWKd",
+    "slug": "growth-marketing-lead",
+    "data": {
+     "f3s8VYntU": "Growth Marketing Lead",
+     "eqhYvo3XV": "Marketing",
+     "pUHWBjdqX": "Remote",
+     "I2gT_JTlG": "Full-time",
+     "vRpoz01bD": "https://www.ashbyhq.com/"
+    }
+   },
+   {
+    "id": "YtXgXmjM_",
+    "slug": "customer-success-manager",
+    "data": {
+     "f3s8VYntU": "Customer Success Manager",
+     "eqhYvo3XV": "Support",
+     "pUHWBjdqX": "London",
+     "I2gT_JTlG": "Full-time",
+     "vRpoz01bD": "https://www.ashbyhq.com/"
+    }
+   },
+   {
+    "id": "STYYU1nN3",
+    "slug": "data-scientist",
+    "data": {
+     "f3s8VYntU": "Data Scientist",
+     "eqhYvo3XV": "Research",
+     "pUHWBjdqX": "Hybrid",
+     "I2gT_JTlG": "Contract",
+     "vRpoz01bD": "https://www.ashbyhq.com/"
+    }
+   }
+  ]
+ },
+ "Rich Text Pages": {
+  "id": "O1FZY_KQu",
+  "fields": [
+   {
+    "id": "WIJMx8dVp",
+    "name": "Title",
+    "type": "string"
+   },
+   {
+    "id": "bbkUrkbck",
+    "name": "Content",
+    "type": "formattedText"
+   }
+  ],
+  "items": [
+   {
+    "id": "I9Ynn3b5H",
+    "slug": "cookie-policy",
+    "data": {
+     "WIJMx8dVp": "Cookie Policy",
+     "bbkUrkbck": "<p dir=\"auto\"><strong>Last updated: January 2026</strong></p><p dir=\"auto\">Yes, we use cookies. Here's the short version of what that means for you.</p><h2 dir=\"auto\">What cookies are</h2><p dir=\"auto\">Cookies are small text files stored on your device when you visit a website. They help sites remember things - like whether you're logged in or what preferences you've set.</p><h2 dir=\"auto\">Cookies we use</h2><p dir=\"auto\"><strong>Essential cookies</strong> Required for Makro to function. They keep you logged in, remember your workspace, and maintain security. You can't opt out of these - without them, the app doesn't work.</p><ul><li data-preset-tag=\"p\"><p dir=\"auto\">Session authentication</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Security tokens</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Workspace preferences</p></li></ul><p dir=\"auto\"><strong>Analytics cookies</strong> Help us understand how people use Makro so we can improve it. These are anonymized and don't identify you personally.</p><ul><li data-preset-tag=\"p\"><p dir=\"auto\">Page views and navigation paths</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Feature usage patterns</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Performance metrics</p></li></ul><p dir=\"auto\"><strong>Preference cookies</strong> Remember your settings so you don't have to set them every time.</p><ul><li data-preset-tag=\"p\"><p dir=\"auto\">Dashboard layout</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Notification preferences</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Display settings</p></li></ul><h2 dir=\"auto\">What we don't use</h2><p dir=\"auto\">We don't use advertising or tracking cookies. No retargeting pixels, no cross-site tracking, no data brokers.</p><h2 dir=\"auto\">Third-party cookies</h2><p dir=\"auto\">Our analytics and infrastructure partners may set their own cookies. These are governed by their respective privacy policies:</p><ul><li data-preset-tag=\"p\"><p dir=\"auto\">Analytics provider cookies (anonymized usage data)</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Infrastructure provider cookies (performance monitoring)</p></li></ul><h2 dir=\"auto\">Managing cookies</h2><p dir=\"auto\">Most browsers let you control cookies through settings. You can:</p><ul><li data-preset-tag=\"p\"><p dir=\"auto\">Block all cookies (but Makro won't work properly)</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Block third-party cookies only</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Clear cookies periodically</p></li></ul><p dir=\"auto\"><strong>Browser settings:</strong></p><ul><li data-preset-tag=\"p\"><p dir=\"auto\">Chrome: Settings → Privacy and Security → Cookies</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Firefox: Settings → Privacy &amp; Security → Cookies</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Safari: Preferences → Privacy → Cookies</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Edge: Settings → Privacy → Cookies</p></li></ul><h2 dir=\"auto\">Cookie duration</h2><ul><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Session cookies</strong>: Deleted when you close your browser</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Persistent cookies</strong>: Remain for a set period (typically 30-365 days) or until you delete them</p></li></ul><h2 dir=\"auto\">Updates</h2><p dir=\"auto\">We may update this policy as our cookie usage evolves. Check back periodically or watch for in-app notifications.</p><h2 dir=\"auto\">Questions</h2><p dir=\"auto\">Cookie-related questions? Contact us at privacy@makro.com.</p>"
+    }
+   },
+   {
+    "id": "FrjHWF9W5",
+    "slug": "privacy-policy",
+    "data": {
+     "WIJMx8dVp": "Privacy Policy",
+     "bbkUrkbck": "<p dir=\"auto\"><strong>Last updated: January 2026</strong></p><p dir=\"auto\">Makro exists to give you clarity over your finances - not to exploit your data. Here's exactly what we collect, why, and what we do with it.</p><h2 dir=\"auto\">What we collect</h2><p dir=\"auto\"><strong>Account information</strong> Your name, email address, and company details when you sign up.</p><p dir=\"auto\"><strong>Financial data</strong> Transaction history, account balances, and invoice details from connected bank accounts and payment platforms. This powers your dashboard, forecasts, and insights.</p><p dir=\"auto\"><strong>Usage data</strong> How you interact with Makro - pages visited, features used, and actions taken. This helps us improve the product.</p><p dir=\"auto\"><strong>Device information</strong> Browser type, operating system, and IP address for security and troubleshooting.</p><h2 dir=\"auto\">How we use your data</h2><ul><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Deliver the service</strong>: Categorize transactions, generate forecasts, surface insights</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Improve Makro</strong>: Understand usage patterns to build better features</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Communicate with you</strong>: Product updates, billing information, support responses</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Security</strong>: Detect fraud, prevent abuse, protect your account</p></li></ul><h2 dir=\"auto\">What we don't do</h2><ul><li data-preset-tag=\"p\"><p dir=\"auto\">Sell your data to third parties</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Share your financial information with advertisers</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Use your data to build profiles for external marketing</p></li><li data-preset-tag=\"p\"><p dir=\"auto\">Access your bank accounts for anything beyond read-only data retrieval</p></li></ul><h2 dir=\"auto\">Third-party services</h2><p dir=\"auto\">We work with trusted partners to deliver Makro:</p><ul><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Banking data providers</strong> (Plaid, similar): Secure bank connections</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Cloud infrastructure</strong> (AWS, similar): Data storage and processing</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Analytics tools</strong>: Anonymized usage tracking</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Payment processors</strong> (Stripe, similar): Subscription billing</p></li></ul><p dir=\"auto\">These partners are bound by strict data protection agreements.</p><h2 dir=\"auto\">Data retention</h2><p dir=\"auto\">We keep your data while your account is active. If you cancel, we retain data for 90 days in case you return, then delete it. You can request immediate deletion at any time.</p><h2 dir=\"auto\">Your rights</h2><p dir=\"auto\">You can:</p><ul><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Access</strong> your data through in-app exports</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Correct</strong> inaccurate information in your settings</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Delete</strong> your account and all associated data</p></li><li data-preset-tag=\"p\"><p dir=\"auto\"><strong>Export</strong> your financial data in standard formats</p></li></ul><p dir=\"auto\">EU users have additional rights under GDPR. California users have rights under CCPA. Contact us to exercise them.</p><h2 dir=\"auto\">Security</h2><p dir=\"auto\">Your data is encrypted in transit (TLS) and at rest (AES-256). We use multi-factor authentication, regular security audits, and strict access controls. Bank credentials are never stored on our servers - they're handled entirely by our banking partners.</p><h2 dir=\"auto\">Changes to this policy</h2><p dir=\"auto\">We'll notify you of significant changes via email before they take effect.</p><h2 dir=\"auto\">Contact</h2><p dir=\"auto\">Privacy questions? Reach us at privacy@makro.com.</p>"
+    }
+   },
+   {
+    "id": "RoZziVLbF",
+    "slug": "terms-of-use",
+    "data": {
+     "WIJMx8dVp": "Terms of Use",
+     "bbkUrkbck": "<p dir=\"auto\"><strong>Last updated: January 2026</strong></p><p dir=\"auto\">Welcome to Makro. By using our platform, you agree to these terms. They're written to be clear, not to bury anything in legalese.</p><h2 dir=\"auto\">What Makro is</h2><p dir=\"auto\">Makro is a financial clarity platform. We help you understand your cash flow, track expenses, and forecast what's ahead. We're a tool for visibility, not a replacement for professional financial advice.</p><h2 dir=\"auto\">Your account</h2><p dir=\"auto\">You're responsible for keeping your login credentials secure. If you suspect unauthorized access, let us know immediately at support@makro.com. One account per person or entity - no sharing access across organizations.</p><h2 dir=\"auto\">Acceptable use</h2><p dir=\"auto\">Use Makro for legitimate business purposes. Don't attempt to reverse-engineer, scrape, or interfere with our systems. Don't use Makro to process transactions for illegal activities or to misrepresent your financial position to third parties.</p><h2 dir=\"auto\">Your data</h2><p dir=\"auto\">You own your financial data. We process it to provide our services - categorization, forecasting, insights - but it remains yours. You can export or delete it at any time. See our Privacy Policy for the full picture.</p><h2 dir=\"auto\">Bank connections</h2><p dir=\"auto\">When you connect bank accounts, you authorize us to retrieve transaction data through our secure banking partners. We use read-only access. We cannot move money or make changes to your accounts.</p><h2 dir=\"auto\">Service availability</h2><p dir=\"auto\">We aim for high uptime but can't guarantee uninterrupted access. Scheduled maintenance happens, and sometimes things break. We'll communicate proactively when possible.</p><h2 dir=\"auto\">Subscription and billing</h2><p dir=\"auto\">Paid plans are billed monthly or annually, depending on what you choose. You can cancel anytime - your access continues until the end of your billing period. We don't do refunds for partial periods.</p><h2 dir=\"auto\">Cancellation</h2><p dir=\"auto\">You can cancel your subscription from your account settings. Upon cancellation, you'll retain access until your current billing cycle ends. After that, your workspace moves to the Free tier.</p><h2 dir=\"auto\">Limitation of liability</h2><p dir=\"auto\">Makro provides financial visibility tools, not financial advice. We're not liable for business decisions you make based on data shown in Makro. Our liability is limited to the amount you've paid us in the 12 months prior to any claim.</p><h2 dir=\"auto\">Changes to these terms</h2><p dir=\"auto\">We may update these terms as Makro evolves. Material changes will be communicated via email or in-app notification at least 14 days before taking effect.</p><h2 dir=\"auto\">Contact</h2><p dir=\"auto\">Questions about these terms? Reach us at legal@makro.com.</p>"
+    }
+   }
+  ]
+ }
+}

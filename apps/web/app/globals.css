@@ -1,0 +1,92 @@
+@import '../framer/framer.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: rgb(255, 255, 255);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+body {
+  font-family: var(--font-inter), sans-serif;
+  font-variation-settings: 'opsz' 32;
+  overflow-x: clip;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+.fr-text {
+  word-wrap: break-word;
+}
+.fr-text > * {
+  font-variant-numeric: inherit;
+}
+
+/* One tree per breakpoint, like Framer. */
+.fr-bp {
+  display: none;
+}
+@media (min-width: 1200px) {
+  .fr-bp-desktop {
+    display: block;
+  }
+}
+@media (min-width: 810px) and (max-width: 1199.98px) {
+  .fr-bp-tablet {
+    display: block;
+  }
+}
+@media (max-width: 809.98px) {
+  .fr-bp-phone {
+    display: block;
+  }
+}
+
+@keyframes fr-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-1 * var(--fr-ticker-w)));
+  }
+}
+@keyframes fr-ticker-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-1 * var(--fr-ticker-w)));
+  }
+}
+
+/* Carousel cards stretched to the carousel width (CustomCarousel "Card width"). */
+.fr-fill > * { width: 100% !important; }
+
+/* Hero headline ("Heading 1 Jumbo", hero only): two steps smaller than the template. */
+.ts-heading-1-jumbo { font-size: 74px; }
+@media (max-width: 1440px) { .ts-heading-1-jumbo { font-size: 60px; } }
+@media (max-width: 810px) { .ts-heading-1-jumbo { font-size: 40px; } }

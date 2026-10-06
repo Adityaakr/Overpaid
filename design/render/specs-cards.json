@@ -1,0 +1,91 @@
+[
+ {
+  "name": "liquidity",
+  "src": "MOOn5KFiBbiRmvvVAWZCtFU7yc.png",
+  "replace": [
+   {
+    "find": "Liquidity",
+    "to": "Claims paid",
+    "weight": 500
+   },
+   {
+    "find": "Safe cash buffer",
+    "to": "Filed this month",
+    "weight": 400
+   }
+  ]
+ },
+ {
+  "name": "predict",
+  "src": "FZAXfvfeAtXMjRtAfvycp4f5c.png",
+  "replace": [
+   {
+    "find": "Predictability",
+    "to": "Approvals",
+    "weight": 500
+   },
+   {
+    "find": "Safe cash buffer",
+    "to": "Waiting on you",
+    "weight": 400
+   }
+  ]
+ },
+ {
+  "name": "retention",
+  "src": "EhSjphdOXhWTXmMtWBHR8tWrA.png",
+  "replace": [
+   {
+    "find": "Retention",
+    "to": "Evidence",
+    "weight": 500
+   },
+   {
+    "find": "Active clients",
+    "to": "Claims with proof",
+    "weight": 400
+   }
+  ]
+ },
+ {
+  "name": "runway",
+  "src": "YXAw0SFKPBH82TMVsfRwjHkfM.png",
+  "replace": [
+   {
+    "find": "Cash Runway",
+    "to": "Refund time",
+    "weight": 500
+   },
+   {
+    "find": "Months of coverage",
+    "to": "Days, filed to paid",
+    "weight": 400
+   },
+   {
+    "rect": [
+     144,
+     362,
+     98,
+     48
+    ],
+    "to": "d",
+    "baseline": 406,
+    "size": 71,
+    "weight": 400,
+    "pad": 2,
+    "ls": -0.04
+   }
+  ]
+ },
+ {
+  "name": "reduction",
+  "src": "dQY9FBvFlctDbiSvrmlqaKEE5o.png",
+  "replace": [
+   {
+    "find": "Reduction",
+    "to": "Cancelled",
+    "weight": 500
+   }
+  ]
+ }
+]

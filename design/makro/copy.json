@@ -1,0 +1,1122 @@
+{
+ "_note": "Overpaid content for the Makro layout. text: global string replacements (exact match after trim). nodeText: per-node overrides keyed by original node id. icons: icon by original title (pre-replacement). cms: Overpaid CMS rows keyed by collection.",
+ "text": {
+  "AI-Powered Finance": "Agentic money recovery",
+  "Know your cash. Plan with AI.": "Money you’re owed,\nrecovered by AI.",
+  "Stay on top of every transaction, invoice, and forecast in one clean view.": "Overpaid scans your receipts and statements for forgotten subscriptions, missed refunds and price drops, then its agents claim every dollar back with your approval. Fees sit in Cardano escrow until the money lands.",
+  "Get started": "Find my money",
+  "Get Started": "Find my money",
+  "Trusted by solopreneurs": "Paid only on results",
+  "Trusted by solopreneurs, startups and enterprise": "Powered by Cardano, Masumi, x402 and Amazon Bedrock AgentCore",
+  "Latest case study": "Read the build notes",
+  "Makro is a financial clarity platform for founders and small teams that helps you understand cash and forecast what’s next.": "Overpaid works for everyone too busy to chase their own money. Its AI agents catch the overcharges businesses count on you missing, and get every dollar back.",
+  "Predict your income": "Find every leak",
+  "Cashflow forecast": "Scans receipts and statements",
+  "Control spending": "Claim it back",
+  "Smart Expense Sorting": "AI agents on merchant sites",
+  "See what matters": "Bargain together",
+  "Insights & Signals": "Group deals on Cardano",
+  "Projected balance & runway": "Money on the table",
+  "See where your cash is heading before it becomes a problem.": "See every overcharge before it costs you again.",
+  "Track projected balances and runway early, without spreadsheets or guesswork.": "Drop in receipts and statements. Overpaid shows one number: the money you’re owed, and exactly where it’s hiding.",
+  "No more cash surprises at the end of the month": "No more paying for things you forgot you had",
+  "Liquidity & risk overview": "Agent fleet",
+  "See what actually drives your revenue.": "Your agents claim it back.",
+  "Understand which accounts, streams, and patterns generate real cash impact.": "Cloud browser agents cancel, claim and dispute on merchants’ own sites, in parallel. You approve every step.",
+  "No more unclear or blended revenue sources.": "No more evenings on hold with support.",
+  "Commitments & burn": "Specialist hires",
+  "Know what you’ve already committed to": "Experts on call, paid on results.",
+  "See recurring costs, upcoming payments, and contract obligations before they hit your balance.": "When a claim needs expertise, Overpaid hires a specialist agent on Masumi. Its fee waits in Cardano escrow until you’re paid.",
+  "No more “we forgot this renewal” moments.": "No more paying for effort that didn’t work.",
+  "Progress over time": "Recoveries over time",
+  "Track your company progress over time.": "Track every dollar that comes back.",
+  "Makro shows growth, momentum, and long-term progress without manual reporting.": "Every recovery is logged with evidence, plus an on-chain receipt wherever money moved.",
+  "No more manual tracking of business progress.": "No more wondering if the refund ever landed.",
+  "Tidy Build, unlimited power": "Small leaks, handled for you",
+  "Sort": "Find",
+  "Smart Expenses": "Leak Finder",
+  "AI automatically groups every transaction into clear, accurate categories": "Overpaid sorts every charge into the leaks worth chasing",
+  "Connect": "Connect",
+  "Bank Sync": "Inbox Sync",
+  "Auto-imported, deduped, always current": "Receipts imported, deduped, always current",
+  "Wire Transfer": "Refund received",
+  "1,250": "64",
+  ".00": ".50",
+  "Control": "Approve",
+  "Daily AI Insights": "Daily Agent Report",
+  "Get a brief AI summary of your top financial changes": "A short summary of what your agents got back today",
+  "+15%": "+$412",
+  "Balance Increase": "Recovered this week",
+  "$1,240": "$1,284",
+  "Potential Savings": "Money on the table",
+  "Actions Found": "Agents on watch",
+  "Track": "Claim",
+  "Invoice Status": "Claim Status",
+  "Track paid, pending, and overdue invoices in one clean view": "Follow every claim from filed to paid in one clean view",
+  "Mira Studio": "Vistaflix",
+  "Monthly retainer": "Premium 4K cancelled",
+  "$1,200": "$22.99",
+  "#002-12": "#CL-012",
+  "Silver Desk": "Skylane Air",
+  "Brand identity package": "Delay compensation",
+  "$550": "$61.15",
+  "#003-12": "#CL-013",
+  "Overdue": "Disputed",
+  "Loft & Co": "Cartwell",
+  "Web design and development": "Price drop adjustment",
+  "$1200": "$64.50",
+  "#004-12": "#CL-014",
+  "Plan": "Renew",
+  "Upcoming Bills": "Upcoming Renewals",
+  "Identified from recurring tools": "Found in your receipts",
+  "Protect": "Protect",
+  "Anomaly Detection": "Duplicate Charge",
+  "Unusual charge caught early": "Double charge caught early",
+  "Stripe fee spike": "Cartwell order #4417",
+  "Now:": "Charged:",
+  "$486": "$99.98",
+  "Avg:": "Owed:",
+  "$120": "$49.99",
+  "Mark as expected": "Request refund",
+  "Operations": "Subscriptions",
+  "Income": "Refunds",
+  "Software": "Price drops",
+  "Marketing": "Late orders",
+  "Rent": "Duplicates",
+  "Utility": "Gift cards",
+  "Taxes & Fees": "Free trials",
+  "$220": "$22.99",
+  "Cloud Hosting": "Vistaflix",
+  "$320": "$10.99",
+  "Design Tool": "Tunewave",
+  "$18": "$119",
+  "Productivity": "FitPulse",
+  "Built for Clarity": "Built for Trust",
+  "Financial insight, finally simple.": "Money back, finally simple.",
+  "Connect your accounts once and watch everything update in real time. No spreadsheets, no exports, no waiting.": "Drop in your receipts once and watch Overpaid work. No spreadsheets, no phone queues, no waiting.",
+  "Master your cash flow.": "Put your money on autopilot.",
+  "Visibility": "Find",
+  "See all accounts, cards, and transactions in one unified view.": "See every subscription, refund and price drop in one view.",
+  "Forecasting": "Fix",
+  "Know your runway and predict shortfalls before they hit.": "Agents claim it on merchant sites, with your approval.",
+  "Automation": "Bargain",
+  "Bills, invoices, and categorization handled without manual work.": "Join group deals where providers compete for your business.",
+  "Your smart finance assistant,": "Your money-back agent,",
+  "Simple plans for founders and teams. No contracts, no hidden fees. Upgrade, downgrade, or cancel anytime.": "Finding money is free. Overpaid only earns a success fee when money actually comes back to you.",
+  "Annual": "Individuals",
+  "Monthly": "Teams",
+  "Makro Free": "Overpaid Free",
+  "Makro Pro": "Overpaid Fix",
+  "Makro Premium": "Overpaid Bloc",
+  "Best for startups that want clarity, speed, and automation.": "For anyone with receipts, cards and better things to do.",
+  "per workspace": "of what Overpaid recovers",
+  "Try free for 14 days": "Start finding money",
+  "Unified financial dashboard": "Receipt and statement scan",
+  "Income & expense tracking": "Money on the table total",
+  "Basic cashflow overview": "Subscription finder",
+  "Monthly summaries": "Renewal and window alerts",
+  "Up to 1 workspace": "Do-it-yourself fix guides",
+  "Everything in Makro Free": "Everything in Overpaid Free",
+  "Cashflow forecasting": "Cloud browser agent fleet",
+  "Invoice & revenue tracking": "One-tap approvals",
+  "Smart insights & alerts": "Evidence for every claim",
+  "Up to 5 workspaces": "Specialist hires via Masumi",
+  "Everything in Makro Pro": "Everything in Overpaid Fix",
+  "Advanced forecasting models": "Join blocs with one tap",
+  "Scenario planning & simulations": "Refundable on-chain pledges",
+  "API access": "Provider bids, settled on chain",
+  "Dedicated onboarding": "Priority support",
+  "Enterprise plans": "For teams",
+  "Get custom pricing": "Recover money for your company",
+  "If you manage high transaction volumes, multiple entities, or require custom integrations, our team can tailor Makro to your needs.": "Have a team, lots of cards or an unusual case? Talk to us and we’ll set Overpaid up around how you work.",
+  "Contact sales": "Talk to us",
+  "Testimonials": "The evidence",
+  "Customer Spotlight": "Why Overpaid exists",
+  "Atlas Labs": "C+R Research",
+  "Alex Morgan": "Consumer survey, 2022",
+  "Founder & CEO": "Source",
+  "$150-250k": "42%",
+  "Cashflow forecasting, expense control, runway planning": "Forgotten subscriptions, hidden spend",
+  "Northway Studio": "FTC, ICPEN & GPEN",
+  "Daniel Reed": "Global review, 2024",
+  "$80–120k": "76%",
+  "Cashflow visibility, budget planning, decision support": "Hard-to-cancel flows, hidden renewals",
+  "Brightline Tech": "Bankrate",
+  "Emily Carter": "US survey, 2024",
+  "$200–350k": "$244",
+  "Cashflow forecasting, risk prevention, runway monitoring": "Unused gift cards and store credit",
+  "Kinetic Agency": "Zscaler ThreatLabz",
+  "Lucas Meyer": "Security research, 2026",
+  "$60–90k": "4 of 26",
+  "Expense control, runway planning, financial clarity": "Prompt injection, agent safety",
+  "Managing Director": "Source",
+  "Monthly revenue tracked": "Headline number",
+  "Use cases": "Why it matters",
+  "General": "General",
+  "Setup & integrations": "Setup",
+  "Security and privacy": "Security & pricing",
+  "Let's connect": "Let’s connect",
+  "Latest insights": "From the build log",
+  "Learn how to manage cash, risk, and growth without guesswork.": "How Overpaid’s agents find your money and get it back.",
+  "Ready to take control of your numbers?": "Ready to stop overpaying?",
+  "Makro keeps your cashflow, invoices, and expenses clear, so you always know what’s next.": "Start free. Overpaid finds what you’re owed, claims it with your approval, and only earns when you get paid.",
+  "© 2026 Makro LLC. All Rights reserved.": "© 2026 Overpaid. All rights reserved.",
+  "Makro.": "Overpaid."
+ },
+ "prefixText": {
+  "Before Makro, we were flying blind": "Hidden instructions on web pages got 4 of 26 AI models to make payments. Overpaid’s browsing agents have no way to pay at all.",
+  "Makro helped us spot cash gaps early": "43% of US adults hold unused gift cards, vouchers or store credit, worth $244 each on average.",
+  "We replaced our manual cash tracking with Makro": "A 2024 review of 642 subscription sites and apps found that nearly 76% used at least one possible dark pattern, and nearly 67% used several.",
+  "We used Makro to finally understand": "42% of people had forgotten they were still paying for a subscription they no longer used, and they underestimated their monthly subscription spend by $133."
+ },
+ "nodeText": {
+  "i5CPxkLbd": "Real numbers on the money people leave behind, and why agents change the maths.",
+  "UZv6KALnS": "Short answers about how Overpaid finds money, claims it, and stays safe.",
+  "jAYEMbrPY": "How it works",
+  "h9njj_5w7": "Pricing",
+  "hK2jDPomK": "Evidence",
+  "ddmAGmUN5": "FAQ",
+  "I3GXUPoz5": "Blog"
+ },
+ "icons": {
+  "AI-Powered Finance": "Sparkle",
+  "Projected balance & runway": "Coins",
+  "Liquidity & risk overview": "Browsers",
+  "Commitments & burn": "Handshake",
+  "Progress over time": "Chart Line Up",
+  "Sort": "Magnifying Glass",
+  "Connect": "Envelope Simple",
+  "Control": "Check Circle",
+  "Track": "Receipt",
+  "Plan": "Calendar Dots",
+  "Protect": "Shield Check",
+  "Built for Clarity": "Eye",
+  "Pricing": "Piggy Bank",
+  "Testimonials": "Quotes",
+  "FAQ": "Question",
+  "Let's connect": "Chats Circle",
+  "Blog": "Book Open Text",
+  "Enterprise plans": "Buildings",
+  "Operations": "Repeat",
+  "Income": "Arrow U Up Left",
+  "Software": "Trend Down",
+  "Marketing": "Package",
+  "Rent": "Copy",
+  "Utility": "Gift",
+  "Taxes & Fees": "Hourglass",
+  "Predict your income": "Magnifying Glass",
+  "Control spending": "Robot",
+  "See what matters": "Users Three",
+  "Cloud Hosting": "Television",
+  "Design Tool": "Music Notes",
+  "Productivity": "Barbell"
+ },
+ "pricingIcons": {
+  "everything": "Check Good",
+  "default": "Add New Plus"
+ },
+ "prices": {
+  "BPQnRQja5": 0,
+  "UZ_c6FjzV": 15,
+  "NwpjwvyzN": 10,
+  "t7ykALRo2": 0,
+  "GWjHK37Om": 12,
+  "rYxcBJWtd": 8,
+  "prefix": "",
+  "suffix": "%",
+  "zu6UzNoZ5": "8"
+ },
+ "cms": {
+  "FAQ": [
+   {
+    "__id": "faq0",
+    "gwbLlU2PH": "What is Overpaid?",
+    "cje2vNEgF": "Product basics",
+    "YR6I3p2g6": "<p>Overpaid is a team of AI agents that recovers money you’re owed: forgotten subscriptions, missed refunds, price drops and duplicate charges. It finds them in your receipts and statements, then claims every dollar back on the merchants’ own sites, with your approval.</p>"
+   },
+   {
+    "__id": "faq1",
+    "gwbLlU2PH": "How does Overpaid find money?",
+    "cje2vNEgF": "Product basics",
+    "YR6I3p2g6": "<p>You drop in receipts and statements. Overpaid reads them, matches each purchase against merchant policies, and shows one number: the money on the table, with a reason for every line.</p>"
+   },
+   {
+    "__id": "faq2",
+    "gwbLlU2PH": "What can Overpaid fix for me?",
+    "cje2vNEgF": "Product basics",
+    "YR6I3p2g6": "<p>It cancels subscriptions you no longer use, requests refunds for duplicate charges, claims price adjustments, and opens claims for orders that never arrived.</p>"
+   },
+   {
+    "__id": "faq3",
+    "gwbLlU2PH": "Who is Overpaid for?",
+    "cje2vNEgF": "Product basics",
+    "YR6I3p2g6": "<p>Anyone with more subscriptions, receipts and cards than time. It is built for busy people who would rather not spend evenings on hold with support.</p>"
+   },
+   {
+    "__id": "faq4",
+    "gwbLlU2PH": "How is Overpaid different from a budgeting app?",
+    "cje2vNEgF": "Product basics",
+    "YR6I3p2g6": "<p>Budgeting apps show you charts. Overpaid goes to the merchants' own websites and gets the money back, while you watch and approve.</p>"
+   },
+   {
+    "__id": "faq5",
+    "gwbLlU2PH": "How do the agents work?",
+    "cje2vNEgF": "Forecasting & insights",
+    "YR6I3p2g6": "<p>Each fix runs in its own cloud browser on Amazon Bedrock AgentCore. Several run at once, follow a recipe for each merchant, and capture evidence as they go.</p>"
+   },
+   {
+    "__id": "faq6",
+    "gwbLlU2PH": "What is a specialist agent?",
+    "cje2vNEgF": "Forecasting & insights",
+    "YR6I3p2g6": "<p>Some claims, like airline compensation, need expertise. Overpaid hires a specialist agent from the Masumi registry and pays its fee into escrow on Cardano.</p>"
+   },
+   {
+    "__id": "faq7",
+    "gwbLlU2PH": "When does a specialist get paid?",
+    "cje2vNEgF": "Forecasting & insights",
+    "YR6I3p2g6": "<p>The fee is locked in escrow. The specialist submits proof of the result, and the fee releases after the unlock time unless Overpaid raises a dispute first.</p>"
+   },
+   {
+    "__id": "faq8",
+    "gwbLlU2PH": "What is a bloc?",
+    "cje2vNEgF": "Forecasting & insights",
+    "YR6I3p2g6": "<p>People who pay for the same thing pledge together on Cardano. Providers see the pledged demand and bid for everyone at once, and each member is refunded the difference.</p>"
+   },
+   {
+    "__id": "faq9",
+    "gwbLlU2PH": "What do I need to get started?",
+    "cje2vNEgF": "Setup & integrations",
+    "YR6I3p2g6": "<p>An email export of your receipts and a card or bank statement. Overpaid processes them for you only.</p>"
+   },
+   {
+    "__id": "faq10",
+    "gwbLlU2PH": "Do I need a crypto wallet?",
+    "cje2vNEgF": "Setup & integrations",
+    "YR6I3p2g6": "<p>Only for specialist fees and bloc pledges, which settle on Cardano. Finding money and fixing it on merchant sites works without one.</p>"
+   },
+   {
+    "__id": "faq11",
+    "gwbLlU2PH": "Which merchants are supported?",
+    "cje2vNEgF": "Setup & integrations",
+    "YR6I3p2g6": "<p>Overpaid works on merchants' own websites through a recipe for each one. Hard cases go to specialist agents.</p>"
+   },
+   {
+    "__id": "faq12",
+    "gwbLlU2PH": "Do I sign in to merchants myself?",
+    "cje2vNEgF": "Setup & integrations",
+    "YR6I3p2g6": "<p>Yes. You sign in through a live view of the browser, and the agent continues from there. Overpaid never stores your passwords.</p>"
+   },
+   {
+    "__id": "faq13",
+    "gwbLlU2PH": "Is my data safe?",
+    "cje2vNEgF": "Security, privacy & pricing",
+    "YR6I3p2g6": "<p>Receipts are processed only for you, redacted before any model sees them, and deleted on request. Overpaid never sells your data.</p>"
+   },
+   {
+    "__id": "faq14",
+    "gwbLlU2PH": "Can a web page trick Overpaid into paying?",
+    "cje2vNEgF": "Security, privacy & pricing",
+    "YR6I3p2g6": "<p>No. The browsing agent has no wallet and no payment tools. Payments only happen in a separate service, for structured offers from Overpaid itself, within your limits.</p>"
+   },
+   {
+    "__id": "faq15",
+    "gwbLlU2PH": "Does Overpaid do anything without asking?",
+    "cje2vNEgF": "Security, privacy & pricing",
+    "YR6I3p2g6": "<p>It finds and prepares on its own. Cancellations, disputes, deposits and payments always wait for your approval.</p>"
+   },
+   {
+    "__id": "faq16",
+    "gwbLlU2PH": "How much does Overpaid cost?",
+    "cje2vNEgF": "Security, privacy & pricing",
+    "YR6I3p2g6": "<p>Finding money is free. Overpaid takes a success fee only on money that actually comes back to you.</p>"
+   }
+  ],
+  "Blog": [
+   {
+    "__id": "blog0",
+    "jxL6T6oSu": "Introducing Overpaid: The Agent That Chases Your Money",
+    "hQtetsnbS": "2026-10-06T00:00:00.000Z",
+    "fuXubcIvm": "https://framerusercontent.com/images/cJFRgSE8SjRYAegdyD4KYaLlk4.jpg",
+    "Qty87A7Nz": "Product",
+    "RcsMNcstQ": "#"
+   },
+   {
+    "__id": "blog1",
+    "jxL6T6oSu": "Why Overpaid Pays Specialists Through Cardano Escrow",
+    "hQtetsnbS": "2026-10-05T00:00:00.000Z",
+    "fuXubcIvm": "https://framerusercontent.com/images/JHtgrA2UySZSMQFBrB58McLcM8.jpg",
+    "Qty87A7Nz": "Cardano",
+    "RcsMNcstQ": "#"
+   },
+   {
+    "__id": "blog2",
+    "jxL6T6oSu": "Five Places Your Money Quietly Leaks",
+    "hQtetsnbS": "2026-10-04T00:00:00.000Z",
+    "fuXubcIvm": "https://framerusercontent.com/images/bavupwwf0ogB0ORBpJ4wBQWE9U.jpg",
+    "Qty87A7Nz": "Guides",
+    "RcsMNcstQ": "#"
+   }
+  ]
+ },
+ "controls": {
+  "XSTF7p5kw": {
+   "$control__logo": "Logo CR",
+   "$control__profilePic": {
+    "src": "/mk/ombud/stat-cr.png",
+    "alt": "42% forgot a subscription"
+   }
+  },
+  "VGYmGdiea": {
+   "$control__logo": "Logo FTC",
+   "$control__profilePic": {
+    "src": "/mk/ombud/stat-ftc.png",
+    "alt": "76% of subscription sites used a dark pattern"
+   }
+  },
+  "s15UzaY9u": {
+   "$control__logo": "Logo Bankrate",
+   "$control__profilePic": {
+    "src": "/mk/ombud/stat-bankrate.png",
+    "alt": "$244 in unused credit on average"
+   }
+  },
+  "ufGF1wl75": {
+   "$control__logo": "Logo Zscaler",
+   "$control__profilePic": {
+    "src": "/mk/ombud/stat-zscaler.png",
+    "alt": "4 of 26 AI models paid"
+   }
+  },
+  "SWU2BR62v": {
+   "$control__category2Name": "Agents"
+  },
+  "cmEunJ_uh": {
+   "$control__icon": "Receipt"
+  },
+  "CRgpcV0E8": {
+   "$control__icon": "Coins"
+  },
+  "w6Sju9Wed": {
+   "$control__icon": "Piggy Bank"
+  },
+  "JrqevpMbA": {
+   "$control__icon": "Shield Check"
+  },
+  "TjhEXJv9O": {
+   "$control__icon": "Money Wavy"
+  },
+  "je3NgizAK": {
+   "$control__icon": "Robot"
+  },
+  "lm1RH60Dw": {
+   "$control__icon": "Magnifying Glass"
+  },
+  "s6uCOWuHB": {
+   "$control__icon": "Handshake"
+  },
+  "JpBakvYh6": {
+   "$control__icon": "Chart Line Up"
+  },
+  "wvJ5yIqUG": {
+   "$control__icon": "Envelope Simple"
+  },
+  "IEjQHZBCw": {
+   "$control__icon": "Gift"
+  },
+  "GavvfJa7e": {
+   "$control__icon": "Repeat"
+  },
+  "xtg7PPCRk": {
+   "$control__stat3": "8"
+  },
+  "jAYEMbrPY": {
+   "link": {
+    "href": "/#card-1"
+   }
+  },
+  "h9njj_5w7": {
+   "link": {
+    "href": "/#pricing"
+   }
+  },
+  "hK2jDPomK": {
+   "link": {
+    "href": "/#testimonials"
+   }
+  },
+  "ddmAGmUN5": {
+   "link": {
+    "href": "/#faq"
+   }
+  },
+  "I3GXUPoz5": {
+   "link": {
+    "href": "/#blog"
+   }
+  },
+  "jOcpGEpBM": {
+   "elementId": "blog"
+  },
+  "mCJQ284N7": {
+   "$control__title": "Agentic finance on Cardano"
+  },
+  "Wu6lb6BLY": {
+   "$control__value1Annual": "0",
+   "$control__value2Annual": "15",
+   "$control__value3Annual": "10",
+   "$control__value1Monthly": "0",
+   "$control__value2Monthly": "12",
+   "$control__value3Monthly": "8"
+  },
+  "Azm8JGWXv": {
+   "$control__subheadingText": "Every overcharge, caught and claimed around the clock. All you do is approve."
+  }
+ },
+ "nodeAttrs": {
+  "SeiLGdw21": {
+   "padding": "0px 0px 40px 0px"
+  },
+  "N69Hz3ND0": {
+   "padding": "100px 0px 180px 0px"
+  },
+  "rNC319xtq": {
+   "padding": "180px 0px 60px 0px"
+  },
+  "t9P6aiCq1": {
+   "height": "0px"
+  },
+  "y9qcVrpgE": {
+   "padding": "120px 0px 180px 0px"
+  },
+  "R8xGEo1q_SeiLGdw21": {
+   "padding": "0px 0px 40px 0px"
+  },
+  "R8xGEo1q_N69Hz3ND0": {
+   "padding": "80px 0px 120px 0px"
+  },
+  "R8xGEo1q_rNC319xtq": {
+   "padding": "120px 0px 40px 0px"
+  },
+  "R8xGEo1q_t9P6aiCq1": {
+   "height": "0px"
+  },
+  "R8xGEo1q_y9qcVrpgE": {
+   "padding": "80px 0px 120px 0px"
+  },
+  "u5dzwjE0YSeiLGdw21": {
+   "padding": "0px 0px 32px 0px"
+  },
+  "u5dzwjE0YN69Hz3ND0": {
+   "padding": "56px 0px 80px 0px"
+  },
+  "u5dzwjE0YrNC319xtq": {
+   "padding": "80px 0px 32px 0px"
+  },
+  "u5dzwjE0Yt9P6aiCq1": {
+   "height": "0px"
+  },
+  "u5dzwjE0Yy9qcVrpgE": {
+   "padding": "56px 0px 80px 0px"
+  },
+  "MMbveS1LK": {
+   "height": "0px"
+  },
+  "R8xGEo1q_MMbveS1LK": {
+   "height": "0px"
+  },
+  "u5dzwjE0YMMbveS1LK": {
+   "height": "0px"
+  },
+  "HDQCKBgIa": {
+   "styleTransformEffect": {
+    "trigger": "onScrollTarget",
+    "viewport": "middle",
+    "transition": "spring-duration 0.8s 0 0s",
+    "sections": [
+     {
+      "opacity": 0
+     },
+     {
+      "opacity": 0,
+      "target": "ZUR_oQAcT"
+     },
+     {
+      "target": "ZUR_oQAcT",
+      "offset": 200
+     }
+    ]
+   }
+  },
+  "R8xGEo1q_HDQCKBgIa": {
+   "styleTransformEffect": {
+    "trigger": "onScrollTarget",
+    "viewport": "middle",
+    "transition": "spring-duration 0.8s 0 0s",
+    "sections": [
+     {
+      "opacity": 0
+     },
+     {
+      "opacity": 0,
+      "target": "ZUR_oQAcT"
+     },
+     {
+      "target": "ZUR_oQAcT",
+      "offset": 200
+     }
+    ]
+   }
+  },
+  "u5dzwjE0YHDQCKBgIa": {
+   "styleTransformEffect": {
+    "trigger": "onScrollTarget",
+    "viewport": "middle",
+    "transition": "spring-duration 0.8s 0 0s",
+    "sections": [
+     {
+      "opacity": 0
+     },
+     {
+      "opacity": 0,
+      "target": "ZUR_oQAcT"
+     },
+     {
+      "target": "ZUR_oQAcT",
+      "offset": 200
+     }
+    ]
+   }
+  },
+  "R8xGEo1q_ZbaxXRZE4": {
+   "maxWidth": "640px"
+  },
+  "DL6V17UqI": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "x4kkQQInq": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "al7CDMFdO": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     70,
+     -70
+    ]
+   }
+  },
+  "hMd1r7cUb": {
+   "parallax": {
+    "range": "pin",
+    "scale": [
+     1,
+     0.92
+    ],
+    "brightness": [
+     1,
+     0.72
+    ]
+   }
+  },
+  "zQwvXnyYT": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "g63DobUW5": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "GGnxNWIJI": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "Xu2Fq9m6W": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "S5rRFrhxG": {
+   "parallax": {
+    "range": "pin",
+    "scale": [
+     1,
+     0.92
+    ],
+    "brightness": [
+     1,
+     0.72
+    ]
+   }
+  },
+  "fHX4ChbWf": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "OhKYeiWZ0": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "oW9GxWVne": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "Qv0JKNQdM": {
+   "parallax": {
+    "range": "pin",
+    "scale": [
+     1,
+     0.92
+    ],
+    "brightness": [
+     1,
+     0.72
+    ]
+   }
+  },
+  "fbKdTECx4": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "TD3cbj85x": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "s_qoxBsFp": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "zcTSYfAyC": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "R8xGEo1q_DL6V17UqI": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "R8xGEo1q_x4kkQQInq": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "R8xGEo1q_al7CDMFdO": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     70,
+     -70
+    ]
+   }
+  },
+  "R8xGEo1q_hMd1r7cUb": {
+   "parallax": {
+    "range": "pin",
+    "scale": [
+     1,
+     0.92
+    ],
+    "brightness": [
+     1,
+     0.72
+    ]
+   }
+  },
+  "R8xGEo1q_zQwvXnyYT": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "R8xGEo1q_g63DobUW5": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "R8xGEo1q_GGnxNWIJI": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "R8xGEo1q_Xu2Fq9m6W": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "R8xGEo1q_S5rRFrhxG": {
+   "parallax": {
+    "range": "pin",
+    "scale": [
+     1,
+     0.92
+    ],
+    "brightness": [
+     1,
+     0.72
+    ]
+   }
+  },
+  "R8xGEo1q_fHX4ChbWf": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "R8xGEo1q_OhKYeiWZ0": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "R8xGEo1q_oW9GxWVne": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "R8xGEo1q_Qv0JKNQdM": {
+   "parallax": {
+    "range": "pin",
+    "scale": [
+     1,
+     0.92
+    ],
+    "brightness": [
+     1,
+     0.72
+    ]
+   }
+  },
+  "R8xGEo1q_fbKdTECx4": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "R8xGEo1q_TD3cbj85x": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     150,
+     -150
+    ]
+   }
+  },
+  "R8xGEo1q_s_qoxBsFp": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "R8xGEo1q_zcTSYfAyC": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     40,
+     -40
+    ]
+   }
+  },
+  "u5dzwjE0YDL6V17UqI": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     75.0,
+     -75.0
+    ]
+   }
+  },
+  "u5dzwjE0Yx4kkQQInq": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     75.0,
+     -75.0
+    ]
+   }
+  },
+  "u5dzwjE0Yal7CDMFdO": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     35.0,
+     -35.0
+    ]
+   }
+  },
+  "u5dzwjE0YzQwvXnyYT": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     20.0,
+     -20.0
+    ]
+   }
+  },
+  "u5dzwjE0Yg63DobUW5": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     20.0,
+     -20.0
+    ]
+   }
+  },
+  "u5dzwjE0YGGnxNWIJI": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     35.0,
+     -35.0
+    ]
+   }
+  },
+  "u5dzwjE0YXu2Fq9m6W": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     35.0,
+     -35.0
+    ]
+   }
+  },
+  "u5dzwjE0YfHX4ChbWf": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     75.0,
+     -75.0
+    ]
+   }
+  },
+  "u5dzwjE0YOhKYeiWZ0": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     75.0,
+     -75.0
+    ]
+   }
+  },
+  "u5dzwjE0YoW9GxWVne": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     35.0,
+     -35.0
+    ]
+   }
+  },
+  "u5dzwjE0YfbKdTECx4": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     75.0,
+     -75.0
+    ]
+   }
+  },
+  "u5dzwjE0YTD3cbj85x": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     75.0,
+     -75.0
+    ]
+   }
+  },
+  "u5dzwjE0Ys_qoxBsFp": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     20.0,
+     -20.0
+    ]
+   }
+  },
+  "u5dzwjE0YzcTSYfAyC": {
+   "parallax": {
+    "range": "pass",
+    "y": [
+     35.0,
+     -35.0
+    ]
+   }
+  },
+  "GUR9s8ILh": {
+   "styleTransformEffect": {
+    "trigger": "onScrollTarget",
+    "viewport": "middle",
+    "transition": "spring-physics 500 60 1 0s",
+    "sections": [
+     {},
+     {
+      "y": "320px",
+      "target": "Hddi9z5pY",
+      "offset": -320
+     },
+     {
+      "opacity": 0,
+      "y": "460px",
+      "target": "Hddi9z5pY"
+     }
+    ]
+   }
+  },
+  "R8xGEo1q_GUR9s8ILh": {
+   "styleTransformEffect": {
+    "trigger": "onScrollTarget",
+    "viewport": "middle",
+    "transition": "spring-physics 500 60 1 0s",
+    "sections": [
+     {},
+     {
+      "y": "320px",
+      "target": "Hddi9z5pY",
+      "offset": -320
+     },
+     {
+      "opacity": 0,
+      "y": "460px",
+      "target": "Hddi9z5pY"
+     }
+    ]
+   }
+  },
+  "u5dzwjE0YGUR9s8ILh": {
+   "styleTransformEffect": {
+    "trigger": "onScrollTarget",
+    "viewport": "middle",
+    "transition": "spring-physics 500 60 1 0s",
+    "sections": [
+     {},
+     {
+      "y": "320px",
+      "target": "Hddi9z5pY",
+      "offset": -320
+     },
+     {
+      "opacity": 0,
+      "y": "460px",
+      "target": "Hddi9z5pY"
+     }
+    ]
+   }
+  },
+  "r7DCvroRP": {
+   "width": "auto",
+   "minWidth": "150px"
+  },
+  "VzBT7OEGUr7DCvroRP": {
+   "width": "auto",
+   "minWidth": "150px"
+  },
+  "SSz_wrLGxr7DCvroRP": {
+   "width": "auto",
+   "minWidth": "150px"
+  }
+ }
+}

@@ -1,0 +1,250 @@
+[
+ {
+  "name": "sources",
+  "src": "0XNd3EZozYPqRrxZfevjonai8U0.png",
+  "replace": [
+   {
+    "find": "Income Sources",
+    "to": "Where it leaked",
+    "weight": 500
+   },
+   {
+    "find": "Overview",
+    "to": "This quarter",
+    "weight": 400
+   },
+   {
+    "rect": [
+     757,
+     67,
+     122,
+     30
+    ],
+    "find": "Q4 2025",
+    "to": "Q4 2026",
+    "color": "#ffffff",
+    "weight": 500,
+    "size": 27,
+    "baseline": 92,
+    "align": "center",
+    "pad": 1
+   },
+   {
+    "rect": [
+     89,
+     302,
+     330,
+     31
+    ],
+    "find": "Retainers & subscriptions",
+    "to": "Forgotten subscriptions",
+    "weight": 400,
+    "size": 26.5,
+    "baseline": 323.6,
+    "pad": 2
+   },
+   {
+    "rect": [
+     776,
+     300,
+     112,
+     31
+    ],
+    "find": "$13,200",
+    "to": "$616",
+    "weight": 400,
+    "size": 27.5,
+    "baseline": 323.6,
+    "align": "right",
+    "pad": 2,
+    "ls": -0.01
+   },
+   {
+    "rect": [
+     89,
+     376,
+     330,
+     31
+    ],
+    "find": "Retainers & subscriptions",
+    "to": "Duplicate charges",
+    "weight": 400,
+    "size": 26.5,
+    "baseline": 397.6,
+    "pad": 2
+   },
+   {
+    "rect": [
+     776,
+     374,
+     112,
+     31
+    ],
+    "find": "$13,200",
+    "to": "$411",
+    "weight": 400,
+    "size": 27.5,
+    "baseline": 397.6,
+    "align": "right",
+    "pad": 2,
+    "ls": -0.01
+   },
+   {
+    "rect": [
+     89,
+     450,
+     330,
+     31
+    ],
+    "find": "Retainers & subscriptions",
+    "to": "Price drops",
+    "weight": 400,
+    "size": 26.5,
+    "baseline": 471.6,
+    "pad": 2
+   },
+   {
+    "rect": [
+     776,
+     448,
+     112,
+     31
+    ],
+    "find": "$13,200",
+    "to": "$154",
+    "weight": 400,
+    "size": 27.5,
+    "baseline": 471.6,
+    "align": "right",
+    "pad": 2,
+    "ls": -0.01
+   },
+   {
+    "rect": [
+     89,
+     524,
+     330,
+     31
+    ],
+    "find": "Retainers & subscriptions",
+    "to": "Late deliveries",
+    "weight": 400,
+    "size": 26.5,
+    "baseline": 545.6,
+    "pad": 2
+   },
+   {
+    "rect": [
+     776,
+     522,
+     112,
+     31
+    ],
+    "find": "$13,200",
+    "to": "$64",
+    "weight": 400,
+    "size": 27.5,
+    "baseline": 545.6,
+    "align": "right",
+    "pad": 2,
+    "ls": -0.01
+   },
+   {
+    "rect": [
+     89,
+     598,
+     330,
+     31
+    ],
+    "find": "Retainers & subscriptions",
+    "to": "Unused credit",
+    "weight": 400,
+    "size": 26.5,
+    "baseline": 619.6,
+    "pad": 2
+   },
+   {
+    "rect": [
+     776,
+     596,
+     112,
+     31
+    ],
+    "find": "$13,200",
+    "to": "$39",
+    "weight": 400,
+    "size": 27.5,
+    "baseline": 619.6,
+    "align": "right",
+    "pad": 2,
+    "ls": -0.01
+   }
+  ]
+ },
+ {
+  "name": "income",
+  "src": "YO44CxSuDbYmHpLfFH35MLPzds.png",
+  "replace": [
+   {
+    "find": "Income",
+    "to": "Recovered",
+    "weight": 600
+   },
+   {
+    "rect": [
+     110,
+     124,
+     206,
+     74
+    ],
+    "find": "27500",
+    "to": "1,284",
+    "weight": 400,
+    "size": 85,
+    "baseline": 193,
+    "ls": -0.04
+   },
+   {
+    "find": "Peak",
+    "to": "Claims",
+    "weight": 400
+   },
+   {
+    "find": "16:30",
+    "to": "14",
+    "weight": 600
+   },
+   {
+    "find": "Safe buffer",
+    "to": "In escrow",
+    "weight": 400
+   },
+   {
+    "find": "$7,200",
+    "to": "$186",
+    "weight": 600
+   },
+   {
+    "find": "At-risk invoices",
+    "to": "Awaiting approval",
+    "weight": 400
+   },
+   {
+    "find": "$1,380",
+    "to": "$412",
+    "weight": 600
+   }
+  ]
+ },
+ {
+  "name": "yearly",
+  "src": "Ro2W2CNaxr9dyGAlhmsN7AfXbw.png",
+  "replace": [
+   {
+    "find": "Yearly progress",
+    "to": "Recovered by month",
+    "weight": 600
+   }
+  ]
+ }
+]

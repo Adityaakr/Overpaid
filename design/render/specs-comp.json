@@ -1,0 +1,230 @@
+[
+ {
+  "name": "cta",
+  "src": "ecsvVHaKUpgixFh7HmsoZYYI.png",
+  "from": "ombud",
+  "replace": [
+   {
+    "find": "Projected balance",
+    "to": "Money on the table",
+    "weight": 500,
+    "ls": -0.045,
+    "pad": 3
+   },
+   {
+    "find": "No negative cash days expected",
+    "to": "8 vigils running, 3 need you",
+    "weight": 500
+   },
+   {
+    "find": "Next 30 days",
+    "to": "Last 6 months",
+    "weight": 400
+   },
+   {
+    "find": "Yearly progress",
+    "to": "Recovered by month",
+    "weight": 600
+   }
+  ]
+ },
+ {
+  "name": "nuwg",
+  "src": "NuWg5aIArrlBZcGfM8DjwwGPzTU.png",
+  "from": "ombud",
+  "ocrScale": 2,
+  "replace": [
+   {
+    "find": "Projected balance",
+    "to": "Money on the table",
+    "weight": 500,
+    "ls": -0.045,
+    "pad": 3
+   },
+   {
+    "rect": [
+     345,
+     250,
+     300,
+     26
+    ],
+    "find": "No negative cash days expected",
+    "to": "8 vigils running, 3 need you",
+    "weight": 500,
+    "size": 19.5,
+    "baseline": 269
+   },
+   {
+    "find": "Next 30 days",
+    "to": "Last 6 months",
+    "weight": 400
+   },
+   {
+    "find": "Yearly progress",
+    "to": "Recovered by month",
+    "weight": 600
+   }
+  ]
+ },
+ {
+  "name": "pvhc",
+  "src": "pVhCvoaWzVe0jBDDk8jH4KFVnE.png",
+  "from": "ombud",
+  "ocrScale": 2,
+  "replace": [
+   {
+    "find": "Progress",
+    "to": "Recoveries",
+    "weight": 500,
+    "ls": -0.045,
+    "pad": 3
+   },
+   {
+    "find": "Year 2025",
+    "to": "Year 2026",
+    "weight": 400
+   },
+   {
+    "rect": [
+     345,
+     250,
+     300,
+     26
+    ],
+    "find": "No negative cash days expected",
+    "to": "8 vigils running, 3 need you",
+    "weight": 500,
+    "size": 19.5,
+    "baseline": 269
+   },
+   {
+    "find": "Yearly progress",
+    "to": "Recovered by month",
+    "weight": 600
+   }
+  ]
+ },
+ {
+  "name": "rw7s",
+  "src": "rW7spDR9MBaWCOSwrBC32sdFf4Y.png",
+  "from": "ombud",
+  "ocrScale": 2,
+  "replace": [
+   {
+    "find": "All Sources",
+    "to": "All merchants",
+    "weight": 400
+   },
+   {
+    "find": "Sources",
+    "nth": 1,
+    "to": "Vigils",
+    "weight": 500,
+    "ls": -0.045,
+    "pad": 3
+   },
+   {
+    "find": "All short-term obligations covered",
+    "to": "All vigils healthy",
+    "weight": 500
+   },
+   {
+    "find": "Expenses",
+    "to": "Subscriptions",
+    "weight": 500
+   },
+   {
+    "find": "Net Cash Inflow",
+    "to": "Recovered",
+    "weight": 600
+   },
+   {
+    "find": "Burn Rate",
+    "to": "Success rate",
+    "weight": 500
+   },
+   {
+    "find": "Buffer",
+    "to": "In escrow",
+    "weight": 500,
+    "rect": [
+     908,
+     500,
+     46,
+     16
+    ],
+    "size": 16,
+    "baseline": 513
+   },
+   {
+    "find": "Emergency reserve",
+    "to": "Held by contract",
+    "weight": 400,
+    "rect": [
+     906,
+     520,
+     108,
+     18
+    ],
+    "size": 12.6,
+    "baseline": 532
+   },
+   {
+    "rect": [
+     291,
+     523,
+     98,
+     32
+    ],
+    "find": "42,860",
+    "to": "1,284",
+    "weight": 400,
+    "size": 34,
+    "baseline": 552,
+    "ls": -0.03
+   },
+   {
+    "rect": [
+     928,
+     620,
+     100,
+     32
+    ],
+    "find": "68.000",
+    "to": "186",
+    "weight": 400,
+    "size": 33,
+    "baseline": 648,
+    "ls": -0.03
+   }
+  ]
+ },
+ {
+  "name": "hero",
+  "src": "UPhXE6XSMmFsFl3JKZMvgOx6Bc.png",
+  "replace": [
+   {
+    "find": "Projected balance",
+    "to": "Money on the table",
+    "weight": 500,
+    "ls": -0.045,
+    "pad": 3
+   },
+   {
+    "find": "No negative cash days expected",
+    "to": "8 vigils running, 3 need you",
+    "weight": 500
+   },
+   {
+    "find": "Next 30 days",
+    "to": "Last 6 months",
+    "weight": 400
+   },
+   {
+    "find": "Yearly progress",
+    "to": "Recovered by month",
+    "weight": 600
+   }
+  ]
+ }
+]

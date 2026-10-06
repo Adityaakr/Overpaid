@@ -1,0 +1,256 @@
+0 | home [$control__title] | AI-Powered Finance
+1 | home [$control__border] | 0px solid var(--token-92f79d8c-5684-4d83-98a0-358c9a114f12)
+2 | home [$control__radius] | 500px
+3 | home | Know your cash. Plan with AI.
+4 | home | Stay on top of every transaction, invoice, and forecast in one clean view.
+5 | home [$control__title] | Get started
+6 | home [$control__newTab] | false
+7 | home | Trusted by solopreneurs
+8 | home | Trusted by solopreneurs, startups and enterprise
+9 | home [$control__title] | Latest case study
+10 | home | Makro is a financial clarity platform for founders and small teams that helps you understand cash and forecast what’s next.
+11 | home [$control__title] | Predict your income
+12 | home [$control__description] | Cashflow forecast
+13 | home [$control__title] | Control spending
+14 | home [$control__description] | Smart Expense Sorting
+15 | home [$control__title] | See what matters
+16 | home [$control__description] | Insights & Signals
+17 | home [$control__title] | Projected balance & runway
+18 | home | See where your cash is heading before it becomes a problem.
+19 | home | Track projected balances and runway early, without spreadsheets or guesswork.
+20 | home | No more cash surprises at the end of the month
+21 | home [$control__title] | Liquidity & risk overview
+22 | home | See what actually drives your revenue.
+23 | home | Understand which accounts, streams, and patterns generate real cash impact.
+24 | home | No more unclear or blended revenue sources.
+25 | home [$control__title] | Commitments & burn
+26 | home | Know what you’ve already committed to
+27 | home | See recurring costs, upcoming payments, and contract obligations before they hit your balance.
+28 | home | No more “we forgot this renewal” moments.
+29 | home [$control__title] | Progress over time
+30 | home | Track your company progress over time.
+31 | home | Makro shows growth, momentum, and long-term progress without manual reporting.
+32 | home | No more manual tracking of business progress.
+33 | home [$control__headingText] | Tidy Build, unlimited power
+34 | home [$control__vector] | List Bullets
+35 | home [$control__title] | Sort
+36 | home | Smart Expenses
+37 | home | AI automatically groups every transaction into clear, accurate categories
+38 | home [$control__title] | Connect
+39 | home | Bank Sync
+40 | home | Auto-imported, deduped, always current
+41 | home | Wire Transfer
+42 | home | 1 min ago
+43 | home | +$
+44 | home | 1,250
+45 | home [$control__title] | Control
+46 | home | Daily AI Insights
+47 | home | Get a brief AI summary of your top financial changes
+48 | home [$control__stat] | +15%
+49 | home [$control__statTitle] | Balance Increase
+50 | home [$control__stat2] | $1,240
+51 | home [$control__stat2Title] | Potential Savings
+52 | home [$control__stat3Title] | Actions Found
+53 | home [$control__vector] | Call Bell
+54 | home [$control__vector2] | Ambulance
+55 | home [$control__vector3] | Disco Ball
+56 | home [$control__vector4] | Dribbble Logo
+57 | home [$control__vector5] | Globe
+58 | home [$control__vector6] | Airplane
+59 | home [$control__vector7] | Money Wavy
+60 | home [$control__vector8] | Chart Bar
+61 | home [$control__vector9] | Angular Logo
+62 | home [$control__vector10] | Approximate Equals
+63 | home [$control__vector11] | Carrot
+64 | home [$control__vector12] | Armchair
+65 | home [$control__title] | Track
+66 | home | Invoice Status
+67 | home | Track paid, pending, and overdue invoices in one clean view
+68 | home [$control__title] | Mira Studio
+69 | home [$control__service] | Monthly retainer
+70 | home [$control__price] | $1,200
+71 | home [$control__invoice] | #002-12
+72 | home [$control__status] | Paid
+73 | home [$control__border] | 1px solid var(--token-63179b8e-7207-4483-969d-30dad423295a)
+74 | home [$control__title] | Silver Desk
+75 | home [$control__service] | Brand identity package
+76 | home [$control__price] | $550
+77 | home [$control__invoice] | #003-12
+78 | home [$control__status] | Overdue
+79 | home [$control__title] | Loft & Co
+80 | home [$control__service] | Web design and development
+81 | home [$control__price] | $1200
+82 | home [$control__status] | Pending
+83 | home [$control__invoice] | #004-12
+84 | home [$control__title] | Plan
+85 | home | Upcoming Bills
+86 | home | Identified from recurring tools
+87 | home [$control__direction] | Left
+88 | home [$control__autoPlay] | true
+89 | home [$control__align] | center
+90 | home [$control__padding] | 20px 80px 26px 80px
+91 | home [$control__title] | Protect
+92 | home | Anomaly Detection
+93 | home | Unusual charge caught early
+94 | home | Stripe fee spike
+95 | home | Now:
+96 | home | $486
+97 | home | Avg:
+98 | home | $120
+99 | home | Mark as expected
+100 | home [$control__eyebrowText] | Built for Clarity
+101 | home [$control__headingText] | Financial insight, finally simple.
+102 | home [$control__subheadingText] | Connect your accounts once and watch everything update in real time. No spreadsheets, no exports, no waiting.
+103 | home [$control__vector] | Eye
+104 | home [$control___1Heading] | Visibility
+105 | home [$control___1Text] | See all accounts, cards, and transactions in one unified view.
+106 | home [$control___2Heading] | Forecasting
+107 | home [$control___2Text] | Know your runway and predict shortfalls before they hit.
+108 | home [$control___3Heading] | Automation
+109 | home [$control___3Text] | Bills, invoices, and categorization handled without manual work.
+110 | home [$control__title] | Pricing
+111 | home | Your smart finance assistant,
+112 | home | starting free
+113 | home | Simple plans for founders and teams. No contracts, no hidden fees. Upgrade, downgrade, or cancel anytime.
+114 | home [$control__title] | Testimonials
+115 | home | Customer Spotlight
+116 | home [$control__prevButton] | ButtonPrev
+117 | home [$control__nextButton] | ButtonNext
+118 | home [$control__progressAlign] | Right
+119 | home [$control__title] | FAQ
+120 | home | We have the
+121 | home | answers
+122 | home [$control__category1Name] | General
+123 | home [$control__category3Name] | Setup & integrations
+124 | home [$control__category4Name] | Security and privacy
+125 | home [$control__title] | Blog
+126 | home | Latest insights
+127 | home | Learn how to manage cash, risk, and growth without guesswork.
+128 | home [$control__title] | Visit Blog
+129 | slot [$control__title] | Operations
+130 | slot [$control__border] | 0px solid rgb(85, 73, 128)
+131 | slot [$control__radius] | 40px
+132 | slot [$control__title] | Income
+133 | slot [$control__title] | Software
+134 | slot [$control__title] | Marketing
+135 | slot [$control__title] | Rent
+136 | slot [$control__title] | Utility
+137 | slot [$control__title] | Taxes & Fees
+138 | slot [$control__logo] | Logo 1
+139 | slot [$control__companyName] | Atlas Labs
+140 | slot [$control__review] | We used Makro to finally understand our cash position without spreadsheets. Forecasts that used to take hours now update automatically, and 
+141 | slot [$control__founder] | Alex Morgan
+142 | slot [$control__revenue] | $150-250k
+143 | slot [$control__useCases] | Cashflow forecasting, expense control, runway planning
+144 | slot [$control__role] | Founder & CEO
+145 | slot [$control__price] | $220
+146 | slot [$control__title] | Cloud Hosting
+147 | slot [$control__price] | $320
+148 | slot [$control__title] | Design Tool
+149 | slot [$control__price] | $18
+150 | slot [$control__title] | Productivity
+151 | slot [$control__companyName] | Northway Studio
+152 | slot [$control__review] | We replaced our manual cash tracking with Makro in the first week. What used to live across multiple spreadsheets is now one clear source of
+153 | slot [$control__founder] | Daniel Reed
+154 | slot [$control__revenue] | $80–120k
+155 | slot [$control__useCases] | Cashflow visibility, budget planning, decision support
+156 | slot [$control__companyName] | Brightline Tech
+157 | slot [$control__review] | Makro helped us spot cash gaps early and act before they became a problem. The forecasting alone paid for itself — we avoided a costly mista
+158 | slot [$control__founder] | Emily Carter
+159 | slot [$control__revenue] | $200–350k
+160 | slot [$control__useCases] | Cashflow forecasting, risk prevention, runway monitoring
+161 | slot [$control__companyName] | Kinetic Agency
+162 | slot [$control__review] | Before Makro, we were flying blind between invoices and expenses. Now we see exactly how long our runway is and what each decision does to i
+163 | slot [$control__founder] | Lucas Meyer
+164 | slot [$control__revenue] | $60–90k
+165 | slot [$control__useCases] | Expense control, runway planning, financial clarity
+166 | slot [$control__role] | Managing Director
+167 | slot | ← This will look good on preview :)
+168 | slot | We've made a custom-coded gallery component with nice, smooth drag interaction and a progress bar, but it won't show the mobile variant of t
+169 | slot | No worries, everything looks and feels great on the preview and the live website.
+170 | layout | Ready to take control of your numbers?
+171 | layout | Makro keeps your cashflow, invoices, and expenses clear, so you always know what’s next.
+172 | layout [$control__title] | Get Started
+173 | layout | © 2026 Makro LLC. All Rights reserved.
+174 | layout | Index
+175 | layout | Go to top
+176 | layout | Features
+177 | layout | Company
+178 | layout | About us
+179 | layout | Updates
+180 | layout | Contact
+181 | layout | Social
+182 | layout | X / Twitter
+183 | layout | Facebook
+184 | layout | Instagram
+185 | layout | Discord
+186 | layout | Legal
+187 | layout | Terms of Use
+188 | layout | Privacy Policy
+189 | layout | Cookie policy
+190 | layout | Makro.
+191 | layout [$control__orientation] | Vertical
+192 | layout [$control__snap] | null
+193 | layout [$control__border] | 1px solid rgba(255, 255, 255, 0.07)
+194 | layout [$control__title] | Makro — AI SaaS Template
+195 | layout [$control__about] | Full
+196 | layout [$control__caseStudies] | Off
+197 | layout [$control__basicPrice] | $129
+198 | layout [$control__fullPrice] | $179
+199 | layout [$control__unlimPrice] | $299
+200 | C:Content/Tag var | Sorting
+201 | C:Content/benefit var | Cashflow Forecast
+202 | C:Pricing/Pricing Feature var | Everything in Makro Pro
+203 | C:Cards/Gallery Item var | Success
+204 | C:Cards/Gallery Item var | Drive successful outcomes. Grow revenue.
+205 | C:Sections/Gallery | Master your cash flow.
+206 | C:Sections/Pricing Section | Annual
+207 | C:Sections/Pricing Section | Monthly
+208 | C:Sections/Pricing Section | Makro Free
+209 | C:Sections/Pricing Section | Best for startups that want clarity, speed, and automation.
+210 | C:Sections/Pricing Section [$control__su | /mo
+211 | C:Sections/Pricing Section | per workspace
+212 | C:Sections/Pricing Section [$control__ti | Try free for 14 days
+213 | C:Sections/Pricing Section [$control__ti | Unified financial dashboard
+214 | C:Sections/Pricing Section [$control__bo | 0px solid var(--token-63179b8e-7207-4483-969d-30dad423295a)
+215 | C:Sections/Pricing Section [$control__pa | 12px 0px 12px 0px
+216 | C:Sections/Pricing Section [$control__ti | Income & expense tracking
+217 | C:Sections/Pricing Section [$control__ti | Basic cashflow overview
+218 | C:Sections/Pricing Section [$control__ti | Monthly summaries
+219 | C:Sections/Pricing Section [$control__ti | Up to 1 workspace
+220 | C:Sections/Pricing Section | Makro Pro
+221 | C:Sections/Pricing Section [$control__ti | Everything in Makro Free
+222 | C:Sections/Pricing Section [$control__ti | Cashflow forecasting
+223 | C:Sections/Pricing Section [$control__ti | Invoice & revenue tracking
+224 | C:Sections/Pricing Section [$control__ti | Smart insights & alerts
+225 | C:Sections/Pricing Section [$control__ti | Up to 5 workspaces
+226 | C:Sections/Pricing Section | Makro Premium
+227 | C:Sections/Pricing Section [$control__ti | Advanced forecasting models
+228 | C:Sections/Pricing Section [$control__ti | Scenario planning & simulations
+229 | C:Sections/Pricing Section [$control__ti | API access
+230 | C:Sections/Pricing Section [$control__ti | Dedicated onboarding
+231 | C:Sections/Pricing Section [$control__ti | Enterprise plans
+232 | C:Sections/Pricing Section | Get custom pricing
+233 | C:Sections/Pricing Section | If you manage high transaction volumes, multiple entities, or require custom integrations, our team can tailor Makro to your needs.
+234 | C:Sections/Pricing Section [$control__ti | Contact sales
+235 | C:Content/Tab var | New
+236 | C:Content/Tabs [$control__title] | Improvements
+237 | C:Content/Tabs [$control__title] | Fixes
+238 | C:Content/Answer Question var | Accordion Title
+239 | C:Cards/Blog Card var | Cash Flow Forecasting for Busy Founders: A Practical 30-Minute Setup
+240 | C:Cards/Blog Card var | Jan 22, 2025
+241 | C:Cards/Blog Card | Read article
+242 | C:Navigation/Nav | Home
+243 | C:Sections/FAQ [$control__padding] | 24px 36px 24px 36px
+244 | C:Sections/FAQ [$control__radius] | 4px
+245 | C:Sections/FAQ [$control__title] | Let's connect
+246 | C:Sections/FAQ | Still have questions? We're here to help.
+247 | C:Sections/FAQ [$control__title] | Contact us
+248 | C:Sections/FAQ [$control__cURRENT] | Category
+249 | C:Animation and Effects/Rotating Circles | text
+250 | C:Animation and Effects/Rotating Circles | 2px solid rgb(255, 255, 255)
+251 | C:Cards/Testimonial | Monthly revenue tracked
+252 | C:Cards/Testimonial | Use cases
+253 | C:Pricing/Bills | in 1d
+254 | C:Buttons/Makro — Button — Form | Loading
+255 | C:Buttons/Makro — Button — Form | Error

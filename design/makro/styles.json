@@ -1,0 +1,637 @@
+{
+ "colors": [
+  {
+   "id": "aa303802-e5d1-4856-bfe5-30475052d91c",
+   "name": "Background",
+   "light": "rgb(53, 54, 59)",
+   "dark": null
+  },
+  {
+   "id": "63179b8e-7207-4483-969d-30dad423295a",
+   "name": "Background Alt",
+   "light": "rgb(235, 239, 245)",
+   "dark": null
+  },
+  {
+   "id": "42b4fbef-08cc-4d25-ac51-777c039675b0",
+   "name": "Text 100",
+   "light": "rgb(36, 36, 38)",
+   "dark": null
+  },
+  {
+   "id": "6a468a94-f17b-47df-8134-c371f0077abe",
+   "name": "Text 75",
+   "light": "rgba(36, 36, 38, 0.75)",
+   "dark": null
+  },
+  {
+   "id": "92f79d8c-5684-4d83-98a0-358c9a114f12",
+   "name": "Text 50",
+   "light": "rgba(36, 36, 38, 0.5)",
+   "dark": null
+  },
+  {
+   "id": "ccbbe51b-ea16-4c07-831c-16f31cf5f239",
+   "name": "Background",
+   "light": "rgb(255, 255, 255)",
+   "dark": null
+  },
+  {
+   "id": "36935f7d-760a-4429-b323-0396f8a97bcd",
+   "name": "Background Alt",
+   "light": "rgb(77, 79, 87)",
+   "dark": null
+  },
+  {
+   "id": "ff87850c-0097-46f6-ba62-c7ecc38e2ea8",
+   "name": "Text 100",
+   "light": "rgb(255, 255, 255)",
+   "dark": null
+  },
+  {
+   "id": "e97f2846-26b3-4819-b261-72d245d9e4a8",
+   "name": "Text 75",
+   "light": "rgba(255, 255, 255, 0.75)",
+   "dark": null
+  },
+  {
+   "id": "3ab14806-3b75-490f-ae8f-3e499c4989e2",
+   "name": "Text 50",
+   "light": "rgba(255, 255, 255, 0.5)",
+   "dark": null
+  },
+  {
+   "id": "7e11cd7b-1f8d-453a-8a18-e1b73ecfe9db",
+   "name": "Accent Purple",
+   "light": "rgb(217, 213, 220)",
+   "dark": null
+  },
+  {
+   "id": "e58702db-71be-4c4d-a244-dd4596489905",
+   "name": "Purple +1",
+   "light": "rgb(192, 173, 255)",
+   "dark": null
+  },
+  {
+   "id": "95bdb8c1-3359-4b15-b03d-2c65d8a0479b",
+   "name": "Accent Neon",
+   "light": "rgb(184, 222, 255)",
+   "dark": null
+  },
+  {
+   "id": "6db6a2b6-0392-4d90-bf57-758c18db45c7",
+   "name": "Accent Orange",
+   "light": "rgb(250, 233, 230)",
+   "dark": null
+  },
+  {
+   "id": "d1ac9da9-58e1-4877-b3a5-7e8e0fd3542f",
+   "name": "Accent Blu",
+   "light": "rgb(88, 113, 138)",
+   "dark": null
+  },
+  {
+   "id": "dbe2c2e3-57cd-4cb1-9c18-3b13c4096349",
+   "name": "Neon",
+   "light": "rgb(217, 255, 92)",
+   "dark": null
+  },
+  {
+   "id": "17299a9c-161b-4511-9892-d502c5e8cbba",
+   "name": "Text 25",
+   "light": "rgba(36, 36, 38, 0.25)",
+   "dark": null
+  },
+  {
+   "id": "83f5d793-4653-4f15-833c-f9a134658a89",
+   "name": "Accent Coral",
+   "light": "rgb(224, 197, 182)",
+   "dark": null
+  },
+  {
+   "id": "64565f9b-60ef-4ca9-8d38-1d485a359659",
+   "name": "Accent Graphite",
+   "light": "rgb(165, 178, 207)",
+   "dark": null
+  },
+  {
+   "id": "ede42a44-f284-42e7-9990-6df6ce82f708",
+   "name": "Nav BG",
+   "light": "rgba(255, 255, 255, 0.8)",
+   "dark": null
+  },
+  {
+   "id": "527adac9-b79f-4ccf-ae17-cef0a1e1a485",
+   "name": "Transparent",
+   "light": "rgba(255, 255, 255, 0)",
+   "dark": null
+  },
+  {
+   "id": "bd26f2b0-4e78-4586-a834-f474800588bd",
+   "name": "UI Shadow",
+   "light": "rgba(36, 55, 105, 0.18)",
+   "dark": null
+  }
+ ],
+ "texts": [
+  {
+   "id": "kR1lb6Vql",
+   "name": "Heading 1",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "64px",
+   "lh": "1.25em",
+   "ls": "-0.04em",
+   "color": "rgb(36, 36, 38)",
+   "tag": "h1",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "64px",
+     "lh": "1.25em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 1024,
+     "size": "52px",
+     "lh": "1.25em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 810,
+     "size": "40px",
+     "lh": "1.25em",
+     "ls": "-0.04em"
+    }
+   ]
+  },
+  {
+   "id": "v0DsvVP7x",
+   "name": "Heading 1 Jumbo",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "88px",
+   "lh": "1.25em",
+   "ls": "-0.04em",
+   "color": "rgb(36, 36, 38)",
+   "tag": "h1",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "72px",
+     "lh": "1.25em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 1024,
+     "size": "72px",
+     "lh": "1.25em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 810,
+     "size": "48px",
+     "lh": "1.25em",
+     "ls": "-0.04em"
+    }
+   ]
+  },
+  {
+   "id": "RCLUelIUQ",
+   "name": "Heading 1 Blog",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "40px",
+   "lh": "1.25em",
+   "ls": "-0.04em",
+   "color": "rgb(36, 36, 38)",
+   "tag": "h1",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "64px",
+     "lh": "1.25em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 1024,
+     "size": "48px",
+     "lh": "1.25em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 810,
+     "size": "36px",
+     "lh": "1.25em",
+     "ls": "-0.04em"
+    }
+   ]
+  },
+  {
+   "id": "Oof_W50tw",
+   "name": "Heading 2",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "56px",
+   "lh": "1.2em",
+   "ls": "-0.04em",
+   "color": "rgb(0, 0, 0)",
+   "tag": "h2",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "48px",
+     "lh": "1.2em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 1024,
+     "size": "48px",
+     "lh": "1.2em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 810,
+     "size": "36px",
+     "lh": "1.2em",
+     "ls": "-0.04em"
+    }
+   ]
+  },
+  {
+   "id": "GX5Ilg8gz",
+   "name": "Heading 2 Blog",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "32px",
+   "lh": "1.4em",
+   "ls": "-0.04em",
+   "color": "rgb(0, 0, 0)",
+   "tag": "h2",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "36px",
+     "lh": "1.4em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 1024,
+     "size": "36px",
+     "lh": "1.4em",
+     "ls": "-0.04em"
+    },
+    {
+     "min": 810,
+     "size": "28px",
+     "lh": "1.4em",
+     "ls": "-0.04em"
+    }
+   ]
+  },
+  {
+   "id": "aWc_i4Jv8",
+   "name": "Heading 3",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "36px",
+   "lh": "1.25em",
+   "ls": "-0.03em",
+   "color": "rgb(36, 36, 38)",
+   "tag": "h3",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "32px",
+     "lh": "1.25em",
+     "ls": "-0.03em"
+    },
+    {
+     "min": 1024,
+     "size": "32px",
+     "lh": "1.25em",
+     "ls": "-0.03em"
+    },
+    {
+     "min": 810,
+     "size": "28px",
+     "lh": "1.25em",
+     "ls": "-0.03em"
+    }
+   ]
+  },
+  {
+   "id": "brXDZgmaB",
+   "name": "Heading 3 Blog",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "24px",
+   "lh": "1.25em",
+   "ls": "-0.03em",
+   "color": "rgb(0, 0, 0)",
+   "tag": "h3",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "36px",
+     "lh": "1.25em",
+     "ls": "-0.03em"
+    },
+    {
+     "min": 1024,
+     "size": "28px",
+     "lh": "1.25em",
+     "ls": "-0.03em"
+    },
+    {
+     "min": 810,
+     "size": "24px",
+     "lh": "1.25em",
+     "ls": "-0.03em"
+    }
+   ]
+  },
+  {
+   "id": "tjq8ws9eh",
+   "name": "Heading 4",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "32px",
+   "lh": "1.45em",
+   "ls": "-0.03em",
+   "color": "rgb(36, 36, 38)",
+   "tag": "h4",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "28px",
+     "lh": "1.45em",
+     "ls": "-0.03em"
+    },
+    {
+     "min": 1024,
+     "size": "28px",
+     "lh": "1.45em",
+     "ls": "-0.03em"
+    },
+    {
+     "min": 810,
+     "size": "24px",
+     "lh": "1.45em",
+     "ls": "-0.03em"
+    }
+   ]
+  },
+  {
+   "id": "oqXk9cAoX",
+   "name": "Heading 4 Blog",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "20px",
+   "lh": "1.65em",
+   "ls": "-0.02em",
+   "color": "rgb(36, 36, 38)",
+   "tag": "h4",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "28px",
+     "lh": "1.65em",
+     "ls": "-0.02em"
+    },
+    {
+     "min": 1024,
+     "size": "24px",
+     "lh": "1.65em",
+     "ls": "-0.02em"
+    },
+    {
+     "min": 810,
+     "size": "20px",
+     "lh": "1.65em",
+     "ls": "-0.02em"
+    }
+   ]
+  },
+  {
+   "id": "yn_apxLhm",
+   "name": "Heading 5",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "24px",
+   "lh": "1.5em",
+   "ls": "-0.02em",
+   "color": "rgba(36, 36, 38, 0.75)",
+   "tag": "h5",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "19px",
+     "lh": "1.5em",
+     "ls": "-0.02em"
+    },
+    {
+     "min": 1024,
+     "size": "20px",
+     "lh": "1.5em",
+     "ls": "-0.02em"
+    },
+    {
+     "min": 810,
+     "size": "20px",
+     "lh": "1.5em",
+     "ls": "-0.02em"
+    }
+   ]
+  },
+  {
+   "id": "mHPzr8Usi",
+   "name": "Heading 6",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "20px",
+   "lh": "1.4em",
+   "ls": "-0.02em",
+   "color": "rgb(53, 54, 59)",
+   "tag": "h6",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "18px",
+     "lh": "1.4em",
+     "ls": "-0.02em"
+    },
+    {
+     "min": 1024,
+     "size": "18px",
+     "lh": "1.4em",
+     "ls": "-0.02em"
+    },
+    {
+     "min": 810,
+     "size": "16px",
+     "lh": "1.4em",
+     "ls": "-0.02em"
+    }
+   ]
+  },
+  {
+   "id": "EWd9e4FBx",
+   "name": "Body",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "18px",
+   "lh": "1.5em",
+   "ls": "0px",
+   "color": "rgba(36, 36, 38, 0.75)",
+   "tag": "p",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "18px",
+     "lh": "1.5em",
+     "ls": "0px"
+    },
+    {
+     "min": 1024,
+     "size": "18px",
+     "lh": "1.5em",
+     "ls": "0px"
+    },
+    {
+     "min": 810,
+     "size": "16px",
+     "lh": "1.5em",
+     "ls": "0px"
+    }
+   ]
+  },
+  {
+   "id": "Rj9k4MYQI",
+   "name": "Handwrite",
+   "font": "BI;Havana/Regular/v0",
+   "family": "Havana",
+   "weight": 400,
+   "size": "48px",
+   "lh": "1em",
+   "ls": "-0.03em",
+   "color": "rgba(36, 36, 38, 0.5)",
+   "tag": "p",
+   "transform": "none",
+   "bps": []
+  },
+  {
+   "id": "NArFCTswD",
+   "name": "Button L",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "18px",
+   "lh": "1.5em",
+   "ls": "0px",
+   "color": "rgba(36, 36, 38, 0.75)",
+   "tag": "p",
+   "transform": "none",
+   "bps": [
+    {
+     "min": 1440,
+     "size": "18px",
+     "lh": "1.5em",
+     "ls": "0px"
+    },
+    {
+     "min": 1024,
+     "size": "16px",
+     "lh": "1.5em",
+     "ls": "0px"
+    },
+    {
+     "min": 810,
+     "size": "14px",
+     "lh": "1.5em",
+     "ls": "0px"
+    }
+   ]
+  },
+  {
+   "id": "MveAushDk",
+   "name": "Small",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "14px",
+   "lh": "1.5em",
+   "ls": "0px",
+   "color": "rgba(36, 36, 38, 0.75)",
+   "tag": "p",
+   "transform": "none",
+   "bps": []
+  },
+  {
+   "id": "BBiV4pnL5",
+   "name": "Extra Small",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "12px",
+   "lh": "1.5em",
+   "ls": "0px",
+   "color": "rgb(0, 0, 0)",
+   "tag": "p",
+   "transform": "none",
+   "bps": []
+  },
+  {
+   "id": "wcCLg2Vx4",
+   "name": "Button S",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "14px",
+   "lh": "1.5em",
+   "ls": "-0.01em",
+   "color": "rgb(0, 0, 0)",
+   "tag": "p",
+   "transform": "none",
+   "bps": []
+  },
+  {
+   "id": "S2n5mX2Kw",
+   "name": "Small Bullet List",
+   "font": "FR;InterDisplay",
+   "family": "Inter Display",
+   "weight": 400,
+   "size": "16px",
+   "lh": "2.5em",
+   "ls": "0px",
+   "color": "rgba(36, 36, 38, 0.75)",
+   "tag": "p",
+   "transform": "none",
+   "bps": []
+  }
+ ]
+}
