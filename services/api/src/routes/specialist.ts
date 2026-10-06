@@ -160,9 +160,10 @@ export async function followHires(db: Db, bus: Bus) {
       const active = await db.select().from(hires).where(inArray(hires.escrowState, ACTIVE_HIRE_STATES));
       for (const h of active) {
         if (!h.txLock) continue;
-        const job = (await fetch(`${SPECIALIST_URL}/jobs/by-tx/${h.txLock}`, { signal: AbortSignal.timeout(3000) })
+        const raw = await fetch(`${SPECIALIST_URL}/jobs/by-tx/${h.txLock}`, { signal: AbortSignal.timeout(3000) })
           .then((r) => (r.ok ? r.json() : null))
-          .catch(() => null)) as Job | null;
+          .catch(() => null);
+        const job = raw ? normaliseJob(raw) : null;
         if (!job) continue;
         const escrowState = ESCROW_FROM_JOB[job.status] ?? h.escrowState;
         const changed =
@@ -182,6 +183,23 @@ export async function followHires(db: Db, bus: Bus) {
     }
     await new Promise((r) => setTimeout(r, 4000));
   }
+}
+
+// The specialist's public job view (MIP-003 style, snake_case, nested escrow/result) -> our Job shape.
+function normaliseJob(j: any): Job {
+  return {
+    id: j.job_id ?? j.id,
+    status: j.detail_status ?? j.status,
+    error: j.error ?? null,
+    lockTx: j.escrow?.lockTx ?? j.lockTx,
+    resultHash: j.result?.result_hash ?? j.resultHash ?? null,
+    resultTx: j.escrow?.resultTx ?? j.resultTx ?? null,
+    collectTx: j.escrow?.collectTx ?? j.collectTx ?? null,
+    refundAuthTx: j.escrow?.refundAuthTx ?? j.refundAuthTx ?? null,
+    work: j.work
+      ? { claimId: j.work.claim_id ?? j.work.claimId ?? j.result?.claim_id ?? null, observedStatus: j.work.observed ?? null, amountCents: j.work.amountCents ?? null, statusUrl: j.result?.status_url ?? null }
+      : null,
+  };
 }
 
 async function verifyAndRecord(db: Db, bus: Bus, hireId: string, taskId: string, job: Job) {
