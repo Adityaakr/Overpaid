@@ -12,8 +12,9 @@ Built for the TOKEN2049 Origins Hackathon (Singapore, October 2026). Cardano pre
 |---|---|
 | **Find** | Parses `.eml`/`.mbox` receipts and a CSV or PDF statement, detects recurring charges, and builds one ledger: every line has a value, a reason and its source records. |
 | **Fix** | A fleet of browser agents works the ledger in parallel on the merchants' own sites. Irreversible steps wait for a one-tap approval. Every outcome is verified on the merchant's status page and saved as a hashed evidence bundle. |
-| **Hire** | Hard claims go to a specialist agent paid over **x402** into **Masumi** escrow. It submits its evidence hash on chain; Overpaid re-checks it before the fee releases. |
-| **Bargain** | Members lock refundable pledges in an **Aiken** contract. Providers send signed bids. One transaction pays the winner and refunds every member the difference. |
+| **Hire** | Hard claims go to a specialist agent paid over **x402** into **Masumi** escrow. It submits its evidence hash on chain. The fee releases at unlock time unless Overpaid disputes first, and Overpaid re-checks the evidence and disputes automatically if it doesn't match. |
+| **Bargain** | Members lock refundable pledges in an **Aiken** contract from their own wallet. Providers send signed bids. One transaction pays the winner and refunds every member the difference; after the deadline anyone can refund a pledge. |
+| **Fee** | Overpaid takes a success fee only on money that came back, paid by the user from their own wallet after the recovery is confirmed. |
 
 ## Architecture
 

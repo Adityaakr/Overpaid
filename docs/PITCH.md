@@ -10,11 +10,11 @@ Numbers marked (demo) come from the synthetic demo account and are shown as demo
 
 **0:45 Fix.** "Approve and fix." Eight browsers start, each on a merchant's own website. "Merchants make this hard on purpose: 76% of 642 subscription sites use at least one dark pattern. The agents go through the pause screen, the retention offer and the survey, and stop before anything irreversible. I approve with one tap." Counter climbs. "Every recovery is confirmed on the merchant's own status page, with an evidence hash."
 
-**1:30 Specialist on Cardano.** "One claim needs expertise: a four-hour flight delay the airline's form rejects unless you know the right category. Overpaid hires a specialist agent and pays it over x402 into Masumi's escrow on Cardano." Lock lands live. "The specialist files the claim, waits until the airline shows Compensation paid, and commits the evidence hash on chain. Overpaid re-checks it. The fee releases only if we don't dispute. Here is a hire from an hour ago, collected [tx]."
+**1:30 Specialist on Cardano.** "One claim needs expertise: a four-hour flight delay the airline's form rejects unless you know the right category. Overpaid hires a specialist agent and pays it over x402 into Masumi's escrow on Cardano." Lock lands live. "The specialist files the claim, waits until the airline shows Compensation paid, and commits the evidence hash on chain. Overpaid re-checks it; the fee releases at unlock time unless we dispute, and we dispute automatically if the evidence doesn't match. Here is a hire from an hour ago, collected [tx]."
 
 **2:15 Bargain.** "Some bills are just too high. Scan the QR." Phones pledge on chain. "Providers see real demand and bid. One transaction pays the winner and refunds every member the difference: [N] pledges, atomic." "Pledges sit in a script we hold no key to; anyone can refund them after the deadline."
 
-**2:45 Close.** "Muse works for Meta. Overpaid works for you. It takes a fee only on money that comes back, doesn't train on your data, and its agents announce themselves."
+**2:45 Close.** "Muse works for Meta. Overpaid works for you. It takes a fee only on money that comes back, paid from your own wallet after the recovery is confirmed, doesn't train on your data, and its agents announce themselves."
 
 ## Judge Q&A
 
