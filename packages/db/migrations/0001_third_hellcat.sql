@@ -1,0 +1,1 @@
+ALTER TABLE "tasks" ALTER COLUMN "cost_cents" SET DATA TYPE real;
