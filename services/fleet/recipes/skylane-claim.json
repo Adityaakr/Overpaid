@@ -1,0 +1,39 @@
+{
+  "id": "skylane-claim",
+  "title": "File a Skylane Air delay compensation claim",
+  "merchant": "skylane",
+  "vigil": "flight_compensation",
+  "allowedDomains": ["{{host}}"],
+  "entryUrl": "{{origin}}/",
+  "goal": "Booking {{bookingRef}} was delayed more than 3 hours. File a delay compensation claim for booking {{bookingRef}} for passenger {{passengerName}}, using exactly the delay category recorded on the booking's disruption details, with payout to the original card.",
+  "params": {
+    "bookingRef": { "description": "Skylane booking reference", "default": "SKX7Q2" },
+    "passengerName": { "description": "Passenger name as on the ticket", "default": "Alex Rivera" }
+  },
+  "hints": [
+    { "step": "manage", "hint": "Open Manage booking, then the booking.", "selector": "[data-testid=booking-link-{{bookingRef}}]" },
+    { "step": "category", "hint": "Expand 'Disruption details' and read the recorded delay reason; the claim must use that exact category.", "selector": "[data-testid=delay-reason]" },
+    { "step": "form", "hint": "Claim compensation: booking reference, passenger name, delay category, payout 'original card', tick the declaration.", "selector": "[data-testid=claim-compensation-link]" },
+    { "step": "payout", "hint": "The form defaults to a voucher: choose the original card. Never enter bank details.", "selector": "[data-testid=claim-payout-original_card]" },
+    { "step": "submit", "hint": "Submit claim is irreversible: request approval first.", "selector": "[data-testid=claim-submit]" }
+  ],
+  "successSignal": {
+    "statusUrl": "{{origin}}/manage/{{bookingRef}}",
+    "followLink": "[data-testid=existing-claim]",
+    "selector": "[data-testid=claim-status]",
+    "confirmationAttr": "data-claim-id",
+    "successValues": ["approved"],
+    "finalValues": ["paid", "voucher_issued"],
+    "waitSeconds": 5
+  },
+  "irreversibleSteps": [
+    { "id": "submit_claim", "description": "Submit the delay compensation claim to Skylane Air", "selector": "[data-testid=claim-submit]" }
+  ],
+  "evidenceCheckpoints": [
+    { "id": "delay", "description": "Booking page with the delay and recorded category" },
+    { "id": "claim", "description": "Claim status page" }
+  ],
+  "maxSteps": 40,
+  "maxSeconds": 300,
+  "scripted": "skylane-claim"
+}

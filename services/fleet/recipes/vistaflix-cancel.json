@@ -1,0 +1,36 @@
+{
+  "id": "vistaflix-cancel",
+  "title": "Cancel a forgotten Vistaflix plan",
+  "merchant": "vistaflix",
+  "vigil": "forgotten_subscription",
+  "allowedDomains": ["{{host}}"],
+  "entryUrl": "{{origin}}/",
+  "goal": "Cancel the Vistaflix plan with id {{planId}} on the user's account so it does not renew. Do not pause it and do not accept any discount or retention offer.",
+  "params": {
+    "planId": { "description": "Vistaflix plan id, e.g. vf-plan-premium or vf-plan-basic" }
+  },
+  "hints": [
+    { "step": "account", "hint": "Open Account from the top navigation to see the plans and their status.", "selector": "[data-testid=nav-account]" },
+    { "step": "settings", "hint": "Cancelling is under Settings, then Manage plan for this plan id.", "selector": "[data-testid=manage-plan-{{planId}}]" },
+    { "step": "cancel", "hint": "Click Cancel plan. A pause offer appears: choose the option that continues to cancel, not pause." },
+    { "step": "offer", "hint": "A 50% retention discount is offered: decline it." },
+    { "step": "survey", "hint": "A survey asks why: pick 'not watching enough' and continue." },
+    { "step": "confirm", "hint": "The final Confirm cancellation button is low contrast. It is irreversible: request approval first.", "selector": "[data-testid=confirm-cancellation]" }
+  ],
+  "successSignal": {
+    "statusUrl": "{{origin}}/account",
+    "selector": "[data-testid=\"plan-row-{{planId}}\"]",
+    "successValues": ["cancelled"],
+    "waitSeconds": 10
+  },
+  "irreversibleSteps": [
+    { "id": "confirm_cancellation", "description": "Confirm the Vistaflix cancellation", "selector": "[data-testid=confirm-cancellation]" }
+  ],
+  "evidenceCheckpoints": [
+    { "id": "plan_before", "description": "Account page showing the active plan" },
+    { "id": "confirmation", "description": "Cancellation confirmation with code" }
+  ],
+  "maxSteps": 40,
+  "maxSeconds": 300,
+  "scripted": "vistaflix-cancel"
+}

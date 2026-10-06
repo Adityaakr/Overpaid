@@ -1,0 +1,31 @@
+{
+  "name": "@overpaid/fleet",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Overpaid browser fleet: Playwright/AgentCore sessions, Claude agent loop, recipes, approvals, evidence. Holds no keys.",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env src/main.ts",
+    "start": "tsx --env-file-if-exists=../../.env src/main.ts",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.131.0",
+    "@aws-sdk/client-bedrock-runtime": "3.1146.0",
+    "@aws-sdk/credential-providers": "3.1146.0",
+    "@overpaid/shared": "workspace:*",
+    "bedrock-agentcore": "0.4.5",
+    "fastify": "^5.12.5",
+    "p-queue": "^9.3.3",
+    "pino": "^10.4.0",
+    "playwright": "1.63.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.3"
+  }
+}

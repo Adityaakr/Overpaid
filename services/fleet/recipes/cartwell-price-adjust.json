@@ -1,0 +1,38 @@
+{
+  "id": "cartwell-price-adjust",
+  "title": "Claim a Cartwell price-protection adjustment",
+  "merchant": "cartwell",
+  "vigil": "price_drop",
+  "allowedDomains": ["{{host}}"],
+  "entryUrl": "{{origin}}/",
+  "goal": "The price of order {{orderId}} dropped within Cartwell's 14-day price protection window. File a support request with reason 'price adjustment' for order {{orderId}} asking for the difference to be refunded to the original card (NOT store credit).",
+  "params": {
+    "orderId": { "description": "Cartwell order id whose price dropped, e.g. CW-4502 or CW-4511" }
+  },
+  "hints": [
+    { "step": "orders", "hint": "Open Orders, then the order; it shows what was paid and the current price.", "selector": "[data-testid=order-link-{{orderId}}]" },
+    { "step": "support", "hint": "Use 'Problem with this order? Contact support'.", "selector": "[data-testid=support-link]" },
+    { "step": "form", "hint": "Reason: price adjustment. Order: {{orderId}}. Mention the 14-day price protection in the details." },
+    { "step": "store_credit", "hint": "UNCHECK 'Accept store credit instead' so the refund goes to the card.", "selector": "[data-testid=support-store-credit]" },
+    { "step": "submit", "hint": "Submit request is irreversible: request approval first.", "selector": "[data-testid=support-submit]" }
+  ],
+  "successSignal": {
+    "statusUrl": "{{origin}}/orders/{{orderId}}",
+    "followLink": "a[href^=\"/support/tickets/\"]",
+    "selector": "[data-testid=ticket-status]",
+    "confirmationAttr": "data-ticket-id",
+    "successValues": ["under_review"],
+    "finalValues": ["price_adjustment_issued"],
+    "waitSeconds": 30
+  },
+  "irreversibleSteps": [
+    { "id": "submit_support_request", "description": "Submit the price-adjustment request to Cartwell", "selector": "[data-testid=support-submit]" }
+  ],
+  "evidenceCheckpoints": [
+    { "id": "price_drop", "description": "Order page with paid vs current price" },
+    { "id": "ticket", "description": "Support ticket status page" }
+  ],
+  "maxSteps": 40,
+  "maxSeconds": 300,
+  "scripted": "cartwell-price-adjust"
+}

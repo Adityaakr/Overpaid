@@ -1,0 +1,38 @@
+{
+  "id": "cartwell-duplicate",
+  "title": "Refund a duplicate Cartwell charge",
+  "merchant": "cartwell",
+  "vigil": "duplicate_charge",
+  "allowedDomains": ["{{host}}"],
+  "entryUrl": "{{origin}}/",
+  "goal": "Order {{orderId}} was charged twice. File a support request with reason 'duplicate charge' for order {{orderId}} asking for the duplicate to be refunded to the original card (NOT store credit).",
+  "params": {
+    "orderId": { "description": "Cartwell order id charged twice", "default": "CW-4417" }
+  },
+  "hints": [
+    { "step": "orders", "hint": "Open Orders, then the order, and check its payment history shows two charges.", "selector": "[data-testid=order-link-{{orderId}}]" },
+    { "step": "support", "hint": "Use 'Problem with this order? Contact support'.", "selector": "[data-testid=support-link]" },
+    { "step": "form", "hint": "Reason: duplicate charge. Order: {{orderId}}. Describe the duplicate charge in the details box." },
+    { "step": "store_credit", "hint": "The 'Accept store credit instead' box is pre-checked: UNCHECK it so the refund goes to the card.", "selector": "[data-testid=support-store-credit]" },
+    { "step": "submit", "hint": "Submit request is irreversible: request approval first.", "selector": "[data-testid=support-submit]" }
+  ],
+  "successSignal": {
+    "statusUrl": "{{origin}}/orders/{{orderId}}",
+    "followLink": "a[href^=\"/support/tickets/\"]",
+    "selector": "[data-testid=ticket-status]",
+    "confirmationAttr": "data-ticket-id",
+    "successValues": ["under_review"],
+    "finalValues": ["refund_issued"],
+    "waitSeconds": 30
+  },
+  "irreversibleSteps": [
+    { "id": "submit_support_request", "description": "Submit the duplicate-charge refund request to Cartwell", "selector": "[data-testid=support-submit]" }
+  ],
+  "evidenceCheckpoints": [
+    { "id": "two_charges", "description": "Order payment history with two charges" },
+    { "id": "ticket", "description": "Support ticket status page" }
+  ],
+  "maxSteps": 40,
+  "maxSeconds": 300,
+  "scripted": "cartwell-duplicate"
+}
