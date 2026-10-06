@@ -1,0 +1,52 @@
+X-Demo-Data: Synthetic. Demo merchant built for this hackathon.
+From: FitPulse Club <billing@fitpulse.demo>
+To: Alex Rivera <alex.rivera@demo.overpaid.test>
+Subject: FitPulse Club receipt for 25 May 2026
+Message-ID: <30b8b4523206cde536d3@fitpulse.demo>
+Date: Mon, 25 May 2026 07:46:10 +0000
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--_NmP-dde428e33630c54c-Part_1"
+
+----_NmP-dde428e33630c54c-Part_1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Payment received
+FitPulse Club
+
+Hi Alex,
+
+Plan: All-access monthly
+
+Billing date: 25 May 2026
+
+Amount charged: $59.00
+
+FitPulse Club is a demo =
+merchant built for this hackathon. Not a real company.
+----_NmP-dde428e33630c54c-Part_1
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang=3D"en"><head><meta=
+ charSet=3D"utf-8"/><title>FitPulse Club</title></head><body =
+style=3D"margin:0;background:#f4f4f5;font-family:Helvetica, Arial, =
+sans-serif;color:#18181b"><!--$--><!--html--><!--head--><!--body--><div =
+style=3D"display:none;max-height:0;overflow:hidden">Payment =
+received</div><table role=3D"presentation" width=3D"100%" cellPadding=3D"0"=
+ cellSpacing=3D"0"><tbody><tr><td align=3D"center" style=3D"padding:24px =
+12px"><div style=3D"max-width:560px;background:#ffffff;border-radius:8px;ov=
+erflow:hidden;text-align:left"><div style=3D"background:#334155;color:#fff;=
+padding:16px 24px;font-size:20px;font-weight:700">FitPulse Club</div><div =
+style=3D"padding:20px 24px;font-size:14px;line-height:22px"><p =
+style=3D"margin:0 0 10px">Hi Alex,</p><p style=3D"margin:0 0 =
+6px"><strong>Plan: </strong>All-access monthly</p><p style=3D"margin:0 0 =
+6px"><strong>Billing date: </strong>25 May 2026</p><p style=3D"margin:0 0 =
+6px"><strong>Amount charged: </strong>$59.00</p></div><div =
+style=3D"padding:12px 24px;font-size:11px;color:#71717a;border-top:1px =
+solid #e4e4e7"><p>FitPulse Club is a demo merchant built for this hackathon=
+. Not a real company.</p></div></div></td></tr></tbody></table><!=
+--/$--></body></html>
+----_NmP-dde428e33630c54c-Part_1--

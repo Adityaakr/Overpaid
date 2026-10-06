@@ -1,0 +1,28 @@
+{
+  "merchant": "cartwell",
+  "name": "Cartwell",
+  "asOf": "2026-10-06",
+  "currency": "USD",
+  "items": [
+    {
+      "sku": "CW-SKU-5F8877",
+      "name": "Merino travel hoodie",
+      "priceNow": 4999
+    },
+    {
+      "sku": "CW-SKU-B1829B",
+      "name": "Noise-cancelling headphones",
+      "priceNow": 16450
+    },
+    {
+      "sku": "CW-SKU-C07ADF",
+      "name": "Smart kettle",
+      "priceNow": 6450
+    },
+    {
+      "sku": "CW-SKU-8E8A79",
+      "name": "Desk lamp",
+      "priceNow": 3450
+    }
+  ]
+}

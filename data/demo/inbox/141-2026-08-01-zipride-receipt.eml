@@ -1,0 +1,51 @@
+X-Demo-Data: Synthetic. Demo merchant built for this hackathon.
+From: ZipRide <receipts@zipride.demo>
+To: Alex Rivera <alex.rivera@demo.overpaid.test>
+Subject: Your ZipRide trip receipt
+Message-ID: <f6bab2ec4ca7a51dd371@zipride.demo>
+Date: Sat, 01 Aug 2026 06:48:35 +0000
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--_NmP-543dba416f1fdcec-Part_1"
+
+----_NmP-543dba416f1fdcec-Part_1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+Thanks for riding
+ZipRide
+
+Thanks for riding with Merlin.
+
+Pickup: 624 Rose Skyway
+
+Drop-off: 5392 Commercial Road
+
+Total: $15.88
+
+ZipRide is a demo merchant built for this hackathon. Not a real company.
+----_NmP-543dba416f1fdcec-Part_1
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang=3D"en"><head><meta=
+ charSet=3D"utf-8"/><title>ZipRide</title></head><body =
+style=3D"margin:0;background:#f4f4f5;font-family:Helvetica, Arial, =
+sans-serif;color:#18181b"><!--$--><!--html--><!--head--><!--body--><div =
+style=3D"display:none;max-height:0;overflow:hidden">Thanks for =
+riding</div><table role=3D"presentation" width=3D"100%" cellPadding=3D"0" =
+cellSpacing=3D"0"><tbody><tr><td align=3D"center" style=3D"padding:24px =
+12px"><div style=3D"max-width:560px;background:#ffffff;border-radius:8px;ov=
+erflow:hidden;text-align:left"><div style=3D"background:#0891b2;color:#fff;=
+padding:16px 24px;font-size:20px;font-weight:700">ZipRide</div><div =
+style=3D"padding:20px 24px;font-size:14px;line-height:22px"><p =
+style=3D"margin:0 0 10px">Thanks for riding with Merlin.</p><p =
+style=3D"margin:0 0 6px"><strong>Pickup: </strong>624 Rose Skyway</p><p =
+style=3D"margin:0 0 6px"><strong>Drop-off: </strong>5392 Commercial =
+Road</p><p style=3D"margin:0 0 6px"><strong>Total: </strong>$15.=
+88</p></div><div style=3D"padding:12px 24px;font-size:11px;color:#71717a;bo=
+rder-top:1px solid #e4e4e7"><p>ZipRide is a demo merchant built for this =
+hackathon. Not a real company.</p></div></div></td></tr></tbody></table><!=
+--/$--></body></html>
+----_NmP-543dba416f1fdcec-Part_1--

@@ -1,0 +1,70 @@
+X-Demo-Data: Synthetic. Demo merchant built for this hackathon.
+From: Cartwell <orders@cartwell.demo>
+To: Alex Rivera <alex.rivera@demo.overpaid.test>
+Subject: Order confirmed: CW-4380
+Message-ID: <845dc349971fb648b0fe@cartwell.demo>
+Date: Fri, 14 Aug 2026 03:05:30 +0000
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--_NmP-bab353e6da0c12b6-Part_1"
+
+----_NmP-bab353e6da0c12b6-Part_1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+We received your order CW-4380
+Cartwell
+
+Hi Alex,
+
+Thanks for shopping with=
+ Cartwell. Your order is confirmed.
+
+Order number: CW-4380
+
+Order date: 14 August 2026
+
+Item: Desk lamp
+
+Quantity: 1
+
+Order total: $34.50
+
+Payment method: Visa ending 4417
+
+Cartwell price promise: if the price drops within 14 days of purchase, ask =
+us for the difference.
+
+Cartwell is a demo merchant built for this =
+hackathon. Not a real company.
+----_NmP-bab353e6da0c12b6-Part_1
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang=3D"en"><head><meta=
+ charSet=3D"utf-8"/><title>Cartwell</title></head><body =
+style=3D"margin:0;background:#f4f4f5;font-family:Helvetica, Arial, =
+sans-serif;color:#18181b"><!--$--><!--html--><!--head--><!--body--><div =
+style=3D"display:none;max-height:0;overflow:hidden">We received your order =
+CW-4380</div><table role=3D"presentation" width=3D"100%" cellPadding=3D"0" =
+cellSpacing=3D"0"><tbody><tr><td align=3D"center" style=3D"padding:24px =
+12px"><div style=3D"max-width:560px;background:#ffffff;border-radius:8px;ov=
+erflow:hidden;text-align:left"><div style=3D"background:#0f766e;color:#fff;=
+padding:16px 24px;font-size:20px;font-weight:700">Cartwell</div><div =
+style=3D"padding:20px 24px;font-size:14px;line-height:22px"><p =
+style=3D"margin:0 0 10px">Hi Alex,</p><p style=3D"margin:0 0 10px">Thanks =
+for shopping with Cartwell. Your order is confirmed.</p><p =
+style=3D"margin:0 0 6px"><strong>Order number: </strong>CW-4380</p><p =
+style=3D"margin:0 0 6px"><strong>Order date: </strong>14 August 2026</p><p =
+style=3D"margin:0 0 6px"><strong>Item: </strong>Desk lamp</p><p =
+style=3D"margin:0 0 6px"><strong>Quantity: </strong>1</p><p =
+style=3D"margin:0 0 6px"><strong>Order total: </strong>$34.50</p><p =
+style=3D"margin:0 0 6px"><strong>Payment method: </strong>Visa ending =
+4417</p><p style=3D"margin:0 0 10px">Cartwell price promise: if the price =
+drops within 14 days of purchase, ask us for the difference.</p></div><div =
+style=3D"padding:12px 24px;font-size:11px;color:#71717a;border-top:1px =
+solid #e4e4e7"><p>Cartwell is a demo merchant built for this hackathon. Not=
+ a real company.</p></div></div></td></tr></tbody></table><!=
+--/$--></body></html>
+----_NmP-bab353e6da0c12b6-Part_1--

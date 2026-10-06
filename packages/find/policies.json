@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "asOf": "2026-10-06",
+  "note": "Policy library for Find. Demo merchants are fictional (built for this hackathon); their terms here must match packages/shared/src/demo-world.ts (guarded by test/policies.test.ts).",
+  "merchants": {
+    "vistaflix": {
+      "name": "Vistaflix",
+      "kind": "subscription",
+      "returnWindowDays": null,
+      "priceProtectionDays": null,
+      "cancellation": { "path": "Account > Membership > Cancel plan", "url": "/account/membership", "effective": "end of billing period", "refundsLastCharge": false },
+      "claimTypes": ["cancel_subscription"],
+      "idleDays": 45
+    },
+    "cartwell": {
+      "name": "Cartwell",
+      "kind": "retail",
+      "returnWindowDays": 30,
+      "priceProtectionDays": 14,
+      "duplicateChargeWindowDays": 3,
+      "cancellation": null,
+      "claimTypes": ["refund_duplicate_charge", "price_adjustment", "return"]
+    },
+    "parcelo": {
+      "name": "Parcelo Market",
+      "kind": "marketplace",
+      "returnWindowDays": 15,
+      "priceProtectionDays": null,
+      "nonDeliveryWaitingDays": 7,
+      "cancellation": null,
+      "claimTypes": ["non_delivery_claim", "return"]
+    },
+    "skylane": {
+      "name": "Skylane Air",
+      "kind": "airline",
+      "returnWindowDays": null,
+      "priceProtectionDays": null,
+      "cancellation": null,
+      "claimTypes": ["delay_compensation"],
+      "compensation": {
+        "needsSpecialist": true,
+        "qualifyingCategories": ["carrier responsibility", "technical", "crew", "operational"],
+        "excludedCategories": ["weather", "air traffic control", "security", "extraordinary circumstances", "strike by third party"],
+        "rules": [{ "minDelayMinutes": 180, "amount": 40000, "currency": "USD", "label": "Delay of 3 hours or more, carrier responsibility" }]
+      }
+    },
+    "globeroam": {
+      "name": "GlobeRoam eSIM",
+      "kind": "bill",
+      "returnWindowDays": null,
+      "priceProtectionDays": null,
+      "cancellation": { "path": "My plans > Auto-renew > Turn off", "url": "/plans", "effective": "end of cycle", "refundsLastCharge": false },
+      "claimTypes": ["join_bloc"],
+      "marketReferences": [{ "plan": "Asia 20 GB", "item": "esim-asia-20gb", "monthly": 1500, "currency": "USD", "source": "Median of the fictional eSIM provider agents' list prices (services/providers)" }],
+      "aboveMarketTolerance": 0.1
+    },
+    "tunewave": {
+      "name": "Tunewave",
+      "kind": "subscription",
+      "returnWindowDays": null,
+      "priceProtectionDays": null,
+      "cancellation": { "path": "Account > Plan > Cancel", "url": "/account", "effective": "end of billing period", "refundsLastCharge": false },
+      "claimTypes": ["cancel_subscription"],
+      "idleDays": 45,
+      "marketReferences": [{ "plan": "Premium Individual", "item": "music-streaming-individual", "monthly": 1099, "currency": "USD", "source": "Typical individual music streaming price" }]
+    },
+    "fitpulse": {
+      "name": "FitPulse Club",
+      "kind": "subscription",
+      "returnWindowDays": null,
+      "priceProtectionDays": null,
+      "cancellation": { "path": "Front desk or app > Membership > Freeze or cancel", "url": "/membership", "effective": "30 days notice", "refundsLastCharge": false },
+      "claimTypes": ["cancel_subscription"],
+      "idleDays": 30
+    },
+    "lumen-mobile": {
+      "name": "Lumen Mobile",
+      "kind": "bill",
+      "returnWindowDays": null,
+      "priceProtectionDays": null,
+      "cancellation": { "path": "Call or chat to port out", "url": "/support", "effective": "end of cycle", "refundsLastCharge": false },
+      "claimTypes": ["join_bloc"],
+      "marketReferences": [{ "plan": "SIM Only 50 GB", "item": "sim-only-50gb", "monthly": 4200, "currency": "USD", "source": "Median SIM-only 50 GB price" }],
+      "aboveMarketTolerance": 0.1
+    },
+    "brightgrid": {
+      "name": "Brightgrid Energy",
+      "kind": "utility",
+      "returnWindowDays": null,
+      "priceProtectionDays": null,
+      "cancellation": null,
+      "claimTypes": []
+    }
+  }
+}

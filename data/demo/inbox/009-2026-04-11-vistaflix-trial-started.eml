@@ -1,0 +1,67 @@
+X-Demo-Data: Synthetic. Demo merchant built for this hackathon.
+From: Vistaflix <hello@vistaflix.demo>
+To: Alex Rivera <alex.rivera@demo.overpaid.test>
+Subject: Your 7-day Vistaflix free trial has started
+Message-ID: <4abb6680c9f58ec18c93@vistaflix.demo>
+Date: Sat, 11 Apr 2026 06:48:02 +0000
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--_NmP-ff201ecd57908978-Part_1"
+
+----_NmP-ff201ecd57908978-Part_1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Enjoy 7 days free
+Vistaflix
+
+Hi Alex,
+
+Welcome to Vistaflix. Your free =
+trial has started.
+
+Plan: Basic with ads
+
+Subscription ID: vf-plan-basic
+
+Trial started: 11 April 2026
+
+Trial ends: 18 April 2026
+
+Price after trial: $6.99 per month
+
+We will charge your card automatically =
+when the trial ends unless you cancel.
+
+Vistaflix is a demo merchant built =
+for this hackathon. Not a real company.
+----_NmP-ff201ecd57908978-Part_1
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang=3D"en"><head><meta=
+ charSet=3D"utf-8"/><title>Vistaflix</title></head><body =
+style=3D"margin:0;background:#f4f4f5;font-family:Helvetica, Arial, =
+sans-serif;color:#18181b"><!--$--><!--html--><!--head--><!--body--><div =
+style=3D"display:none;max-height:0;overflow:hidden">Enjoy 7 days =
+free</div><table role=3D"presentation" width=3D"100%" cellPadding=3D"0" =
+cellSpacing=3D"0"><tbody><tr><td align=3D"center" style=3D"padding:24px =
+12px"><div style=3D"max-width:560px;background:#ffffff;border-radius:8px;ov=
+erflow:hidden;text-align:left"><div style=3D"background:#b91c1c;color:#fff;=
+padding:16px 24px;font-size:20px;font-weight:700">Vistaflix</div><div =
+style=3D"padding:20px 24px;font-size:14px;line-height:22px"><p =
+style=3D"margin:0 0 10px">Hi Alex,</p><p style=3D"margin:0 0 10px">Welcome =
+to Vistaflix. Your free trial has started.</p><p style=3D"margin:0 0 =
+6px"><strong>Plan: </strong>Basic with ads</p><p style=3D"margin:0 0 =
+6px"><strong>Subscription ID: </strong>vf-plan-basic</p><p =
+style=3D"margin:0 0 6px"><strong>Trial started: </strong>11 April =
+2026</p><p style=3D"margin:0 0 6px"><strong>Trial ends: </strong>18 April =
+2026</p><p style=3D"margin:0 0 6px"><strong>Price after trial: </strong>$6.=
+99 per month</p><p style=3D"margin:0 0 10px">We will charge your card =
+automatically when the trial ends unless you cancel.</p></div><div =
+style=3D"padding:12px 24px;font-size:11px;color:#71717a;border-top:1px =
+solid #e4e4e7"><p>Vistaflix is a demo merchant built for this hackathon. =
+Not a real company.</p></div></div></td></tr></tbody></table><!=
+--/$--></body></html>
+----_NmP-ff201ecd57908978-Part_1--

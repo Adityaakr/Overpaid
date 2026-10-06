@@ -1,0 +1,59 @@
+X-Demo-Data: Synthetic. Demo merchant built for this hackathon.
+From: FreshMart <receipts@freshmart.demo>
+To: Alex Rivera <alex.rivera@demo.overpaid.test>
+Subject: Your FreshMart online order receipt
+Message-ID: <87b05c39d099e65b3a9e@freshmart.demo>
+Date: Sat, 19 Sep 2026 06:32:31 +0000
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--_NmP-0706310f9512b518-Part_1"
+
+----_NmP-0706310f9512b518-Part_1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+Thanks for shopping
+FreshMart
+
+Hi Alex,
+
+- Chicken thighs
+
+- Greek yoghurt
+
+- Bananas
+
+- Sourdough loaf
+
+Delivery address: 71965 Old Military Road
+
+Total: $61.87
+
+FreshMart is a demo merchant built for this hackathon. Not a real company.
+----_NmP-0706310f9512b518-Part_1
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang=3D"en"><head><meta=
+ charSet=3D"utf-8"/><title>FreshMart</title></head><body =
+style=3D"margin:0;background:#f4f4f5;font-family:Helvetica, Arial, =
+sans-serif;color:#18181b"><!--$--><!--html--><!--head--><!--body--><div =
+style=3D"display:none;max-height:0;overflow:hidden">Thanks for =
+shopping</div><table role=3D"presentation" width=3D"100%" cellPadding=3D"0"=
+ cellSpacing=3D"0"><tbody><tr><td align=3D"center" style=3D"padding:24px =
+12px"><div style=3D"max-width:560px;background:#ffffff;border-radius:8px;ov=
+erflow:hidden;text-align:left"><div style=3D"background:#65a30d;color:#fff;=
+padding:16px 24px;font-size:20px;font-weight:700">FreshMart</div><div =
+style=3D"padding:20px 24px;font-size:14px;line-height:22px"><p =
+style=3D"margin:0 0 10px">Hi Alex,</p><p style=3D"margin:0 0 10px">- =
+Chicken thighs</p><p style=3D"margin:0 0 10px">- Greek yoghurt</p><p =
+style=3D"margin:0 0 10px">- Bananas</p><p style=3D"margin:0 0 10px">- =
+Sourdough loaf</p><p style=3D"margin:0 0 6px"><strong>Delivery address: =
+</strong>71965 Old Military Road</p><p style=3D"margin:0 0 =
+6px"><strong>Total: </strong>$61.87</p></div><div style=3D"padding:12px =
+24px;font-size:11px;color:#71717a;border-top:1px solid =
+#e4e4e7"><p>FreshMart is a demo merchant built for this hackathon. Not a =
+real company.</p></div></div></td></tr></tbody></table><!=
+--/$--></body></html>
+----_NmP-0706310f9512b518-Part_1--
