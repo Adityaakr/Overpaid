@@ -1,9 +1,12 @@
 'use client';
 import QRCode from 'react-qr-code';
 import NumberFlow from '@number-flow/react';
+import { useState } from 'react';
 import { ArrowSquareOut } from '@phosphor-icons/react';
 import { useLive } from '@/product/api';
 import { PageHead } from '@/product/ui';
+import { buildSignSubmit, ConnectButton, errText, useWallet } from '@/product/wallet';
+import { fmtDeadline, PledgeFromWallet } from '@/product/pledge';
 
 type Bloc = {
   campaign: {
@@ -22,22 +25,60 @@ type Bloc = {
   } | null;
   joinUrl: string | null;
   nMax: number | null;
-  pledges: { real: number; simulated: number; lockedTotal: number; recent: { id: string; label: string; simulated: boolean; txHash: string | null; at: string }[] };
+  pledges: { real: number; simulated: number; lockedTotal: number; recent: Pledge[] };
   bids: { id: string; provider: string; unitPrice: number; strategy: string | null; valid: boolean; at: string }[];
   settlements: { id: string; txHash: string | null; pledgeCount: number; unitPrice: number }[];
   chainReady: boolean;
   chainReason: string | null;
 };
+type Pledge = {
+  id: string;
+  ref?: string;
+  label: string;
+  simulated: boolean;
+  txHash: string | null;
+  at: string;
+  via?: string | null;
+  state?: string | null;
+  refundAddress?: string | null;
+  refundTxHash?: string | null;
+};
+const VIA: Record<string, string> = { cip30: 'your wallet', 'custodial-demo': 'demo wallet' };
+const viaLabel = (p: Pledge) => (p.simulated ? 'simulated' : p.via ? (VIA[p.via] ?? p.via) : 'real');
+
 const EMPTY: Bloc = { campaign: null, joinUrl: null, nMax: null, pledges: { real: 0, simulated: 0, lockedTotal: 0, recent: [] }, bids: [], settlements: [], chainReady: false, chainReason: null };
 const SCAN = 'https://preprod.cardanoscan.io/transaction/';
 
 export default function BlocRoom() {
-  const { data } = useLive<Bloc>('/api/bloc', ['bloc.pledged', 'bloc.bid', 'bloc.settled'], EMPTY);
+  const { data, reload } = useLive<Bloc>('/api/bloc', ['bloc.pledged', 'bloc.bid', 'bloc.settled'], EMPTY);
+  const w = useWallet();
+  const [refunding, setRefunding] = useState<string | null>(null);
+  const [refundErr, setRefundErr] = useState<string | null>(null);
+  const [refunded, setRefunded] = useState<Record<string, string>>({});
   const c = data.campaign;
   const best = [...data.bids].filter((b) => b.valid).sort((a, b) => a.unitPrice - b.unitPrice)[0];
   const fmtPrice = (v: number) => `${(v / 1_000_000).toFixed(2)} tADA`;
   // Providers re-bid as rivals move; show each provider's latest bid, best first.
   const latest = [...new Map([...data.bids].sort((a, b) => a.at.localeCompare(b.at)).map((b) => [b.provider, b])).values()].sort((a, b) => a.unitPrice - b.unitPrice);
+  const refundOpen = !!c?.refundDeadline && Date.now() > new Date(c.refundDeadline).getTime();
+  const mine = (p: Pledge) => !!w.address && !!p.refundAddress && p.refundAddress === w.address;
+  const refund = async (p: Pledge) => {
+    setRefunding(p.id);
+    setRefundErr(null);
+    try {
+      const { result } = await buildSignSubmit<{ txCbor: string }, { txHash: string; txUrl?: string }>(w, {
+        build: '/api/bloc/refund/build',
+        buildBody: { ref: p.ref ?? p.id },
+        submit: '/api/bloc/refund/submit',
+      });
+      setRefunded((r) => ({ ...r, [p.id]: result.txHash }));
+      reload();
+    } catch (e) {
+      setRefundErr(errText(e));
+    } finally {
+      setRefunding(null);
+    }
+  };
   const saving = c && best ? ((c.marketPrice - best.unitPrice) / c.marketPrice) * 100 : 0;
 
   return (
@@ -54,17 +95,28 @@ export default function BlocRoom() {
         }
       />
       <div className="op-grid" style={{ gridTemplateColumns: '360px minmax(0, 1fr) minmax(0, 1fr)', alignItems: 'start' }}>
-        <div className="op-card" style={{ display: 'grid', gap: 18, justifyItems: 'center', textAlign: 'center' }}>
-          <h2>Join from your phone</h2>
-          {data.joinUrl ? (
-            <div style={{ background: '#fff', padding: 12, borderRadius: 16 }}>
-              <QRCode value={data.joinUrl} size={260} />
+        <div className="op-grid">
+          <div className="op-card" style={{ display: 'grid', gap: 18, justifyItems: 'center', textAlign: 'center' }}>
+            <h2>Join from your phone</h2>
+            {data.joinUrl ? (
+              <div style={{ background: '#fff', padding: 12, borderRadius: 16 }}>
+                <QRCode value={data.joinUrl} size={260} />
+              </div>
+            ) : (
+              <div className="op-empty" style={{ height: 284, display: 'grid', placeItems: 'center' }}>QR appears when the join page has a public URL</div>
+            )}
+            <div className="op-muted" style={{ fontSize: 13 }}>
+              Pledge from your own Cardano wallet on preprod. No wallet? The phone page offers a custodial demo wallet funded by Overpaid, labelled as such.
             </div>
-          ) : (
-            <div className="op-empty" style={{ height: 284, display: 'grid', placeItems: 'center' }}>QR appears when the join page has a public URL</div>
-          )}
-          <div className="op-muted" style={{ fontSize: 13 }}>
-            You get a demo wallet funded by Overpaid and a real preprod pledge. Demo wallets are custodial and labelled.
+          </div>
+          <div className="op-card" style={{ display: 'grid', gap: 14 }}>
+            <div>
+              <h2>Pledge from my wallet</h2>
+              <div className="card-sub">Overpaid builds the transaction; only your wallet signs it. Refundable to your wallet after {fmtDeadline(c?.refundDeadline)} if no deal settles.</div>
+            </div>
+            <ConnectButton />
+            {w.address && c ? <PledgeFromWallet refundDeadline={c.refundDeadline} onDone={reload} /> : null}
+            {w.address && !c ? <div className="op-muted">No campaign is open yet.</div> : null}
           </div>
         </div>
 
@@ -107,11 +159,24 @@ export default function BlocRoom() {
             <div style={{ display: 'grid', gap: 8, maxHeight: 300, overflow: 'auto' }}>
               {data.pledges.recent.length ? (
                 data.pledges.recent.map((p) => (
-                  <div key={p.id} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    <span className={`op-pill ${p.simulated ? 'ghost' : 'lime'}`}>{p.simulated ? 'simulated' : 'real'}</span>
-                    <span style={{ flex: 1 }}>{p.label}</span>
+                  <div key={p.id} style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <span className={`op-pill ${p.simulated ? 'ghost' : 'lime'}`}>{viaLabel(p)}</span>
+                    <span style={{ flex: 1 }}>{p.label}{mine(p) ? <span className="op-muted"> · yours</span> : null}</span>
                     {p.txHash ? (
                       <a className="op-mono link" href={`${SCAN}${p.txHash}`} target="_blank" rel="noreferrer">{p.txHash.slice(0, 10)}…</a>
+                    ) : null}
+                    {mine(p) && (p.refundTxHash || refunded[p.id]) ? (
+                      <a className="op-pill good" href={`${SCAN}${p.refundTxHash ?? refunded[p.id]}`} target="_blank" rel="noreferrer">
+                        Refunded <ArrowSquareOut size={14} />
+                      </a>
+                    ) : mine(p) && p.state !== 'settled' && p.state !== 'refunded' ? (
+                      refundOpen ? (
+                        <button className="op-btn plain small" onClick={() => refund(p)} disabled={!!refunding}>
+                          {refunding === p.id ? 'Refunding…' : 'Refund my pledge'}
+                        </button>
+                      ) : (
+                        <span className="op-muted" style={{ fontSize: 12 }}>Refund opens {fmtDeadline(c?.refundDeadline)}</span>
+                      )
                     ) : null}
                   </div>
                 ))
@@ -119,6 +184,7 @@ export default function BlocRoom() {
                 <div className="op-empty">Waiting for the first pledge</div>
               )}
             </div>
+            {refundErr ? <div className="op-banner" style={{ marginTop: 10 }}>{refundErr}</div> : null}
           </div>
         </div>
 

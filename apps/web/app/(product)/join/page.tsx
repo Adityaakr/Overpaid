@@ -1,9 +1,11 @@
 'use client';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ArrowRight, ArrowSquareOut, CheckCircle } from '@phosphor-icons/react';
 import { api } from '@/product/api';
 import { Logo } from '@/product/ui';
+import { ConnectButton, useWallet } from '@/product/wallet';
+import { PledgeFromWallet } from '@/product/pledge';
 
 type Joined = { label: string; txHash: string | null; wallet: string; lockedLabel: string; state: string };
 
@@ -13,6 +15,14 @@ function Join() {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<Joined | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [demo, setDemo] = useState(false);
+  const [refundDeadline, setRefundDeadline] = useState<string | null>(null);
+  const w = useWallet();
+  useEffect(() => {
+    api<{ campaign: { refundDeadline: string | null } | null }>('/api/bloc')
+      .then((b) => setRefundDeadline(b.campaign?.refundDeadline ?? null))
+      .catch(() => {});
+  }, []);
 
   const join = async () => {
     setBusy(true);
@@ -37,12 +47,26 @@ function Join() {
           Join the eSIM bloc. Your pledge is locked on Cardano preprod. Providers bid for everyone at once, and you get the difference back.
         </p>
       </div>
-      {done ? (
+      {!demo ? (
+        <>
+          <div className="op-card" style={{ display: 'grid', gap: 16 }}>
+            <div>
+              <h2>Pledge from your own wallet</h2>
+              <div className="card-sub">Lace, Eternl or any CIP-30 wallet on Cardano Preprod. Overpaid builds the transaction; only your wallet signs it.</div>
+            </div>
+            <ConnectButton />
+            {w.address ? <PledgeFromWallet refundDeadline={refundDeadline} cta="Join the eSIM bloc" /> : null}
+          </div>
+          <button className="link" onClick={() => setDemo(true)} style={{ fontSize: 14, justifySelf: 'start', color: 'var(--ink-75)' }}>
+            No wallet? Use a demo wallet (custodial, run by Overpaid)
+          </button>
+        </>
+      ) : done ? (
         <div className="op-card" style={{ display: 'grid', gap: 14 }}>
           <div style={{ display: 'flex', gap: 10, alignItems: 'center', color: 'var(--good)', fontWeight: 600 }}>
             <CheckCircle size={24} weight="fill" /> You’re in, {done.label}
           </div>
-          <div className="op-muted">Pledged {done.lockedLabel} from a demo wallet funded by Overpaid.</div>
+          <div className="op-muted">Pledged {done.lockedLabel} from a custodial demo wallet funded and held by Overpaid.</div>
           <div className="op-mono" style={{ wordBreak: 'break-all' }}>{done.wallet}</div>
           {done.txHash ? (
             <a className="op-btn plain" href={`https://preprod.cardanoscan.io/transaction/${done.txHash}`} target="_blank" rel="noreferrer">
@@ -54,6 +78,8 @@ function Join() {
         </div>
       ) : (
         <div className="op-card" style={{ display: 'grid', gap: 14 }}>
+          <div className="op-pill warn" style={{ justifySelf: 'start' }}>Custodial demo wallet</div>
+          <div className="op-muted" style={{ fontSize: 14 }}>Overpaid creates and holds a demo wallet for you and pledges from it. You do not control its keys.</div>
           <label className="op-label" htmlFor="nick">Nickname shown on the projector</label>
           <input
             id="nick"
@@ -69,10 +95,13 @@ function Join() {
           </button>
           {!token ? <div className="op-banner">Scan the QR code on the projector to get a join link.</div> : null}
           {err ? <div className="op-banner">{err}</div> : null}
+          <button className="link" onClick={() => setDemo(false)} style={{ fontSize: 14, justifySelf: 'start' }}>
+            Back to pledging from my own wallet
+          </button>
         </div>
       )}
       <p className="op-muted" style={{ fontSize: 12 }}>
-        Preprod test network only. No real money. The demo wallet is custodial and run by Overpaid for this event.
+        Preprod test network only. No real money. Pledges from your own wallet stay refundable to that wallet. The optional demo wallet is custodial and run by Overpaid for this event.
       </p>
     </main>
   );
