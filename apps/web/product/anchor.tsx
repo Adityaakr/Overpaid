@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import { ArrowSquareOut, Anchor as AnchorIcon, SealCheck } from '@phosphor-icons/react';
 import { buildSignSubmit, errText, SCAN, useWallet } from './wallet';
 
@@ -39,9 +40,11 @@ export function AnchorCard({ anchor, digest, onDone }: { anchor: Anchor | null; 
           <a className="op-btn small light" href={`${SCAN}/transaction/${anchor.txHash}`} target="_blank" rel="noreferrer">
             <SealCheck size={16} /> {anchor.txHash.slice(0, 8)}… <ArrowSquareOut size={14} />
           </a>
+        ) : !w.address ? (
+          <Link href="/app/wallet" className="op-btn small lime"><AnchorIcon size={16} /> Connect a wallet to anchor</Link>
         ) : (
           <button className="op-btn small lime" onClick={go} disabled={Boolean(stage)}>
-            <AnchorIcon size={16} /> {stage === 'building' ? 'Building…' : stage === 'signing' ? 'Sign in your wallet…' : stage === 'submitting' ? 'Submitting…' : w.address ? 'Sign and anchor' : 'Connect a wallet to anchor'}
+            <AnchorIcon size={16} /> {stage === 'building' ? 'Building…' : stage === 'signing' ? 'Sign in your wallet…' : stage === 'submitting' ? 'Submitting…' : 'Sign and anchor'}
           </button>
         )}
       </div>

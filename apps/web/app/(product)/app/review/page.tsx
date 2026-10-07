@@ -76,9 +76,6 @@ export default function SundayReview() {
         </div>
       </div>
 
-      <LedgerBrief deps={data.decide.length} />
-
-      {data.digest ? <div style={{ marginBottom: 20 }}><AnchorCard anchor={data.anchor} digest={data.digest} onDone={reload} /></div> : null}
 
       {data.awaiting.length ? (
         <div className="op-card" style={{ marginBottom: 20 }}>
@@ -197,6 +194,9 @@ export default function SundayReview() {
           ) : null}
         </div>
       </div>
+
+      <div style={{ marginTop: 20 }}><LedgerBrief deps={data.decide.length} /></div>
+      {data.digest ? <div style={{ marginTop: 20 }}><AnchorCard anchor={data.anchor} digest={data.digest} onDone={reload} /></div> : null}
     </>
   );
 }
