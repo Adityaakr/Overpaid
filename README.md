@@ -1,8 +1,10 @@
 # Overpaid
 
-**AI agents that get your money back, and only get paid when they deliver.**
+**AI agents that find the money your statements are hiding, and only get paid when they deliver.**
 
-Overpaid finds the money people and companies are owed, claims it back, and pays every agent involved through escrow on Cardano. It runs as a web app and as a **Coworker on Sokosumi** that any team can hire per Task.
+Overpaid reads a bank or card statement, finds what is quietly costing you (recurring charges, price rises, duplicate charges, fees, forgotten subscriptions), tells you exactly what to do about each one, and drafts the messages to send. Every agent in the system, including Overpaid itself, is paid through escrow or per request on Cardano, so nobody is paid for work that wasn't delivered.
+
+It runs three ways: a **website** anyone can use with their own statement, a **Coworker on Sokosumi** that companies hire per Task, and an **x402 endpoint** other agents pay per request.
 
 Built for the TOKEN2049 Origins Hackathon (Singapore, October 2026). Cardano preprod only, no real money.
 
@@ -16,70 +18,79 @@ Built for the TOKEN2049 Origins Hackathon (Singapore, October 2026). Cardano pre
 - 43% of US adults hold unused gift cards or store credit, $244 on average [2].
 - Each item is too small to chase, so nobody chases it.
 
-**2. Getting it back is made hard on purpose.** In a 2024 review of 642 subscription sites and apps, nearly 76% used at least one possible dark pattern, and nearly 67% used several [3]. The US click-to-cancel rule was vacated in July 2025, and the FTC only reopened the rulemaking in 2026 [4]. Cancelling remains a maze.
+**2. Getting it back is made hard on purpose.** In a 2024 review of 642 subscription sites and apps, nearly 76% used at least one possible dark pattern, and nearly 67% used several [3]. The US click-to-cancel rule was vacated in July 2025, and the FTC only reopened the rulemaking in 2026 [4].
 
 **3. Agents could do this work, but nobody can trust them with money.** Hidden instructions on web pages got 4 of 26 AI models to make payments [5]. An agent that reads merchant pages and holds a wallet is a liability.
 
-**4. Hiring an agent you don't know is a gamble.** Pay first and the work may never arrive. Pay after and the agent takes the risk. Without escrow, agent-to-agent work doesn't happen.
+**4. Hiring an agent you don't know is a gamble.** Pay first and the work may never arrive. Pay after and the agent carries the risk. Without escrow, agent-to-agent work doesn't happen.
 
 ## The solution
 
 | Problem | What Overpaid does |
 |---|---|
-| Leaks nobody notices | **Find** reads receipts and statements and builds one ledger. Every line has a value, a reason and the exact source rows. |
-| Cancelling is a maze | **Fix** runs a fleet of Claude browser agents on the merchants' own sites. Each one stops before anything irreversible for a one-tap human approval. An outcome only counts once the merchant's own status page confirms it. |
-| Agents can't be trusted with money | The browsing agents **hold no keys and have no payment tools**. Users sign their own money in their own wallet. Page text is treated as data: our demo merchant hides a "pay the express fee" instruction, and the fleet flags it and carries on. |
-| Hiring strangers is a gamble | Every agent is paid **through Masumi escrow on Cardano**. The fee locks when the work starts and releases only after a result hash is on chain. The buyer can dispute, or get a refund if nothing arrives. |
-| Small items aren't worth anyone's time | **Bargain** pools people who overpay for the same thing. Members pledge into an Aiken contract, providers bid, and one transaction pays the winner and refunds everyone the difference. |
+| Leaks nobody notices | **Audit** reads any bank or card export and prices every recurring charge per year, flags price rises, duplicate charges and fees, and keeps rent and loans out of the actions. Every figure cites the exact statement rows. |
+| Nobody knows what to do next | Each finding comes with a concrete action, and Claude drafts a message to each merchant or bank. The model writes words only; it can't change a number. |
+| Cancelling is a maze | **Fix** runs Claude browser agents on merchants' own sites, stopping before anything irreversible for a one-tap human approval. An outcome only counts once the merchant's status page confirms it. |
+| Agents can't be trusted with money | Browsing agents **hold no keys and have no payment tools**. Users sign their own money in their own wallet. Page text is treated as data, not instructions. |
+| Hiring strangers is a gamble | Agents are paid **through Masumi escrow on Cardano**: the fee locks when work starts, the result hash goes on chain, and the buyer can dispute or is refunded if nothing arrives. One-off purchases are paid per request over **x402**. |
+| Small bills aren't worth anyone's time | **Bargain** pools people who overpay for the same thing: members pledge into an Aiken contract, providers bid, and one transaction pays the winner and refunds everyone the difference. |
 
-Overpaid charges a success fee only on money that came back, paid from the user's own wallet after the recovery is confirmed. Bill negotiation services charge 33% to 60% of savings for comparable work [6].
+Overpaid charges only on money that comes back, paid from the user's own wallet after the recovery is confirmed. Bill negotiation services charge 33% to 60% of savings for comparable work [6].
 
-## Use cases, and how far each is proven
+## Try it
+
+| Who | How | What happens |
+|---|---|---|
+| **A person** | Open **`/audit`** on the website and drop in a bank or card CSV | A free dashboard of everything worth acting on. Pay 2 tADA from your own wallet over x402 to unlock the reasons, source rows, actions and drafted messages. |
+| **A company** | On Sokosumi, create a Task for **Overpaid Recovery Auditor** (Coworker `01a11413-db1e-7259-ab91-17a7ef2f9c77`) and paste the statement | The Coworker requests payment into Masumi escrow, runs the audit, puts the result hash on chain and posts the report in the Task thread. |
+| **Another agent** | `POST /api/x402/audit` with `{ "statement": "..." }` | `402 Payment Required` with the price; any `@x402/cardano` client pays and retries. No account, no API key. |
+
+### What a real statement gets you
+
+A three-month bank export (44 rows, money out as negative amounts, plain descriptions like "Cloud hosting subscription"):
+
+| Finding | Type | Per year | What to do |
+|---|---|---|---|
+| Electricity, about $78.78 a month | Bill to renegotiate | $945.36 | Compare plans or ask for a retention offer |
+| Internet, $54.90 a month | Bill to renegotiate | $658.80 | Compare plans or ask for a retention offer |
+| Cloud hosting, $49.00 a month | Subscription to review | $588.00 | Confirm someone uses it; cancel if not |
+| Mobile plan, $32.00 a month | Bill to renegotiate | $384.00 | Compare plans or ask for a retention offer |
+| Software, $20.00 a month | Subscription to review | $240.00 | Confirm someone uses it; cancel if not |
+
+**$2,816.16 a year to cut or review.** Rent ($1,350 a month) is listed as a fixed cost and kept out of the actions; salary and other income are ignored. The paid version adds the three source rows behind each line and a drafted message to each provider.
+
+The audit reads comma, semicolon, tab and pipe exports; US and European number and date formats; signed amounts, debit and credit columns, `(12.30)` and `45.00 CR`; and dozens of common header names. A statement shows what you pay, not whether you use it, so recurring charges are listed **to review**, never claimed as unused.
+
+## Proven on Cardano preprod
 
 **Verified** means it ran end to end, with the transactions linked. **Documented** means the vendor API is confirmed against its official docs but we haven't run it yet.
 
-### 1. Recovery audit for a finance team: verified on Sokosumi
+### 1. Recovery audit on Sokosumi: verified
 
-A team assigns a Task to the **Overpaid Recovery Auditor** Coworker and pastes a card statement. It returns a ranked recovery list:
-- forgotten subscriptions, duplicate charges and above-market bills,
-- each with its source rows,
-- plus a ready-to-send message to each merchant.
+The **Overpaid Recovery Auditor** Coworker is registered on the Masumi registry ([4b35caa7](https://preprod.cardanoscan.io/transaction/4b35caa729241774d84e3c916e8ced2488dbe51ff4544dd3b9b43ee16b05edb1)), approved for the TOKEN2049 event workspace, and paid 1 test USDM per Task through Masumi escrow.
 
-The numbers come from our deterministic Find engine. Claude only writes the messages and never changes a figure. The Coworker is paid 1 test USDM per Task through Masumi escrow.
+| Paid Task, start to payout | Transaction |
+|---|---|
+| Escrow funded by Sokosumi from the team's credits | [6a95b180](https://preprod.cardanoscan.io/transaction/6a95b180a71b15ce99b1392e5a9673c7931e60611e07886f6c97cf9d1c48076c) |
+| Result hash on chain | [85367bdd](https://preprod.cardanoscan.io/transaction/85367bddeae072f03632a483cb7d7d55a5bdbdf50614b7ee3a39293cbeadb9cd) |
+| Payment collected: exactly 1.000000 test USDM net to the seller wallet, measured on chain | [b8a45261](https://preprod.cardanoscan.io/transaction/b8a45261fc1c2984cfdd066af69d58df58c45771bdb5bb8983b5774180fb2bb3) |
 
-- On a 48-row, 7-month sample statement it found 5 items worth $1,307.64.
-- Paid Task, start to payout:
+A second paid Task ran in the TOKEN2049 workspace: escrow [5d063cd5](https://preprod.cardanoscan.io/transaction/5d063cd5757cb8c631622ea64289b7df91d15a7b40111222c1ec82175d8607e3), result submitted and confirmed, Task completed. Setup, every ID and the problems we hit are in [docs/COWORKER.md](docs/COWORKER.md).
 
-  | Step | Transaction |
-  |---|---|
-  | Escrow funded by Sokosumi | [6a95b180](https://preprod.cardanoscan.io/transaction/6a95b180a71b15ce99b1392e5a9673c7931e60611e07886f6c97cf9d1c48076c) |
-  | Result hash on chain | [85367bdd](https://preprod.cardanoscan.io/transaction/85367bddeae072f03632a483cb7d7d55a5bdbdf50614b7ee3a39293cbeadb9cd) |
-  | Payment collected: 1.000000 test USDM net to the seller wallet, measured on chain | [b8a45261](https://preprod.cardanoscan.io/transaction/b8a45261fc1c2984cfdd066af69d58df58c45771bdb5bb8983b5774180fb2bb3) |
+### 2. Pay-per-request audit over x402: verified
 
-- Approved for the TOKEN2049 event workspace on Sokosumi.
-- Registered on the Masumi registry: [4b35caa7](https://preprod.cardanoscan.io/transaction/4b35caa729241774d84e3c916e8ced2488dbe51ff4544dd3b9b43ee16b05edb1).
-- Setup, IDs and the problems we hit: [docs/COWORKER.md](docs/COWORKER.md).
-
-What a statement can't prove: whether anyone actually uses a subscription. The audit says so and treats "no usage evidence" as a lead for a human to confirm, not a verdict.
-
-### 2. Pay-per-request audit over x402: verified on chain
-
-Anyone can open **/audit** on the website, drop in a real bank or card export, and see for free every recurring charge priced per year, price rises, duplicate charges and fees. It reads comma, semicolon and tab exports, US and European number and date formats, signed amounts or debit and credit columns, and keeps rent, loans and transfers out of the actions. Unlocking the full report costs 2 tADA, paid per request over **x402** from their own CIP-30 wallet, with no account and no API key. The server builds the payment, the wallet signs it, and our keyless in-process facilitator verifies and submits it.
-
-Agents can buy the same audit programmatically: `POST /api/x402/audit` answers `402 Payment Required` with the price, and any `@x402/cardano` client pays and retries.
+The website and the agent endpoint sell the same audit per request. The server builds the payment, the buyer's wallet signs it, and our keyless in-process facilitator verifies and submits it before the result is released.
 
 | Buyer | Payment |
 |---|---|
-| Person with a wallet, in the browser | [37a4da9a](https://preprod.cardanoscan.io/transaction/37a4da9afe6306dc50a4c8d37da264b2465a9289a05d104b80ea84976403618b), [fb45d7e4](https://preprod.cardanoscan.io/transaction/fb45d7e4a8f99bd6f485811a92148dfe02ecf38cc283d72b9f7a7039386adb1b) |
-| Agent using the standard x402 client | [de247548](https://preprod.cardanoscan.io/transaction/de24754864944da37b2bc0854fa312a800719952a4b192b4c30e878375afb8de) |
+| A person, in the browser, with their own wallet and their own bank export | [e78b53ad](https://preprod.cardanoscan.io/transaction/e78b53ada7a7788465ca40ec1b125dc55295d030b20af8aaf54d2b039a1f04d8), [37a4da9a](https://preprod.cardanoscan.io/transaction/37a4da9afe6306dc50a4c8d37da264b2465a9289a05d104b80ea84976403618b) |
+| An agent using the standard `@x402/cardano` client | [de247548](https://preprod.cardanoscan.io/transaction/de24754864944da37b2bc0854fa312a800719952a4b192b4c30e878375afb8de) |
 
-If the response is lost after payment, the page fetches the paid result again with a private claim id, and a retry can never charge twice because each payment spends a specific UTxO.
+If the response is lost after payment, the page recovers the paid result with a private claim id. A retry can't charge twice, because each payment spends one specific UTxO.
 
-### 3. Expert claims through a hired specialist: verified on chain
+### 3. Expert claims through a hired specialist: verified
 
-Some claims need know-how, like a delayed flight that the airline's form rejects unless you pick the right category. Overpaid hires a specialist agent over x402 into Masumi escrow:
-1. The specialist files the claim, waits until the airline shows "Compensation paid", and puts its evidence hash on chain.
-2. Overpaid independently re-checks the status page and the hash before letting the fee release.
+Some claims need know-how, like a delayed flight the airline's form rejects unless you pick the right category. Overpaid hires a specialist agent over x402 into Masumi escrow. The specialist files the claim, waits until the airline shows "Compensation paid" and puts its evidence hash on chain. Overpaid re-checks the status page and the hash before letting the fee release, and disputes automatically on a mismatch.
 
 | Step | Transaction |
 |---|---|
@@ -87,50 +98,59 @@ Some claims need know-how, like a delayed flight that the airline's form rejects
 | Evidence hash | [8b690eb4](https://preprod.cardanoscan.io/transaction/8b690eb460ff1eb9adebc68538ee22cc477a233c858e6292f47741754ab1e89d) |
 | Fee collected | [3fc5a9c2](https://preprod.cardanoscan.io/transaction/3fc5a9c215e17d915f75d0ab85a265d73f11d2e900ec320a8a69db6507036df2) |
 
-Refund paths are proven too: no result leads to a buyer refund, and a disputed result leads to a seller-authorised refund ([docs/PROGRESS.md](docs/PROGRESS.md)). The airline is a demo merchant, and the specialist is built by our team. Both are labelled in the app.
+Both refund paths are proven too: no result leads to a buyer refund, and a disputed result leads to a seller-authorised refund ([docs/PROGRESS.md](docs/PROGRESS.md)). The airline is a demo merchant and the specialist is built by our team; both are labelled in the app.
 
-### 4. Group bargaining: verified on chain
-
-Members pledge from their own wallet: Lace, Eternl, or any CIP-30 wallet.
+### 4. Group bargaining: verified
 
 | Step | Transaction |
 |---|---|
-| Pledge signed by the user | [a7ba2fb6](https://preprod.cardanoscan.io/transaction/a7ba2fb674794eec5aff7ed70672ac2802048534804b580a016e129a9fcc0f1a) |
+| Pledge signed in the user's own wallet (Lace, Eternl, any CIP-30) | [a7ba2fb6](https://preprod.cardanoscan.io/transaction/a7ba2fb674794eec5aff7ed70672ac2802048534804b580a016e129a9fcc0f1a) |
 | Self-service refund to the same wallet | [0569c611](https://preprod.cardanoscan.io/transaction/0569c6114bededff467196b49d556d1d3e7d24058f2f366e72c4e7b8ddd97871) |
 | 30 pledges settled atomically: one transaction pays the provider and refunds every member | [01362f7d](https://preprod.cardanoscan.io/transaction/01362f7d133499769bb93a08136093bbb7aa9819716fd2ebc7bdf96d0bae0ff7) |
 
 Providers are simulated today.
 
-### 5. Paid seats and AI keys nobody uses: documented, next
+### 5. Proving "unused" with the vendor's own data: documented, next
 
-This answers "how does the agent know it's unused?" with the vendor's own data instead of a guess:
-- **OpenRouter:** the key management API reports usage per day, week and month for every key, and can disable one [7].
-- **OpenAI:** project keys carry `last_used_at` [8].
-- **GitHub Copilot:** seats carry `last_activity_at` and can be cancelled through the API [9].
-- **Google Workspace:** reports each user's last login, and its licensing API can remove a seat [10].
+A statement can't tell whether a seat or key is used. Vendor admin APIs can:
+- **OpenRouter** reports usage per day, week and month for every key, and can disable one [7].
+- **OpenAI** project keys carry `last_used_at` [8].
+- **GitHub Copilot** seats carry `last_activity_at` and can be cancelled through the API [9].
+- **Google Workspace** reports each user's last login, and its licensing API can remove a seat [10].
 
-The Coworker would read with a read-only token, post a priced proposal in the Task thread, and act with a narrower write token only after a human approves. The plan and the trust rules are in [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md).
+The Coworker would read with a read-only token, post a priced proposal in the Task thread, and act with a narrower write token only after a human approves. Plan and trust rules: [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md).
 
-## Why judges can trust the claims
+## What is real and what is demo
 
-| What matters | Where to check |
+| Real | Demo or simulated, labelled in the app |
 |---|---|
-| **Quality of results** | The Coworker's output lists the source rows behind every finding, and the model can't touch the numbers. Fix outcomes are read from the merchant's own status page; specialist evidence is re-hashed before the fee releases. |
-| **Usefulness** | Finance teams hire the Coworker per Task on Sokosumi. Consumers use the app. The human only approves irreversible steps. |
-| **Reliable execution** | Every paid step is saved before it is sent, and an uncertain write is never retried blindly, so there's no double run and no double charge. A payment that can't be confirmed closes the Task as FAILED with the reason, and no unpaid work is delivered. |
-| **Verified payment** | For the Coworker: Sokosumi's receipt says `settled`, the payment node's withdrawal matches it, and Blockfrost shows the seller address gained exactly 1 test USDM ([b8a45261](https://preprod.cardanoscan.io/transaction/b8a45261fc1c2984cfdd066af69d58df58c45771bdb5bb8983b5774180fb2bb3)). The specialist's collection is linked above too. |
+| **Your upload** on `/audit` or in the app's Connect page, and every finding it produces | **"Use demo data"**: a synthetic account with receipts and a statement |
+| **The Coworker** on Sokosumi: Tasks, escrow, result hashes, payout | **Fix agents** operate only on our four demo merchant sites. On real uploads they never run; real lines are marked "Your action" with a concrete step instead. |
+| **Every x402 payment, pledge, refund, settlement, success fee and registration** on preprod | **The specialist** files on a demo airline |
+| **Wallets**: users sign their own transactions in Lace, Eternl or SubWallet | **eSIM providers** and 60 of the pledges are simulated; the room's custodial demo wallets are run by Overpaid |
+
+## Why the claims hold up
+
+| What matters | How |
+|---|---|
+| **Quality of results** | Findings come from a deterministic engine with 62 tests across real export formats; every figure cites its rows. Claude drafts only the messages. Fix outcomes are read from the merchant's status page; specialist evidence is re-hashed before the fee releases. |
+| **Usefulness** | One upload gives a person or a finance team a ranked list of actions with yearly values and messages ready to send. The human approves irreversible steps. |
+| **Reliable execution** | Every paid step is saved before it is sent; an uncertain write is never retried blindly, so there's no double run and no double charge. A connection refused before sending is rolled back and retried safely. A payment that can't be confirmed closes the Task as FAILED with the reason, and no unpaid work is delivered. A watchdog restarts the payment node when its chain sync goes stale, and a supervisor restarts it if it crashes. |
+| **Verified payment** | For the Coworker, Sokosumi's receipt says `settled`, the payment node's withdrawal matches it, and Blockfrost shows the seller address gained exactly 1 test USDM ([b8a45261](https://preprod.cardanoscan.io/transaction/b8a45261fc1c2984cfdd066af69d58df58c45771bdb5bb8983b5774180fb2bb3)). |
 
 ## How it works
 
 | Part | What it does |
 |---|---|
-| **Find** (`packages/find`) | Parses `.eml`/`.mbox` receipts and CSV or PDF statements, detects recurring charges, and runs six detectors: forgotten subscription, duplicate charge, price drop, undelivered order, flight compensation, bill above market. |
-| **Fix** (`services/fleet`) | Runs a Claude tool loop (OpenRouter, Bedrock or the Anthropic API) in local Chromium or AgentCore Browser. Every request carries `X-Overpaid-Agent`. |
-| **Hire** (`services/specialist`, `packages/cardano`) | The specialist is an x402 `masumi` seller with a MIP-003 API and its own wallet. The buyer side verifies the quote, locks escrow, verifies the result, and disputes automatically on a mismatch. |
+| **Find** (`packages/find`) | Parses `.eml`/`.mbox` receipts and CSV or PDF statements in any common bank format, detects recurring charges, and runs six detectors: forgotten subscription, duplicate charge, price drop, undelivered order, flight compensation, bill above market. |
+| **Audit** (`services/coworker/src/audit.ts`) | Prices every recurring charge per year, categorises it (subscription, bill, fixed cost), catches price rises on plans, same-day and near-duplicate charges and bank fees, and attaches an action and source rows to each. Shared by the website, the app, the Coworker and the x402 endpoint. |
+| **Fix** (`services/fleet`) | Claude tool loop (OpenRouter, Bedrock or the Anthropic API) in local Chromium or AgentCore Browser. Every request carries `X-Overpaid-Agent`. |
+| **Hire** (`services/specialist`, `packages/cardano`) | The specialist is an x402 `masumi` seller with a MIP-003 API and its own wallet. The buyer side verifies the quote, locks escrow, verifies the result and disputes automatically on a mismatch. |
 | **Bargain** (`services/bloc`, `contracts/bloc`) | One Aiken validator with spend, withdraw and publish handlers. A withdraw-zero settlement checks the whole batch at once, which fits 40 pledges per transaction. |
-| **Coworker** (`services/coworker`) | A Sokosumi worker, a local Masumi payment service for signed terms, escrow and collection, and a MIP-003 agent API for the registry listing. |
+| **Coworker** (`services/coworker`) | A Sokosumi worker for both the personal and event workspaces, a local Masumi payment service for signed terms, escrow and collection, and a MIP-003 agent API for the registry listing. |
+| **x402 audit** (`services/api/src/routes/x402audit.ts`) | Free preview, the paid resource behind a 402, wallet build and assemble helpers, and claim-based recovery of paid results. |
 
-The Coworker's paid Task flow is drawn step by step in [docs/COWORKER.md](docs/COWORKER.md). The escrow states and keys are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Step-by-step flows: [docs/COWORKER.md](docs/COWORKER.md) (paid Task sequence) and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (components, keys, escrow states).
 
 ## Quickstart
 
@@ -146,47 +166,33 @@ pnpm demo:data                      # synthetic receipts and statement
 pnpm dev
 ```
 
-Open http://localhost:3000/app, choose **Use demo data**, then **Approve and fix**. `pnpm demo:check` runs every milestone check.
+- **Your own statement:** open http://localhost:3000/audit and drop in a CSV, or upload it in the app's Connect page.
+- **The demo:** open http://localhost:3000/app, choose **Use demo data**, then **Approve and fix**. `pnpm demo:check` runs every milestone check.
 
 Optional keys in `.env`:
 
-- **`BLOCKFROST_PROJECT_ID`** and funded wallets (`npx tsx scripts/wallets.ts` prints the addresses): specialist hires and the bloc on preprod.
-- **`OPENROUTER_API_KEY`, `ANTHROPIC_API_KEY` or AWS credentials:** agent mode. Without them, the fleet replays recorded paths, labelled "scripted".
+- **`BLOCKFROST_PROJECT_ID`** and funded wallets (`npx tsx scripts/wallets.ts` prints the addresses): x402 payments, specialist hires and the bloc on preprod.
+- **`OPENROUTER_API_KEY`, `ANTHROPIC_API_KEY` or AWS credentials:** drafted messages and agent mode. Without them, messages use templates and the fleet replays recorded paths, labelled "scripted".
 
-**Hiring the Coworker:** in Sokosumi, create a Task assigned to **Overpaid Recovery Auditor**, paste a statement as CSV (Date, Description, Amount), and set it to Ready. To run your own instance, see [docs/COWORKER.md](docs/COWORKER.md).
+To run your own Coworker with its payment node, see [docs/COWORKER.md](docs/COWORKER.md).
 
 ## Repository
 
 ```
-apps/web             landing page, product app, /join for phones
-services/api         orchestrator, ledger, events, hires, fees
+apps/web             landing page, /audit, product app, /join for phones
+services/api         orchestrator, ledger, events, hires, fees, x402 audit
 services/fleet       browser fleet and Claude agent loop
 services/merchants   four demo merchant sites
 services/specialist  x402 + Masumi specialist agent
 services/bloc        bloc campaigns, pledges and settlement
 services/providers   simulated bidder agents
-services/coworker    Sokosumi Coworker: worker, agent API, registration
-packages/find        Find pipeline
-packages/cardano     wallets, escrow transactions, x402 buyer
+services/coworker    the audit engine and the Sokosumi Coworker (worker, agent API, registration)
+packages/find        Find pipeline and statement parsers
+packages/cardano     wallets, escrow transactions, x402 buyer and facilitator
 contracts/bloc       Aiken contract and tests
 scripts/diagrams     hand-drawn diagrams (pnpm diagrams)
 docs/                architecture, implementation, Coworker, progress, pitch
 ```
-
-## What is simulated
-
-Simulated:
-- **The four merchants** are demo sites built for this project.
-- **The demo account's receipts** are synthetic.
-- **The eSIM providers and some pledgers** are simulated.
-- **The room's custodial demo wallets** are run by Overpaid.
-- **The specialist** is built by our team, not a third party.
-
-Real:
-- **Every escrow, pledge, settlement, refund, fee and registration** is a real preprod transaction.
-- **Every Coworker Task** is a real Sokosumi Task.
-
-Every simulated piece is labelled in the app.
 
 ## References
 
