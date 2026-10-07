@@ -470,6 +470,7 @@ function FrameBase({ node, ctx, rootOverride, handlers, children: injected, scro
   return (
     <Comp ref={scroll?.ref} data-fid={node.id} data-name={node.name} style={style} onClick={onClick} {...handlers} {...linkProps} {...motionProps}>
       {content}
+      {node.name === 'Logo' && link ? <span className="fr-wordmark">Clawback</span> : null}
     </Comp>
   );
 }
