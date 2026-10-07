@@ -64,7 +64,7 @@ What a statement can't prove: whether anyone actually uses a subscription. The a
 
 ### 2. Pay-per-request audit over x402: verified on chain
 
-Anyone can open **/audit** on the website, paste or upload a statement, and see for free how much there is to recover. Unlocking the full report costs 2 tADA, paid per request over **x402** from their own CIP-30 wallet, with no account and no API key. The server builds the payment, the wallet signs it, and our keyless in-process facilitator verifies and submits it.
+Anyone can open **/audit** on the website, drop in a real bank or card export, and see for free every recurring charge priced per year, price rises, duplicate charges and fees. It reads comma, semicolon and tab exports, US and European number and date formats, signed amounts or debit and credit columns, and keeps rent, loans and transfers out of the actions. Unlocking the full report costs 2 tADA, paid per request over **x402** from their own CIP-30 wallet, with no account and no API key. The server builds the payment, the wallet signs it, and our keyless in-process facilitator verifies and submits it.
 
 Agents can buy the same audit programmatically: `POST /api/x402/audit` answers `402 Payment Required` with the price, and any `@x402/cardano` client pays and retries.
 
