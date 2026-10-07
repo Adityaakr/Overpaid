@@ -152,6 +152,15 @@ export default function WalletPage() {
             </a>
           </div>
           <div className="op-card" style={{ display: 'grid', gap: 8 }}>
+            <h2>What you sign here</h2>
+            <div className="op-muted" style={{ fontSize: 14, lineHeight: 1.5, display: 'grid', gap: 6 }}>
+              <div><b>Review anchor.</b> One transaction carrying the hash of your Sunday review and every agent evidence bundle. 1.5 tADA back to you, network fee only. <a className="link" href="/app/review">Review</a></div>
+              <div><b>Success fee.</b> 15% of money confirmed back, paid to Clawback only after a merchant status page confirms it. <a className="link" href="/app/receipts">Receipts</a></div>
+              <div><b>Bloc pledge.</b> Lock a pledge in the Aiken contract for group bargaining; refundable if the bloc does not settle. <a className="link" href="/app/bloc">Bloc</a></div>
+              <div>Agents are paid by Clawback, not by you: specialist hires go through Masumi escrow from Clawback’s own wallet.</div>
+            </div>
+          </div>
+          <div className="op-card" style={{ display: 'grid', gap: 8 }}>
             <h2>How signing works</h2>
             <div className="op-muted" style={{ fontSize: 14, lineHeight: 1.5 }}>
               Clawback’s server builds each transaction without any keys. Your wallet shows it to you and signs it. The server only attaches your signature and submits it.

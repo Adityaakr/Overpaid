@@ -64,8 +64,16 @@ if (mode === 'key') {
   const apiBaseUrl = process.env.COWORKER_PUBLIC_URL;
   if (!apiBaseUrl?.startsWith('https://') || !state.agentIdentifier) throw new Error('Need COWORKER_PUBLIC_URL and a confirmed registration');
   const { sellingWalletVkey: _vkey, ...rest } = state.request;
-  const r = await mps<any>('/registry/update', { ...rest, agentIdentifier: state.agentIdentifier, apiBaseUrl: apiBaseUrl.replace(/\/+$/, '') }, admin);
-  Object.assign(state, { request: { ...state.request, apiBaseUrl }, updateState: r.state ?? r.updateStatus ?? 'submitted' });
+  // The listing copy is refreshed with the URL so the registry page matches the product.
+  const listing = {
+    name: 'Clawback Recovery Auditor',
+    description: 'Statement export in, sourced recovery list out: every recurring charge priced per year, duplicates, bank fees and price rises with their rows, and a ready-to-send message per merchant. Same engine as the Clawback app.',
+    Tags: ['finance', 'subscriptions', 'refunds', 'audit', 'recovery', 'clawback'],
+    ExampleOutputs: [{ name: 'Recovery list', url: 'https://github.com/Adityaakr/Overpaid/blob/main/docs/COWORKER.md', mimeType: 'text/markdown' }],
+    Author: { name: 'Clawback', organization: 'Clawback', contactEmail: 'adityakrx7@gmail.com' },
+  };
+  const r = await mps<any>('/registry/update', { ...rest, ...listing, agentIdentifier: state.agentIdentifier, apiBaseUrl: apiBaseUrl.replace(/\/+$/, '') }, admin);
+  Object.assign(state, { request: { ...state.request, ...listing, apiBaseUrl }, updateState: r.state ?? r.updateStatus ?? 'submitted' });
   console.log('registry update submitted', r.id ?? '', r.state ?? '');
 } else {
   const r = await mps<any>('/registry?network=Preprod&filterPaymentSourceType=Web3CardanoV2&limit=100', undefined, admin);

@@ -34,5 +34,6 @@ export const METRIC_KEYS = [
   'cost_per_recovery_cents',
   'find_run',
   'emails_read',
+  'review_anchor',
 ] as const;
 export type MetricKey = (typeof METRIC_KEYS)[number];

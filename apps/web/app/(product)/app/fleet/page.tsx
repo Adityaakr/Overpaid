@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Check, X, ShieldWarning } from '@phosphor-icons/react';
-import { api, useLive } from '@/product/api';
+import { API, api, useLive } from '@/product/api';
 import { Money, PageHead } from '@/product/ui';
 import { VIGIL } from '@/product/vigils';
 
@@ -17,6 +17,8 @@ type FleetTask = {
   recoveredCents: number | null;
   confirmationCode: string | null;
   evidenceSha256: string | null;
+  researched: boolean;
+  shotUrl: string | null;
   failureReason: string | null;
   streamUrl: string | null;
   frameUrl: string | null;
@@ -24,7 +26,7 @@ type FleetTask = {
   bySpecialist: boolean;
 };
 type Approval = { id: string; taskId: string; merchant: string; step: string; reason: string; screenshotUrl: string | null };
-type Fleet = { tasks: FleetTask[]; recoveredCents: number; provider: string; model: string | null };
+type Fleet = { tasks: FleetTask[]; recoveredCents: number; provider: string; model: string | null; demo: boolean };
 
 const STATE: Record<string, { label: string; tone: string }> = {
   queued: { label: 'Queued', tone: '' },
@@ -39,10 +41,12 @@ const STATE: Record<string, { label: string; tone: string }> = {
 };
 
 export default function FleetPage() {
-  const { data } = useLive<Fleet>('/api/tasks', ['task.updated', 'money.recovered', 'approval.requested'], { tasks: [], recoveredCents: 0, provider: 'local', model: null });
+  const { data } = useLive<Fleet>('/api/tasks', ['task.updated', 'money.recovered', 'approval.requested'], { tasks: [], recoveredCents: 0, provider: 'local', model: null, demo: true });
   const { data: approvals, reload } = useLive<Approval[]>('/api/approvals?state=pending', ['approval.requested', 'task.updated'], []);
   const live = data.tasks.filter((t) => t.state === 'running' || t.state === 'needs_approval').length;
   const done = data.tasks.filter((t) => t.state === 'done').length;
+  const confirmed = data.tasks.filter((t) => t.state === 'done' && !t.researched).length;
+  const checked = data.tasks.filter((t) => t.researched).length;
 
   return (
     <>
@@ -58,7 +62,7 @@ export default function FleetPage() {
           <>
             <a className="op-btn plain small" href="/app/specialist">Specialist hires</a>
             <span className="op-pill ghost">
-              {data.provider === 'agentcore' ? 'Amazon Bedrock AgentCore Browser' : 'Local Chromium (fallback)'}
+              {data.provider === 'agentcore' ? 'Amazon Bedrock AgentCore Browser' : 'Playwright Chromium, local'}
               {data.model ? ` · ${data.model}` : ' · scripted mode'}
             </span>
           </>
@@ -89,7 +93,9 @@ export default function FleetPage() {
               <Money cents={data.recoveredCents} />
             </div>
             <div className="card-sub num">
-              {done} confirmed on the demo merchants’ status pages
+              {data.demo
+                ? `${confirmed} confirmed on the demo merchants’ status pages`
+                : `${confirmed} confirmed on merchant status pages. ${checked} merchant site${checked === 1 ? '' : 's'} checked read-only; research never counts money.`}
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
@@ -105,8 +111,10 @@ export default function FleetPage() {
 
 function Tile({ t }: { t: FleetTask }) {
   const v = VIGIL[t.vigilType];
-  const s = STATE[t.state] ?? { label: t.state, tone: '' };
+  const s = t.researched ? { label: 'Checked', tone: 'good' } : STATE[t.state] ?? { label: t.state, tone: '' };
   const showStream = t.streamUrl && (t.state === 'running' || t.state === 'needs_approval');
+  // A finished run has no live frame; show the last evidence screenshot instead.
+  const still = t.state === 'done' || t.state === 'failed' ? (t.shotUrl ? `${API}${t.shotUrl}` : null) : t.frameUrl;
   return (
     <div className="op-tile" style={t.state === 'needs_approval' ? { outline: '3px solid var(--lime)' } : undefined}>
       <div className="screen">
@@ -117,9 +125,9 @@ function Tile({ t }: { t: FleetTask }) {
         {showStream ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={t.streamUrl!} alt={`Live browser for ${t.merchant}`} />
-        ) : t.frameUrl ? (
+        ) : still ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={t.frameUrl} alt={`Last frame for ${t.merchant}`} style={{ filter: t.state === 'done' ? 'saturate(0.6)' : undefined }} />
+          <img src={still} alt={`Last frame for ${t.merchant}`} style={{ filter: t.state === 'done' && !t.researched ? 'saturate(0.6)' : undefined }} />
         ) : t.state === 'needs_specialist' ? (
           <HireButton taskId={t.id} />
         ) : (
@@ -138,6 +146,8 @@ function Tile({ t }: { t: FleetTask }) {
             <span style={{ color: 'var(--bad)', display: 'inline-flex', gap: 4, alignItems: 'center' }}>
               <ShieldWarning size={14} /> Ignored a page instruction
             </span>
+          ) : t.researched ? (
+            'Checked the merchant’s own site, read-only'
           ) : t.state === 'done' && t.confirmationCode ? (
             `${v?.label ?? ''} · ${t.confirmationCode}`
           ) : (

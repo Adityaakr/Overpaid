@@ -7,7 +7,7 @@ import {
  CalendarCheck } from '@phosphor-icons/react';
 import type { ReactNode } from 'react';
 import { useLive, useEvents } from './api';
-import { WalletRailButton } from './wallet';
+import { WalletTopButton } from './wallet';
 
 export function Logo({ size = 32 }: { size?: number }) {
   return (
@@ -44,8 +44,6 @@ export function Rail() {
           </Link>
         );
       })}
-      <div className="spacer" />
-      <WalletRailButton />
     </nav>
   );
 }
@@ -76,6 +74,7 @@ export function MetricsBar() {
           Next review <b>{next.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</b>
         </div>
         <div className="op-metric">Your statement, Cardano preprod</div>
+        <WalletTopButton />
       </div>
     );
   }

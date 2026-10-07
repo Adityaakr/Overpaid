@@ -8,12 +8,15 @@ import { FLEET_PUBLIC_URL, type Orchestrator } from '../orchestrator.js';
 import { feeView } from './fees.js';
 import { runFindAndPersist } from '../find.js';
 import type { Ctx } from './core.js';
+import { reviewDigest } from './anchor.js';
 import { fileURLToPath } from 'node:url';
 
 /** Where the fleet writes evidence bundles (services/fleet/src/config.ts uses the same default). */
 const EVIDENCE_ROOT = process.env.EVIDENCE_DIR ?? fileURLToPath(new URL('../../../../evidence', import.meta.url));
 
 export async function registerProductRoutes(app: FastifyInstance, { db, bus }: Ctx, orch: Orchestrator) {
+  // Evidence bundle step counts by bundle hash (bundles are immutable once hashed).
+  const evidenceSteps = new Map<string, number>();
   // ---------- Find ----------
   const FindBody = z.object({
     mode: z.enum(['demo', 'upload']),
@@ -82,14 +85,28 @@ export async function registerProductRoutes(app: FastifyInstance, { db, bus }: C
     const evs = await db.select().from(evidence);
     const recBy = new Map(recs.map((r) => [r.taskId, r.amount]));
     const evBy = new Map(evs.map((e) => [e.taskId, e.sha256]));
+    const shown = new Set(rows.map(({ t }) => t.id));
+    const run = (await bus.allMetrics()).find_run as { demo?: boolean } | undefined;
     const health = (await fetch(`${process.env.FLEET_URL ?? 'http://127.0.0.1:4500'}/healthz`, { signal: AbortSignal.timeout(1500) })
       .then((r) => r.json())
       .catch(() => null)) as { provider?: string; model?: { model?: string | null } | null } | null;
+    for (const e of evs) {
+      if (evidenceSteps.has(e.sha256) || !shown.has(e.taskId)) continue;
+      const ev = await evidenceDir(e.taskId);
+      try {
+        const m = JSON.parse(await (await import('node:fs/promises')).readFile(`${ev?.dir}/manifest.json`, 'utf8')) as { steps?: unknown[] };
+        evidenceSteps.set(e.sha256, m.steps?.length ?? 0);
+      } catch {
+        evidenceSteps.set(e.sha256, 0);
+      }
+    }
     return {
       provider: health?.provider ?? 'local',
       model: health?.model?.model ?? null,
       fleetOnline: orch.online,
-      recoveredCents: recs.reduce((s, r) => s + r.amount, 0),
+      demo: run?.demo !== false,
+      // Only the runs on screen count; a real upload never shows the demo account's history.
+      recoveredCents: recs.filter((r) => shown.has(r.taskId)).reduce((s, r) => s + r.amount, 0),
       tasks: rows.map(({ t, o }) => ({
         id: t.id,
         state: t.state,
@@ -101,6 +118,9 @@ export async function registerProductRoutes(app: FastifyInstance, { db, bus }: C
         recoveredCents: recBy.get(t.id) ?? null,
         confirmationCode: t.step?.startsWith('Confirmed ') ? t.step.slice(10) : null,
         evidenceSha256: evBy.get(t.id) ?? null,
+        researched: t.step === 'Researched on the merchant site',
+        // Last evidence screenshot: the fleet drops its live frame once a run ends.
+        shotUrl: evBy.get(t.id) && evidenceSteps.get(evBy.get(t.id)!) ? `/api/evidence/${t.id}/step-${String(evidenceSteps.get(evBy.get(t.id)!)).padStart(3, '0')}.png` : null,
         failureReason: t.failureReason,
         streamUrl: t.recipeId === 'skylane-claim' ? null : `${FLEET_PUBLIC_URL}/tasks/${t.id}/stream`,
         frameUrl: t.recipeId === 'skylane-claim' ? null : `${FLEET_PUBLIC_URL}/tasks/${t.id}/frame.jpg`,
@@ -216,9 +236,12 @@ export async function registerProductRoutes(app: FastifyInstance, { db, bus }: C
       selfServe: Boolean(o.meta.selfServe), decision: (o.meta.decision as string | undefined) ?? null, task: taskByOpp.get(o.id)?.state ?? null, research: (o.meta.research as Record<string, unknown> | undefined) ?? null,
       new: o.createdAt >= since,
     });
+    const anchor = ((await bus.allMetrics()).review_anchor as Record<string, unknown> | undefined) ?? null;
     return {
       since: since.toISOString(),
       nextReviewAt: next.toISOString(),
+      anchor,
+      digest: (await reviewDigest(db, bus)).hash,
       recoveredWeekCents: week.reduce((s, { r }) => s + r.amount, 0),
       recoveredTotalCents: recovered.reduce((s, { r }) => s + r.amount, 0),
       recovered: week.map(({ r, o, t }) => ({ id: r.id, merchant: o.merchant, amount: r.amount, currency: r.currency, confirmedAt: r.confirmedAt, mode: t.mode })),

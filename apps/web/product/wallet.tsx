@@ -485,6 +485,28 @@ export function ConnectButton({ compact }: { compact?: boolean }) {
   );
 }
 
+/** Top-right slot in the metrics strip: who is signing, on which network, with what balance. */
+export function WalletTopButton() {
+  const w = useWallet();
+  if (w.address) {
+    return (
+      <Link href="/app/wallet" className="op-wallet on" aria-label={`${w.walletName} wallet, ${fmtAda(w.balanceLovelace, 1)} on Preprod`}>
+        <WalletIcon size={16} weight="fill" />
+        <span>{w.walletName}</span>
+        <span className="op-mono addr">{shortAddr(w.address, 8, 4)}</span>
+        <b className="num">{fmtAda(w.balanceLovelace, 1)}</b>
+        <span className="net">Preprod</span>
+      </Link>
+    );
+  }
+  return (
+    <Link href="/app/wallet" className={`op-wallet${w.wrongNetwork ? ' warn' : ''}`} aria-label={w.wrongNetwork ? 'Switch your wallet to Preprod' : 'Connect a Cardano wallet'}>
+      <WalletIcon size={16} weight="light" />
+      <span>{w.wrongNetwork ? 'Switch to Preprod' : 'Connect wallet'}</span>
+    </Link>
+  );
+}
+
 /** Rail slot: wallet state at a glance; links to the wallet page. */
 export function WalletRailButton() {
   const w = useWallet();

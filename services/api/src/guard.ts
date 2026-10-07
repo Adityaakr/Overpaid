@@ -18,6 +18,7 @@ export function webOrigins(): string[] {
 const PUBLIC_WRITES = [
   /^\/api\/bloc\/(join|pledge\/build|pledge\/submit|refund\/build|refund\/submit)$/,
   /^\/api\/fees\/[^/]+\/(build|submit)$/,
+  /^\/api\/anchor\/(build|submit)$/,
   /^\/api\/audit\/(preview|messages)$/,
   /^\/api\/x402\/(audit|pay\/build|pay\/assemble)$/,
   /^\/api\/opportunities\/[^/]+\/(decide|draft)$/,

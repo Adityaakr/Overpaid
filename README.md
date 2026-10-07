@@ -44,7 +44,7 @@ Pricing, in one line: nothing to run, a success fee of 15% only on money confirm
 
 | Who | How | What happens |
 |---|---|---|
-| **A person** | Open **`/audit`** and drop in a bank or card CSV, then **Start my autopilot** | The full audit, free: every item with its reasons, source rows, action and a drafted message. On autopilot it keeps watching, runs the agents, and shows you a Sunday review at `/app/review`. |
+| **A person** | Open **`/audit`** and drop in a bank or card CSV, then **Start my autopilot** | The full audit, free: every item with its reasons, source rows, action and a drafted message. On autopilot it keeps watching, sends browser agents to the merchants' own sites (read-only, with a screenshot of every step at `/app/evidence/:taskId`), and shows you a Sunday review at `/app/review`. Connect Lace or Eternl on Preprod (top right) to sign the review anchor, success fees and bloc pledges from your own wallet. |
 | **A company** | On Sokosumi, create a Task (or a weekly Schedule) for **Clawback Recovery Auditor** (Coworker `01a11413-db1e-7259-ab91-17a7ef2f9c77`) and paste the statement | The Coworker requests payment into Masumi escrow, runs the audit, puts the result hash on chain and posts the report in the Task thread. A Schedule creates a new Task on each occurrence, so the audit runs without anyone opening Sokosumi. |
 | **Another agent** | `POST /api/x402/audit` with `{ "statement": "..." }` | `402 Payment Required` with the price; any `@x402/cardano` client pays and retries. No account, no API key. |
 
@@ -139,7 +139,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 | **Your upload** on `/audit` or in the app's Connect page, and every finding it produces | **"Use demo data"**: a synthetic account with receipts and a statement |
 | **The Coworker** on Sokosumi: Tasks, escrow, result hashes, payout. **Research agents** on real merchants: "Send an agent" opens a Claude browser agent on the merchant's own site, read-only (never logs in, submits or pays), and brings back the cancel page, prices and support route with a hashed screenshot of every step (`/app/evidence/:taskId`) | **Fix agents** that click through to a cancellation or refund run only on our four demo merchant sites; a real cancellation needs your logged-in session |
 | **Every x402 payment, pledge, refund, settlement, success fee and registration** on preprod | **The specialist** files on a demo airline |
-| **Wallets**: users sign their own transactions in Lace or Eternl (SubWallet connects Cardano dApps on mainnet only today) | **eSIM providers** and 60 of the pledges are simulated; the room's custodial demo wallets are run by Clawback |
+| **Wallets**: users sign their own transactions in Lace or Eternl (SubWallet connects Cardano dApps on mainnet only today): review anchors, success fees and bloc pledges | **eSIM providers** and 60 of the pledges are simulated; the room's custodial demo wallets are run by Clawback |
 
 ## Why the claims hold up
 
@@ -163,6 +163,19 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 | **Audit and review** (`services/api/src/routes/x402audit.ts`, `product.ts`) | The free audit and drafted messages, the x402 resource behind a 402 for agents, and the Sunday review (`/api/review`) with keep, remove and undo per line. |
 
 Step-by-step flows: [docs/COWORKER.md](docs/COWORKER.md) (paid Task sequence) and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (components, keys, escrow states).
+
+## Built with
+
+| Layer | What we use | Where |
+|---|---|---|
+| Chain | Cardano preprod, Blockfrost, Evolution SDK 0.5.13 for every transaction we build | `packages/cardano` |
+| Agent payments | Masumi payment service (vested_pay v2 escrow, MIP-003 agent API, MIP-004 hashes), Sokosumi Coworker and Task runtime, `@x402/cardano` 2.26 (exact scheme, keyless in-process facilitator) | `services/coworker`, `services/specialist`, `services/api/src/routes/x402audit.ts` |
+| Contract | Aiken validator for bloc pledges and settlement (spend, withdraw and publish handlers), 90 tests | `contracts/bloc` |
+| Agents | Claude (`anthropic/claude-sonnet-5.5` over OpenRouter; Bedrock or the Anthropic API also work) in a tool loop on Playwright Chromium, AgentCore Browser optional; evidence bundles hashed with RFC 8785 manifests | `services/fleet` |
+| Wallets | CIP-30: Lace and Eternl on Preprod sign in the browser; the server builds transactions without keys and only attaches the witness set | `apps/web/product/wallet.tsx` |
+| App | Next.js 16, Fastify, Postgres with Drizzle, server-sent events for the live dashboard, pnpm workspaces, Node 22 (Node 24 for the Sokosumi CLI) | `apps/web`, `services/api`, `packages/db` |
+
+What you sign in your own wallet: the **review anchor** (one transaction carrying the hash of your Sunday review and every evidence bundle, 1.5 tADA back to you, metadata labels 674 and 1990), the **success fee** (15% of money confirmed back) and **bloc pledges**. Agents are paid by Clawback from its own wallet through Masumi escrow, never by you.
 
 ## Quickstart
 

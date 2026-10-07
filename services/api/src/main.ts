@@ -10,6 +10,7 @@ import { Orchestrator } from './orchestrator.js';
 import { followHires, registerSpecialistRoutes } from './routes/specialist.js';
 import { followBloc, registerBlocRoutes } from './routes/bloc.js';
 import { registerFeeRoutes } from './routes/fees.js';
+import { registerAnchorRoutes } from './routes/anchor.js';
 import { registerX402AuditRoutes } from './routes/x402audit.js';
 
 const db = createDb();
@@ -30,6 +31,7 @@ void followHires(db, bus);
 await registerBlocRoutes(app, { bus });
 void followBloc(bus);
 await registerFeeRoutes(app, { db, bus });
+await registerAnchorRoutes(app, { db, bus });
 await registerX402AuditRoutes(app);
 
 const port = Number(process.env.API_PORT ?? PORTS.api);

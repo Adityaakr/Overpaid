@@ -7,6 +7,7 @@ import { Money, PageHead } from '@/product/ui';
 import { VIGIL } from '@/product/vigils';
 import { LedgerBrief } from '@/product/brief';
 import { ResearchResult, SendAgentButton, type Research } from '@/product/research';
+import { AnchorCard, type Anchor } from '@/product/anchor';
 
 type Item = {
   id: string; merchant: string; vigilType: string; valueEstimate: number; currency: string; status: string; reason: string;
@@ -16,13 +17,13 @@ type Review = {
   since: string; nextReviewAt: string; recoveredWeekCents: number; recoveredTotalCents: number;
   recovered: { id: string; merchant: string; amount: number; currency: string; confirmedAt: string; mode: string }[];
   awaiting: { id: string; taskId: string; step: string; reason: string; createdAt: string }[];
-  decide: Item[]; kept: Item[]; removed: Item[]; working: Item[];
+  decide: Item[]; kept: Item[]; removed: Item[]; working: Item[]; anchor: Anchor | null; digest: string;
 };
-const EMPTY: Review = { since: '', nextReviewAt: '', recoveredWeekCents: 0, recoveredTotalCents: 0, recovered: [], awaiting: [], decide: [], kept: [], removed: [], working: [] };
+const EMPTY: Review = { since: '', nextReviewAt: '', recoveredWeekCents: 0, recoveredTotalCents: 0, recovered: [], awaiting: [], decide: [], kept: [], removed: [], working: [], anchor: null, digest: '' };
 const day = (iso: string) => new Date(iso).toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'short' });
 
 export default function SundayReview() {
-  const { data, reload } = useLive<Review>('/api/review', ['money.found', 'money.recovered', 'task.updated', 'approval.requested'], EMPTY);
+  const { data, reload } = useLive<Review>('/api/review', ['money.found', 'money.recovered', 'task.updated', 'approval.requested', 'metrics.updated'], EMPTY);
   const [busy, setBusy] = useState<string | null>(null);
   const decide = async (id: string, decision: 'keep' | 'remove' | 'undo') => {
     setBusy(id);
@@ -76,6 +77,8 @@ export default function SundayReview() {
       </div>
 
       <LedgerBrief deps={data.decide.length} />
+
+      {data.digest ? <div style={{ marginBottom: 20 }}><AnchorCard anchor={data.anchor} digest={data.digest} onDone={reload} /></div> : null}
 
       {data.awaiting.length ? (
         <div className="op-card" style={{ marginBottom: 20 }}>

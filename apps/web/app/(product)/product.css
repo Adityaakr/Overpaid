@@ -225,6 +225,44 @@
   box-shadow: none;
 }
 
+/* wallet pill at the right end of the strip */
+.op-metrics .op-wallet {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  border-radius: 999px;
+  padding: 6px 12px 6px 10px;
+  font-size: 12.5px;
+  background: var(--dark);
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.op-metrics .op-wallet.on {
+  background: var(--lime);
+  color: var(--ink);
+}
+.op-metrics .op-wallet.warn {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.op-metrics .op-wallet .addr {
+  font-size: 11.5px;
+  opacity: 0.75;
+}
+.op-metrics .op-wallet b {
+  font-weight: 600;
+  font-size: 13px;
+}
+.op-metrics .op-wallet .net {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
 /* ---------- page header ---------- */
 .op-head {
   display: flex;
