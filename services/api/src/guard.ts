@@ -20,6 +20,7 @@ const PUBLIC_WRITES = [
   /^\/api\/fees\/[^/]+\/(build|submit)$/,
   /^\/api\/audit\/(preview|messages)$/,
   /^\/api\/x402\/(audit|pay\/build|pay\/assemble)$/,
+  /^\/api\/opportunities\/[^/]+\/(decide|draft)$/,
 ];
 // Open to any client, including other agents: payment is the gate.
 const OPEN_ROUTES = [/^\/api\/x402\/audit$/];

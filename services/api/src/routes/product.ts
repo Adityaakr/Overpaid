@@ -218,4 +218,50 @@ export async function registerProductRoutes(app: FastifyInstance, { db, bus }: C
     await bus.emit('money.found', { decided: o.id, decision });
     return { ok: true };
   });
+
+  // Plain-language brief for the dashboard and the Sunday review: Claude explains the ledger and drafts the
+  // message for one line. The model only writes words; every number comes from the ledger rows.
+  const briefCache = new Map<string, { at: number; text: string }>();
+  async function claude(system: string, user: string): Promise<string | null> {
+    const key = process.env.OPENROUTER_API_KEY || process.env.OPENROUTER_KEY;
+    if (!key) return null;
+    const res = await fetch(process.env.OPENROUTER_BASE_URL ?? 'https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json', 'x-title': 'Clawback app' },
+      body: JSON.stringify({ model: process.env.OPENROUTER_MODEL ?? 'anthropic/claude-sonnet-5.5', max_tokens: 700, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+      signal: AbortSignal.timeout(60_000),
+    }).catch(() => null);
+    const body = (await res?.json().catch(() => null)) as any;
+    const text = body?.choices?.[0]?.message?.content;
+    return typeof text === 'string' && text.trim() ? text.trim() : null;
+  }
+
+  app.get('/api/ledger/brief', async () => {
+    const opps = await db.select().from(opportunities).orderBy(desc(opportunities.valueEstimate));
+    const open = opps.filter((o) => o.status === 'open');
+    const key = open.map((o) => o.id).join(',');
+    const hit = briefCache.get(key);
+    if (hit && Date.now() - hit.at < 6 * 3_600_000) return { text: hit.text, cached: true };
+    if (!open.length) return { text: null };
+    const lines = open.slice(0, 12).map((o) => ({ merchant: o.merchant, type: o.vigilType, amount: (o.valueEstimate / 100).toFixed(2), basis: o.meta.valueBasis ?? 'one-off', reason: o.reason }));
+    const text = await claude(
+      'You write a short plain-language brief for someone reviewing what an agent found on their accounts. Three sentences at most, then at most three bullet points starting with a verb. Use only the numbers given; never invent amounts or merchants. Recurring charges are "to review", never "unused". No headings, no preamble.',
+      JSON.stringify(lines),
+    );
+    if (text) briefCache.set(key, { at: Date.now(), text });
+    return { text };
+  });
+
+  app.post<{ Params: { id: string } }>('/api/opportunities/:id/draft', async (req, reply) => {
+    const [o] = await db.select().from(opportunities).where(eq(opportunities.id, req.params.id));
+    if (!o) return reply.code(404).send({ error: 'no such line' });
+    if (typeof o.meta.draft === 'string') return { draft: o.meta.draft, cached: true };
+    const draft = await claude(
+      'Write one short message (under 90 words, plain text, no subject line) the account owner can send to this merchant or bank: a cancellation, refund request, fee waiver or request for a better price, matching the finding. Address it to the support team. Use only the facts given; placeholders allowed: [account email], [account number]. No preamble.',
+      JSON.stringify({ merchant: o.merchant, finding: o.vigilType, amount: (o.valueEstimate / 100).toFixed(2), basis: o.meta.valueBasis ?? 'one-off', reason: o.reason, action: o.meta.action ?? null }),
+    );
+    if (!draft) return reply.code(503).send({ error: 'No model configured. Set OPENROUTER_API_KEY to draft messages.' });
+    await db.update(opportunities).set({ meta: { ...o.meta, draft } }).where(eq(opportunities.id, o.id));
+    return { draft };
+  });
 }
