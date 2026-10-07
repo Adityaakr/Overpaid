@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { opportunities, sources, subscriptions, sql, transactions, type Db } from '@overpaid/db';
 import { DEMO_TODAY, newId } from '@overpaid/shared';
@@ -47,19 +48,38 @@ export async function runFindAndPersist({ db, bus }: { db: Db; bus: Bus }, input
         cadence: s.cadence, nextRenewal: s.nextCharge ?? null, lastUseSignal: s.lastUseSignal ?? null,
       })),
     );
-  if (result.opportunities.length)
+  // Real uploads also get the statement audit: recurring charges to review, bills to renegotiate, price rises,
+  // duplicates and fees. These are self-serve lines with a concrete action; no demo browser recipe runs on them.
+  const extra: typeof result.opportunities = [];
+  if (!demo) {
+    const { auditFind } = await import('@overpaid/coworker/audit');
+    const VIGIL_OF = { duplicate: 'duplicate_charge', fee: 'bank_fee', price_increase: 'price_increase', cancel_or_keep: 'recurring_review', negotiate: 'bill_review' } as const;
+    const a = auditFind(result);
+    for (const it of a.items) {
+      if (it.kind === 'recover') continue;
+      const ids = it.rows.map((r) => r.id);
+      extra.push({
+        id: `opp_${createHash('sha256').update(`${it.kind}|${it.title}|${ids.join(',')}`).digest('hex').slice(0, 12)}`,
+        vigilType: VIGIL_OF[it.kind] as never, merchant: it.title, valueEstimate: it.cents, currency: a.currency,
+        confidence: it.confidence === 'high' ? 0.9 : it.confidence === 'medium' ? 0.7 : 0.5, reason: it.why, sourceRecordIds: ids, status: 'open',
+        meta: { action: it.action, category: it.category, valueBasis: it.per === 'year' ? 'annual' : 'one-off', selfServe: true },
+      });
+    }
+  }
+  const all = [...result.opportunities.map((o) => (demo ? o : { ...o, meta: { ...(o.meta ?? {}), selfServe: true } })), ...extra];
+  if (all.length)
     await db.insert(opportunities).values(
-      result.opportunities.map((o) => ({
+      all.map((o) => ({
         id: o.id, vigilType: o.vigilType, merchant: o.merchant, valueEstimate: o.valueEstimate, currency: o.currency,
         confidence: o.confidence, reason: o.reason, sourceRecordIds: o.sourceRecordIds, status: prior.get(o.id) ?? 'open',
         meta: { ...(o.meta ?? {}), sourceLabels: Object.fromEntries(o.sourceRecordIds.map((id) => [id, labels.get(id) ?? id])) },
       })),
     );
 
-  const total = result.opportunities.reduce((s, o) => s + o.valueEstimate, 0);
+  const total = all.reduce((s, o) => s + o.valueEstimate, 0);
   await bus.setMetric('found_cents', total);
   await bus.setMetric('find_run', { ranAt: new Date().toISOString(), durationMs, demo });
   await bus.setMetric('emails_read', result.emails.length);
-  await bus.emit('money.found', { totalCents: total, count: result.opportunities.length, durationMs, demo });
-  return { totalCents: total, count: result.opportunities.length, durationMs, timings: result.timings ?? null };
+  await bus.emit('money.found', { totalCents: total, count: all.length, durationMs, demo });
+  return { totalCents: total, count: all.length, durationMs, timings: result.timings ?? null };
 }

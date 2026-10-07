@@ -1,4 +1,4 @@
-import { runFind, type FindTransaction, type Subscription } from '@overpaid/find';
+import { runFind, type FindResult, type FindTransaction, type Subscription } from '@overpaid/find';
 import { VIGIL_LABEL } from '@overpaid/shared';
 
 export const USAGE = [
@@ -11,6 +11,7 @@ export const USAGE = [
 
 export type ItemKind = 'recover' | 'duplicate' | 'fee' | 'price_increase' | 'cancel_or_keep' | 'negotiate';
 export interface Row {
+  id: string;
   date: string;
   descriptor: string;
   cents: number;
@@ -70,7 +71,7 @@ const monthlyOf = (s: Subscription, amounts: number[]) => {
   return s.cadence === 'weekly' ? Math.round((avg * 52) / 12) : s.cadence === 'biweekly' ? Math.round((avg * 26) / 12) : avg;
 };
 const money = (cents: number, cur = 'USD') => `${cur === 'USD' ? '$' : `${cur} `}${(cents / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-const rowOf = (t: FindTransaction): Row => ({ date: t.date, descriptor: t.descriptor, cents: t.amount });
+const rowOf = (t: FindTransaction): Row => ({ id: t.id, date: t.date, descriptor: t.descriptor, cents: t.amount });
 const categorize = (text: string) => CATEGORIES.find((c) => c.re.test(text.toLowerCase())) ?? { name: 'Other recurring', kind: 'subscription' as const };
 
 /** Pulls the table out of free text: from the first header-looking line (date + amount/debit) onward. */
@@ -90,7 +91,11 @@ const EMPTY = (warnings: string[] = []): Audit => ({
 export async function audit(text: string, today = new Date().toISOString().slice(0, 10)): Promise<Audit> {
   const csv = extractCsv(text);
   if (!csv) return EMPTY(['No table with a date and an amount column was found.']);
-  const r = await runFind({ files: [{ name: 'statement.csv', bytes: Buffer.from(csv, 'utf8') }] }, { today });
+  return auditFind(await runFind({ files: [{ name: 'statement.csv', bytes: Buffer.from(csv, 'utf8') }] }, { today }));
+}
+
+/** The audit over an existing Find result (statement transactions only), so callers can reuse its record ids. */
+export function auditFind(r: FindResult): Audit {
   const txs = r.transactions;
   if (!txs.length) return EMPTY(r.sources.flatMap((s) => s.warnings).slice(0, 3));
   const currency = txs[0]!.currency;

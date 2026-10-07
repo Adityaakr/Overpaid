@@ -63,7 +63,8 @@ export class Orchestrator {
     const existing = rows.length ? await this.db.select().from(tasks).where(inArray(tasks.opportunityId, rows.map((o) => o.id))) : [];
     const busy = new Set(existing.filter((t) => t.state !== 'failed').map((t) => t.opportunityId));
     for (const o of rows) {
-      if (o.vigilType === 'bill_above_market' || busy.has(o.id)) continue;
+      // Browser recipes exist only for the demo merchant sites; real uploads are self-serve lines with drafted actions.
+      if (o.vigilType === 'bill_above_market' || busy.has(o.id) || (o.meta as { selfServe?: boolean })?.selfServe) continue;
       const id = newId('task');
       if (o.vigilType === 'flight_compensation') {
         await this.db.insert(tasks).values({ id, opportunityId: o.id, recipeId: 'skylane-claim', state: 'needs_specialist', mode: 'agent', step: 'Needs an airline-compensation specialist' });

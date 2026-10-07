@@ -65,7 +65,8 @@ export default function MoneyOnTheTable() {
     }
   };
 
-  const fixable = data.items.filter((i) => i.status === 'open' && i.vigilType !== 'bill_above_market').length;
+  const selfServe = (i: Item) => Boolean(i.meta?.selfServe);
+  const fixable = data.items.filter((i) => i.status === 'open' && i.vigilType !== 'bill_above_market' && !selfServe(i)).length;
   const working = data.items.filter((i) => i.status === 'in_progress' || i.status === 'queued').length;
 
   if (!data.count) {
@@ -98,12 +99,23 @@ export default function MoneyOnTheTable() {
       <PageHead
         title="Money on the table"
         tone={working ? 'warn' : 'good'}
-        sub={working ? `${working} agents working, ${fixable} waiting for you` : `${data.count} leaks found, ${fixable} ready to fix`}
+        sub={
+          working ? `${working} agents working, ${fixable} waiting for you`
+          : data.demo ? `${data.count} leaks found, ${fixable} ready to fix`
+          : `${data.count} things to act on in your statement, each with what to do`
+        }
         actions={
-          <button className="op-btn" onClick={fixAll} disabled={!fixable || busy === 'fix'}>
-            <span className="ico"><ArrowRight size={20} /></span>
-            {busy === 'fix' ? 'Starting agents…' : `Approve and fix ${fixable}`}
-          </button>
+          fixable || data.demo ? (
+            <button className="op-btn" onClick={fixAll} disabled={!fixable || busy === 'fix'}>
+              <span className="ico"><ArrowRight size={20} /></span>
+              {busy === 'fix' ? 'Starting agents…' : `Approve and fix ${fixable}`}
+            </button>
+          ) : (
+            <a className="op-btn" href="/audit">
+              <span className="ico"><ArrowRight size={20} /></span>
+              Get messages to send
+            </a>
+          )
         }
       />
 
@@ -111,7 +123,7 @@ export default function MoneyOnTheTable() {
         <div className="op-card" style={{ display: 'grid', alignContent: 'space-between', gap: 28 }}>
           <div className="op-card-head" style={{ marginBottom: 0 }}>
             <div>
-              <h2>Owed to you</h2>
+              <h2>{data.demo ? 'Owed to you' : 'At stake in your statement'}</h2>
               <div className="card-sub">
                 {data.demo ? 'Demo account, synthetic receipts' : 'Your exports, processed locally'}
               </div>
@@ -175,15 +187,22 @@ export default function MoneyOnTheTable() {
                   <div className="value num">
                     <Money cents={it.valueEstimate} currency={it.currency} />
                     {String(it.meta?.valueBasis ?? '').startsWith('annual') ? (
-                      <div className="op-muted" style={{ fontSize: 12, fontWeight: 400, letterSpacing: 0 }}>saved per year</div>
+                      <div className="op-muted" style={{ fontSize: 12, fontWeight: 400, letterSpacing: 0 }}>{selfServe(it) ? 'per year' : 'saved per year'}</div>
                     ) : it.vigilType === 'bill_above_market' ? (
                       <div className="op-muted" style={{ fontSize: 12, fontWeight: 400, letterSpacing: 0 }}>per year, as a bloc</div>
                     ) : null}
                   </div>
                   <div className="status">
-                    <span className={`op-pill ${s.tone}`}>{it.vigilType === 'bill_above_market' && it.status === 'open' ? 'Join a bloc' : s.label}</span>
+                    <span className={`op-pill ${s.tone}`}>
+                      {it.vigilType === 'bill_above_market' && it.status === 'open' ? 'Join a bloc' : selfServe(it) && it.status === 'open' ? 'Your action' : s.label}
+                    </span>
                   </div>
                 </div>
+                {selfServe(it) && it.meta?.action ? (
+                  <div style={{ padding: '0 4px 14px 64px', fontSize: 14, color: 'var(--ink-75)' }}>
+                    <b style={{ color: 'var(--ink)' }}>What to do:</b> {String(it.meta.action)}
+                  </div>
+                ) : null}
                 {isOpen ? (
                   <div className="op-sources" style={{ display: 'flex', padding: '0 4px 16px 64px' }}>
                     {it.sources.map((s) => (
