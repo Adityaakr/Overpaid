@@ -58,22 +58,35 @@ const claimKey = (id: string) => createHash('sha256').update(id).digest('hex');
 export async function registerX402AuditRoutes(app: FastifyInstance) {
   const base = (process.env.PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/+$/, '');
 
-  // Free preview: how much there is to recover, without the source rows or the messages.
+  // Free for people: the full audit, with reasons, rows and actions. The drafted messages are free too but
+  // rate limited per client, since each one is a model call. Agents buy the same thing over x402 below.
+  const drafts = new Map<string, number[]>();
+  const DRAFT_LIMIT = 6; // per client per hour
   app.post('/api/audit/preview', async (req, reply) => {
     const parsed = Body.safeParse(req.body);
     if (!parsed.success) return reply.code(400).send({ error: 'Paste a statement as CSV with Date, Description and Amount columns.' });
     const { audit, kindLabel } = await import('@overpaid/coworker/audit');
     const a = await audit(parsed.data.statement);
-    // Free: the summary and what each item is worth. Paid: source rows, reasons, actions and messages.
     return {
       ok: a.ok, warnings: a.warnings, currency: a.currency, rows: a.rows, months: a.months, from: a.from, to: a.to,
       moneyInCents: a.moneyInCents, moneyOutCents: a.moneyOutCents, avgMonthlyOutCents: a.avgMonthlyOutCents, recurringMonthlyCents: a.recurringMonthlyCents,
       claimCents: a.claimCents, reviewYearCents: a.reviewYearCents,
-      items: a.items.map((i) => ({ kind: i.kind, label: kindLabel(i.kind), title: i.title, category: i.category, cents: i.cents, per: i.per, confidence: i.confidence })),
-      fixed: a.fixed,
-      count: a.items.length, totalCents: a.totalCents,
-      priceLovelace: PRICE_LOVELACE.toString(),
+      items: a.items.map((i) => ({ ...i, label: kindLabel(i.kind) })),
+      fixed: a.fixed, count: a.items.length, totalCents: a.totalCents, priceLovelace: PRICE_LOVELACE.toString(),
     };
+  });
+
+  app.post('/api/audit/messages', async (req, reply) => {
+    const parsed = Body.safeParse(req.body);
+    if (!parsed.success) return reply.code(400).send({ error: 'Paste a statement as CSV with Date, Description and Amount columns.' });
+    const who = String(req.headers['cf-connecting-ip'] ?? req.ip);
+    const now = Date.now();
+    const recent = (drafts.get(who) ?? []).filter((t) => now - t < 3_600_000);
+    if (recent.length >= DRAFT_LIMIT) return reply.code(429).send({ error: 'That is enough drafts for one hour. Put the statement on autopilot in the app instead.' });
+    drafts.set(who, [...recent, now]);
+    const { buildReport } = await import('@overpaid/coworker/report');
+    const r = await buildReport(parsed.data.statement);
+    return { actions: r.actions, report: r.text, model: r.model };
   });
 
   // The paid resource. Unpaid: 402 with PAYMENT-REQUIRED. Paid: verify, run the audit, settle, then respond.

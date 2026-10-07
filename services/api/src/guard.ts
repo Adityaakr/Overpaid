@@ -18,7 +18,7 @@ export function webOrigins(): string[] {
 const PUBLIC_WRITES = [
   /^\/api\/bloc\/(join|pledge\/build|pledge\/submit|refund\/build|refund\/submit)$/,
   /^\/api\/fees\/[^/]+\/(build|submit)$/,
-  /^\/api\/audit\/preview$/,
+  /^\/api\/audit\/(preview|messages)$/,
   /^\/api\/x402\/(audit|pay\/build|pay\/assemble)$/,
 ];
 // Open to any client, including other agents: payment is the gate.

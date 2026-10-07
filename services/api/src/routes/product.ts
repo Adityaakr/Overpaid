@@ -169,4 +169,53 @@ export async function registerProductRoutes(app: FastifyInstance, { db, bus }: C
       demoMerchant: Object.values(MERCHANTS).some((m) => m.name === o.merchant),
     }));
   });
+
+  // The Sunday review: what happened in the last seven days, what waits for a decision, and the next review date.
+  app.get('/api/review', async () => {
+    const since = new Date(Date.now() - 7 * 86_400_000);
+    const recovered = await db
+      .select({ r: recoveries, o: opportunities, t: tasks })
+      .from(recoveries)
+      .innerJoin(tasks, eq(recoveries.taskId, tasks.id))
+      .innerJoin(opportunities, eq(tasks.opportunityId, opportunities.id))
+      .orderBy(desc(recoveries.confirmedAt));
+    const week = recovered.filter(({ r }) => r.confirmedAt >= since);
+    const pending = await db.select().from(approvals).where(eq(approvals.state, 'pending'));
+    const opps = await db.select().from(opportunities).orderBy(desc(opportunities.valueEstimate));
+    const taskByOpp = new Map((await db.select().from(tasks)).map((t) => [t.opportunityId, t]));
+    const next = new Date();
+    next.setUTCDate(next.getUTCDate() + ((7 - next.getUTCDay()) % 7 || 7));
+    next.setUTCHours(9, 0, 0, 0);
+    const item = (o: typeof opps[number]) => ({
+      id: o.id, merchant: o.merchant, vigilType: o.vigilType, valueEstimate: o.valueEstimate, currency: o.currency, status: o.status,
+      reason: o.reason, action: (o.meta.action as string | undefined) ?? null, valueBasis: (o.meta.valueBasis as string | undefined) ?? null,
+      selfServe: Boolean(o.meta.selfServe), decision: (o.meta.decision as string | undefined) ?? null, task: taskByOpp.get(o.id)?.state ?? null,
+      new: o.createdAt >= since,
+    });
+    return {
+      since: since.toISOString(),
+      nextReviewAt: next.toISOString(),
+      recoveredWeekCents: week.reduce((s, { r }) => s + r.amount, 0),
+      recoveredTotalCents: recovered.reduce((s, { r }) => s + r.amount, 0),
+      recovered: week.map(({ r, o, t }) => ({ id: r.id, merchant: o.merchant, amount: r.amount, currency: r.currency, confirmedAt: r.confirmedAt, mode: t.mode })),
+      awaiting: pending.map((a) => ({ id: a.id, taskId: a.taskId, step: a.step, reason: a.reason, createdAt: a.createdAt })),
+      decide: opps.filter((o) => o.status === 'open' && !(o.meta.decision)).map(item),
+      kept: opps.filter((o) => o.meta.decision === 'keep').map(item),
+      removed: opps.filter((o) => o.status === 'dismissed').map(item),
+      working: opps.filter((o) => o.status === 'queued' || o.status === 'in_progress').map(item),
+    };
+  });
+
+  // Keep = leave it alone from now on; remove = act on it (or mark it handled) and stop showing it.
+  app.post<{ Params: { id: string } }>('/api/opportunities/:id/decide', async (req, reply) => {
+    const { decision } = z.object({ decision: z.enum(['keep', 'remove', 'undo']) }).parse(req.body);
+    const [o] = await db.select().from(opportunities).where(eq(opportunities.id, req.params.id));
+    if (!o) return reply.code(404).send({ error: 'no such line' });
+    const meta = { ...o.meta };
+    if (decision === 'undo') delete meta.decision;
+    else meta.decision = decision;
+    await db.update(opportunities).set({ meta, status: decision === 'remove' ? 'dismissed' : decision === 'undo' && o.status === 'dismissed' ? 'open' : o.status }).where(eq(opportunities.id, o.id));
+    await bus.emit('money.found', { decided: o.id, decision });
+    return { ok: true };
+  });
 }
