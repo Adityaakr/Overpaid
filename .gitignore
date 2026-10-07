@@ -30,3 +30,6 @@ design/render/node_modules
 # local tooling
 .prism/
 .DS_Store
+
+# coworker runtime state and keys
+services/coworker/.local/
