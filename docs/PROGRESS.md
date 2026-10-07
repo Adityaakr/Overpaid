@@ -50,6 +50,7 @@ Still open: a settlement of exactly `N_max` = 40 pledges, real room pledges thro
 | Specialist moved to its own seed (sweep) | [83f6b81e](https://preprod.cardanoscan.io/transaction/83f6b81e5981319e083709ce978eafef965fad4b6200cedf067161aea7a8f276) |
 | Hire against the new seller; survived an API restart mid-payment | lock [ee9c0c33](https://preprod.cardanoscan.io/transaction/ee9c0c332f90), result [335ad843](https://preprod.cardanoscan.io/transaction/335ad843890f), verified |
 | Specialist listed on the Masumi preprod registry (agent NFT minted by its seller wallet) | [92fac474](https://preprod.cardanoscan.io/transaction/92fac474f90b1070ddd11500756748ff12cd22dde682fe524b7f3846f3bea973) |
+| Re-listed after the tunnel URL changed (current listing) | [7bfa72fc](https://preprod.cardanoscan.io/transaction/7bfa72fc97d01f4f3b6db54cac198c1de7bfa6deb331d0b7b941fdcb2355e8b7) |
 
 Also: CIP-30 wallet connect in the app (Lace, Eternl), a wallet page with on-chain history, API write guard and operator token, public access through a tunnel with remote writes limited to wallet pledges, refunds and fees.
 
