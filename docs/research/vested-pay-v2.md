@@ -140,6 +140,10 @@ Other on-chain types:
 
 ## 5. State diagram (`MPS/smart-contracts/payment-v2/state_machine_diagram.md:55-80`)
 
+![Escrow states](../diagrams/escrow-states.svg)
+
+<details><summary>Exact transitions with time guards</summary>
+
 ```
                  SubmitResult(S) [up<submit_result_time]          SubmitResult(S) (rotate hash)
   [lock] --> FundsLocked ------------------------------------> ResultSubmitted <-----+
@@ -158,6 +162,8 @@ Other on-chain types:
                                                +-- AuthorizeWithdrawal(B) --> WithdrawAuthorized --Withdraw(S)--> [end]
                                                +-- WithdrawDisputed(admins) [lo>=external_dispute_unlock_time] --> [end]
 ```
+
+</details>
 SubmitResult and AuthorizeRefund are not allowed from WithdrawAuthorized or RefundAuthorized (state_machine_diagram.md:144-147).
 
 ## 6. How payment-service builds each tx (the reference to port)

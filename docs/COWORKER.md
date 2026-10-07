@@ -28,17 +28,9 @@ Sample input: `Company card, last 7 months. Please audit for money we can recove
 
 ## How it runs
 
-```
-Sokosumi Task ──► worker (services/coworker/src/worker.ts)
-                    │  runtime start (Coworker key from the CLI vault)
-                    │  signed seller terms ◄── Masumi payment service (local, Preprod)
-                    │  masumiPayment event ──► Sokosumi funds escrow from Workspace credits
-                    │  waits for FundsLocked (confirmed), runs the audit
-                    │  submit-result (SHA-256 of the exact result bytes) ──► on chain
-                    │  COMPLETED event with the result
-                    └  after unlock: payment node collects; worker checks the Core receipt,
-                       matches the withdrawal tx and measures the seller's net USDM on Blockfrost
-```
+![A paid Task, end to end](diagrams/coworker-flow.svg)
+
+Editable: [`diagrams/coworker-flow.excalidraw`](diagrams/coworker-flow.excalidraw).
 
 Every stage is saved to a per-Task journal before the external write. A stage ending in `-pending` is an uncertain write and is never retried automatically, so a crash cannot double-submit or double-charge. One worker per Coworker is enforced with a PID lock. The worker never runs paid work before escrow is confirmed.
 

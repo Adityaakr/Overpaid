@@ -1,0 +1,37 @@
+// One paid Sokosumi Task, end to end (docs/COWORKER.md). Red messages are Cardano transactions.
+module.exports = {
+  name: 'coworker-flow',
+  w: 1240,
+  h: 845,
+  titles: [{ x: 40, y: 30, text: 'A paid Task, end to end' }],
+  sequence: {
+    top: 60,
+    gap: 46,
+    w: 180,
+    h: 60,
+    participants: [
+      { id: 'team', x: 30, color: 'yellow', text: ['Team', 'on Sokosumi'] },
+      { id: 'core', x: 270, color: 'teal', text: ['Sokosumi Core', 'Tasks, credits'] },
+      { id: 'worker', x: 510, color: 'blue', text: ['Coworker worker', 'Find + Claude'] },
+      { id: 'mps', x: 750, color: 'violet', text: ['Payment service', 'seller wallet'] },
+      { id: 'chain', x: 990, color: 'red', text: ['Cardano preprod', 'Masumi escrow'] },
+    ],
+    messages: [
+      { from: 'team', to: 'core', text: 'create Task with statement CSV' },
+      { from: 'worker', to: 'core', text: 'runtime start (Coworker key)' },
+      { from: 'worker', to: 'mps', text: 'signed terms: input hash, 1 USDM' },
+      { from: 'worker', to: 'core', text: 'masumiPayment event' },
+      { from: 'core', to: 'chain', text: 'fund escrow from credits', chain: true },
+      { from: 'chain', to: 'mps', text: 'FundsLocked confirmed', dashed: true },
+      { from: 'mps', to: 'worker', text: 'escrow confirmed', dashed: true },
+      { from: 'worker', to: 'worker', text: 'run the audit' },
+      { from: 'worker', to: 'mps', text: 'submit result hash' },
+      { from: 'mps', to: 'chain', text: 'ResultSubmitted', chain: true },
+      { from: 'worker', to: 'core', text: 'COMPLETED + result' },
+      { from: 'core', to: 'team', text: 'result in the Task thread', dashed: true },
+      { from: 'mps', to: 'chain', text: 'collect after unlock', chain: true },
+      { from: 'worker', to: 'chain', text: 'verify seller net USDM', dashed: true },
+    ],
+  },
+  notes: [{ x: 40, y: 828, lines: ['Every step is journaled before its write; an uncertain write is never retried automatically. No paid work before escrow is confirmed.'] }],
+};

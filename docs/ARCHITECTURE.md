@@ -2,49 +2,9 @@
 
 ## Components
 
-```mermaid
-flowchart LR
-  subgraph Browser["Browser (projector and phones)"]
-    W["apps/web\n/app screens, /join"]
-  end
-  subgraph Local["Demo laptop, localhost only"]
-    API["services/api :4000\norchestrator, SSE, ledger\nholds buyer key (seed B)"]
-    FIND["packages/find\nparse, recurring, detectors"]
-    DB[(Postgres)]
-    FLEET["services/fleet :4500\nClaude tool loop, recipes, evidence\nno keys, no payment tools"]
-    M["services/merchants\n4101-4104 demo merchants"]
-    SPEC["services/specialist :4200\nMIP-003 + x402 masumi seller\nwatcher, own browser\nseller key (seed A)"]
-    BLOC["services/bloc :4300\ncampaigns, pledges, settlement"]
-    PROV["services/providers :4400\nsimulated bidders"]
-  end
-  subgraph AWS["AWS ap-southeast-1"]
-    AC["AgentCore Browser\nlive view"]
-    BR["Bedrock Converse\nClaude (Global profiles)"]
-  end
-  subgraph Cardano["Cardano preprod"]
-    ESC["Masumi vested_pay v2 escrow"]
-    BV["Aiken bloc validator"]
-    BF["Blockfrost"]
-  end
-  W -- REST + SSE --> API
-  API --> FIND
-  API --> DB
-  API -- tasks, approvals --> FLEET
-  FLEET -- SSE events --> API
-  FLEET -- sessions --> AC
-  FLEET -- tool loop --> BR
-  FLEET -- local fallback --> M
-  AC --> M
-  API -- x402 masumi payment --> SPEC
-  SPEC -- lock, result, collect --> ESC
-  SPEC --> M
-  API -- verify status page and hash --> M
-  API --> BLOC
-  PROV -- signed bids --> BLOC
-  BLOC -- pledges, settle, refund --> BV
-  SPEC --- BF
-  BLOC --- BF
-```
+![Components](diagrams/components.svg)
+
+Editable: [`diagrams/components.excalidraw`](diagrams/components.excalidraw). Regenerate all diagrams with `pnpm diagrams`.
 
 ## Flows
 
@@ -52,25 +12,13 @@ flowchart LR
 2. **Fix.** `POST /api/fix` maps each ledger line to a recipe and posts a task to the fleet. The fleet runs a session per task (AgentCore when configured, local Chromium otherwise), in agent mode when a model is available and the recorded scripted path otherwise. An irreversible step pauses the task with a screenshot; the API stores the approval and forwards the decision. The outcome is read from the merchant's own status page in a fresh page, and the evidence manifest (RFC 8785 canonical JSON, SHA-256) is written under `evidence/<taskId>/`. Money counts as recovered only when the status page shows it.
 3. **Specialist hire.** The API pays over x402 (`masumi` method) from the buyer wallet. The quote must commit to exactly the body we sent and pay the canonical escrow address. The specialist's watcher sees the lock, matches every datum field against the terms it signed, files the claim in its own browser, waits for "Compensation paid", writes the evidence bundle, and submits its hash with `SubmitResult`. The API independently re-reads the airline's status page and recomputes the evidence hash; only then does the claim count. The specialist collects with `Withdraw` after `unlockTime`.
 4. **Bloc.** A campaign NFT and campaign datum are locked at the bloc address; members pledge into the same address with a pledge datum; providers sign bids over a fixed byte layout; the settlement transaction spends up to `N_max` pledges, pays the provider at output 0 and refunds each member at outputs 1 to N in pledge order.
+5. **Coworker.** A team creates a Task on Sokosumi. The worker in `services/coworker` starts it with the Coworker's runtime key, gets signed seller terms from our Masumi payment service, and posts them as a `masumiPayment` event. Sokosumi funds escrow from the team's credits. Once the lock is confirmed, the worker runs the audit, submits the result hash, completes the Task, and after unlock checks the seller's payout on chain. See [COWORKER.md](COWORKER.md) and the sequence diagram there.
 
 ## Escrow state machine (Masumi vested_pay v2, as deployed on preprod)
 
-```mermaid
-stateDiagram-v2
-  [*] --> FundsLocked: x402 masumi lock
-  FundsLocked --> ResultSubmitted: seller SubmitResult (before submitResultTime)
-  FundsLocked --> RefundRequested: buyer SetRefundRequested (no result yet)
-  ResultSubmitted --> Disputed: buyer SetRefundRequested (before unlockTime)
-  RefundRequested --> Disputed: seller SubmitResult
-  ResultSubmitted --> [*]: seller Withdraw after unlockTime
-  RefundRequested --> [*]: buyer WithdrawRefund after submitResultTime
-  FundsLocked --> [*]: buyer WithdrawRefund after submitResultTime (no result)
-  Disputed --> RefundAuthorized: seller AuthorizeRefund
-  Disputed --> WithdrawAuthorized: buyer AuthorizeWithdrawal
-  RefundAuthorized --> [*]: buyer WithdrawRefund
-  WithdrawAuthorized --> [*]: seller Withdraw
-  Disputed --> [*]: admin 2-of-3 after externalDisputeUnlockTime
-```
+![Escrow states](diagrams/escrow-states.svg)
+
+Editable: [`diagrams/escrow-states.excalidraw`](diagrams/escrow-states.excalidraw).
 
 Every action has a 7 minute cooldown per party and needs a finite validity upper bound. The validator enforces no protocol fee. Sources: `docs/research/vested-pay-v2.md`.
 
@@ -80,7 +28,7 @@ One multi-handler validator (`spend`, `withdraw`, `publish`) parameterised by th
 
 ## Trust model
 
-- **Keys.** Four seeds. Seed A (treasury, bloc admin) never runs on a tunnelled host. Seed S belongs to the specialist alone; its process reads a wallets file holding only seed S. Seed B (Overpaid's agent wallet that pays specialists, providers) runs in the API. Seed C (custodial demo room wallets) holds only enough for one pledge each.
+- **Keys.** Four seeds. Seed A (treasury, bloc admin) never runs on a tunnelled host. Seed S belongs to the specialist alone; its process reads a wallets file holding only seed S. Seed B (Overpaid's agent wallet that pays specialists) runs in the API. Seed C (custodial demo room wallets) holds only enough for one pledge each.
 - **Users sign their own money.** Bloc pledges and success fees are built by the server and signed in the user's CIP-30 wallet; the server only merges the wallet's witnesses into the body it built and re-validates before submitting. Pledge refunds go to the user's own address, and after the deadline anyone (including the user, from the app) can build the refund. A ticker refunds every remaining pledge automatically once the deadline passes.
 - **Operator actions are guarded.** Every API write needs a client header (blocks cross-site requests from other origins), and anything that spends Overpaid's own funds or resets state needs the operator token.
 - **The browsing agent cannot pay.** The fleet holds no key and has no payment or evaluate tool; it runs in its own process. Payments happen only in the API and the bloc service, through structured flows.

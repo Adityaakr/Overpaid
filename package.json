@@ -13,7 +13,8 @@
     "demo:check": "tsx scripts/check-all.ts",
     "demo:data": "tsx scripts/generate-demo-data.ts",
     "typecheck:scripts": "tsc -p scripts",
-    "bloc:capacity": "tsx scripts/capacity.ts"
+    "bloc:capacity": "tsx scripts/capacity.ts",
+    "diagrams": "node scripts/diagrams/render.cjs"
   },
   "devDependencies": {
     "@evolution-sdk/evolution": "0.5.13",
@@ -28,6 +29,7 @@
     "nodemailer": "^10.0.15",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "roughjs": "^4.6.6",
     "tsx": "^4.23.15",
     "typescript": "~5.9.3"
   },

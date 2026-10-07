@@ -1,0 +1,35 @@
+// Masumi vested_pay v2, as deployed on preprod (docs/research/vested-pay-v2.md). S = seller, B = buyer.
+module.exports = {
+  name: 'escrow-states',
+  w: 1280,
+  h: 620,
+  titles: [{ x: 40, y: 34, text: 'Masumi escrow states (vested_pay v2)' }],
+  dots: [{ x: 60, y: 287 }],
+  boxes: [
+    { id: 'locked', x: 120, y: 255, w: 190, h: 64, color: 'blue', text: ['FundsLocked'] },
+    { id: 'result', x: 420, y: 100, w: 210, h: 64, color: 'blue', text: ['ResultSubmitted'] },
+    { id: 'refreq', x: 420, y: 410, w: 210, h: 64, color: 'blue', text: ['RefundRequested'] },
+    { id: 'disputed', x: 730, y: 255, w: 180, h: 64, color: 'violet', text: ['Disputed'] },
+    { id: 'wauth', x: 1020, y: 160, w: 210, h: 64, color: 'violet', text: ['WithdrawAuthorized'] },
+    { id: 'rauth', x: 1020, y: 350, w: 210, h: 64, color: 'violet', text: ['RefundAuthorized'] },
+    { id: 'paid', x: 730, y: 60, w: 180, h: 60, color: 'green', text: ['Seller paid', 'Withdraw'] },
+    { id: 'refunded', x: 730, y: 470, w: 180, h: 60, color: 'red', text: ['Buyer refunded', 'WithdrawRefund'] },
+  ],
+  arrows: [
+    { fromPoint: [72, 287], to: 'locked', label: 'x402 lock', dy: -10 },
+    { from: 'locked', to: 'result', label: 'SubmitResult (S)', dx: -30 },
+    { from: 'locked', to: 'refreq', label: 'SetRefundRequested (B)', dx: -40, dy: 10 },
+    { from: 'result', to: 'paid', label: 'Withdraw (S), after unlock', labelAt: [640, 74] },
+    { from: 'result', to: 'disputed', label: 'refund request before unlock', dx: 30 },
+    { from: 'refreq', to: 'disputed', label: 'SubmitResult (S)', dx: 30, dy: 16 },
+    { from: 'refreq', to: 'refunded', label: 'after deadline', labelAt: [672, 508] },
+    { points: [[215, 325], [215, 545], [724, 545]], label: 'no result by deadline: WithdrawRefund (B)', labelAt: [470, 568] },
+    { from: 'disputed', to: 'wauth', label: 'AuthorizeWithdrawal (B)', labelAt: [925, 238] },
+    { from: 'disputed', to: 'rauth', label: 'AuthorizeRefund (S)', labelAt: [930, 350] },
+    { from: 'wauth', to: 'paid', label: 'Withdraw (S)', dx: 20 },
+    { from: 'rauth', to: 'refunded', label: 'WithdrawRefund (B)', dx: 20, dy: 20 },
+  ],
+  notes: [
+    { x: 950, y: 520, lines: ['Disputed with no agreement:', 'admin 2-of-3 after', 'externalDisputeUnlockTime.', '7 minute cooldown per party.'] },
+  ],
+};
