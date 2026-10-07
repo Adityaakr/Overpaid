@@ -297,6 +297,7 @@ export function imageUrl(v: any): string | undefined {
 
 // Matched on the button's visible text (hover effects repeat the label, so prefix match).
 const CTA_ROUTES: Record<string, string> = {
+  'Start my autopilot': '/app/connect',
   'Audit my statement': '/audit',
   'Find my money': '/audit',
   'Start finding money': '/audit',
