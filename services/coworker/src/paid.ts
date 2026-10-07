@@ -82,10 +82,11 @@ export async function advancePaid(taskId: string, input: string, paid: Paid | un
       inputHash: taskHash(input),
       identifierFromPurchaser: nonce,
       RequestedFunds: [{ amount: QUOTE, unit: USDM }],
-      payByTime: new Date(now + 5 * MINUTE).toISOString(),
-      submitResultTime: new Date(now + 20 * MINUTE).toISOString(),
-      unlockTime: new Date(now + 36 * MINUTE).toISOString(),
-      externalDisputeUnlockTime: new Date(now + 52 * MINUTE).toISOString(),
+      // Pay-by leaves room for the payment node's chain sync to see the lock before its timeout job runs.
+      payByTime: new Date(now + 10 * MINUTE).toISOString(),
+      submitResultTime: new Date(now + 25 * MINUTE).toISOString(),
+      unlockTime: new Date(now + 40 * MINUTE).toISOString(),
+      externalDisputeUnlockTime: new Date(now + 56 * MINUTE).toISOString(),
       metadata: JSON.stringify({ taskId }),
     };
     put({ stage: 'terms-pending', nonce, request });
@@ -103,6 +104,13 @@ export async function advancePaid(taskId: string, input: string, paid: Paid | un
     const observed = await mps('/payment/resolve-blockchain-identifier', { network: 'Preprod', blockchainIdentifier: p.payment.blockchainIdentifier, includeHistory: 'true' });
     put({ ...p, observed });
     if (p.stage === 'awaiting-escrow') {
+      if (observed.onChainState === 'FundsOrDatumInvalid' || observed.NextAction?.requestedAction === 'WaitingForManualAction') {
+        // Terminal for this Task: the escrow refunds the buyer after the deadline. Never run the work unpaid.
+        put({ ...p, stage: 'payment-failed-pending' });
+        const note = `Payment could not be confirmed (${observed.NextAction?.errorNote ?? observed.onChainState}). No work was delivered; the escrow returns the funds to the buyer after its deadline.`;
+        await (await coworkerCore()).post(`/v1/tasks/${encodeURIComponent(taskId)}/events`, { status: 'FAILED', comment: note });
+        return { paid: put({ ...p, stage: 'payment-failed' }) };
+      }
       if (observed.onChainState !== 'FundsLocked' || !confirmedState(observed, 'FundsLocked')) return { paid: p };
       const deadline = Number(p.payment.submitResultTime);
       if (Date.now() >= deadline) throw new Error('Result deadline passed before the model ran');
@@ -129,6 +137,7 @@ export async function advancePaid(taskId: string, input: string, paid: Paid | un
     const res = await (await coworkerCore()).post(`/v1/tasks/${encodeURIComponent(taskId)}/events`, { status: 'COMPLETED', comment: p.result });
     return { paid: put({ ...p, stage: 'awaiting-withdrawal', completionEventId: res.data.id }), completed: true };
   }
+  if (p.stage === 'payment-failed') return { paid: p };
   if (p.stage.endsWith('-pending')) throw new Error(`Uncertain ${p.stage}; inspect before recovery`);
   return { paid: p };
 }

@@ -65,7 +65,7 @@ async function step(t: { id: string; status: string; coworkerId?: string }) {
   if (j.phase === 'starting' || j.phase.endsWith('-pending') && !j.paid) throw new Error(`Uncertain ${j.phase}; inspect before recovery`);
 
   if (j.paid || (j.phase === 'started' && PAID && registration())) {
-    if (j.paid?.stage === 'settled') return;
+    if (j.paid?.stage === 'settled' || j.paid?.stage === 'payment-failed') return;
     const cur: Journal = j;
     const r = await advancePaid(t.id, cur.input ?? '', cur.paid, (p) => save(t.id, { ...cur, paid: p }), async (input, deadline) => (await answer(t.id, input, deadline)).text);
     save(t.id, { ...cur, paid: r.paid, phase: r.completed ? 'completed' : cur.phase });
