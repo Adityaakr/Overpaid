@@ -53,6 +53,15 @@ export function rowsFromTable(table: string[][], defaultCurrency = 'USD'): { row
     const card = cell(cCard).replace(/\D/g, '').slice(-4) || null;
     rows.push({ date, descriptor, amount, currency: (cell(cCur) || defaultCurrency).toUpperCase(), card });
   });
+  // Bank exports usually write money out as negative; card statements write charges as positive.
+  // With a single amount column, the sign most rows carry is the spending sign.
+  if (cAmt >= 0) {
+    const neg = rows.filter((r) => r.amount < 0).length;
+    if (neg > rows.length - neg) {
+      for (const r of rows) r.amount = -r.amount;
+      warnings.push('money out is negative in this export; read it as charges');
+    }
+  }
   return { rows, warnings };
 }
 
