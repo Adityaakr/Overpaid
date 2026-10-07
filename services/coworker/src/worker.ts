@@ -1,7 +1,6 @@
 // Polls Sokosumi for Tasks assigned to this Coworker and runs each one once. One worker per Coworker.
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { execFileSync } from 'node:child_process';
 import { buildReport } from './report.js';
 import { advancePaid, type Paid } from './paid.js';
 import { LOCAL, registration } from './mps.js';
@@ -37,27 +36,10 @@ interface Journal {
   completion?: unknown;
   model?: string;
 }
-// Watchdog: the local payment service's periodic chain sync sometimes stops seeing new transactions, while its
-// startup sync always catches up. If a paid Task sits in a waiting stage too long, restart the service (the
-// run-mps.sh supervisor brings it back). Opt in with MPS_WATCHDOG=1.
-const waiting = new Map<string, { stage: string; since: number }>();
-let lastRestart = 0;
-function watch(taskId: string, stage: string | undefined, unlockAt?: number) {
-  if (process.env.MPS_WATCHDOG !== '1') return;
-  // Payout normally waits for unlock (plus the contract's delay); only a wait past that is suspicious.
-  const idle = stage === 'awaiting-withdrawal' && (!unlockAt || Date.now() < unlockAt + 5 * 60_000);
-  if (!stage || idle || !/^awaiting-(escrow|result|withdrawal)$/.test(stage)) return void waiting.delete(taskId);
-  const w = waiting.get(taskId);
-  if (!w || w.stage !== stage) return void waiting.set(taskId, { stage, since: Date.now() });
-  if (Date.now() - w.since > 120_000 && Date.now() - lastRestart > 180_000) {
-    lastRestart = Date.now();
-    w.since = Date.now();
-    console.log('watchdog: payment service sync looks stale, restarting it', taskId, stage);
-    try {
-      execFileSync('pkill', ['-f', 'tsx ./src/index.ts']);
-    } catch {}
-  }
-}
+// Note: an earlier "watchdog" restarted the payment service whenever a paid stage lasted over two minutes.
+// It was the cause of the stalls it tried to fix: the service's chain sync on the shared escrow address takes
+// seconds, and a restart every three minutes meant no sync ever finished. Leave the service alone; the
+// run-mps.sh supervisor restarts it only if it exits.
 
 const jPath = (id: string) => join(dir, `${id}.json`);
 const load = (id: string): Journal | null => (existsSync(jPath(id)) ? JSON.parse(readFileSync(jPath(id), 'utf8')) : null);
@@ -92,7 +74,6 @@ async function step(t: { id: string; status: string; coworkerId?: string }, scop
     const cur: Journal = j;
     const r = await advancePaid(t.id, cur.input ?? '', cur.paid, (p) => save(t.id, { ...cur, paid: p }), async (input, deadline) => (await answer(t.id, input, deadline)).text);
     save(t.id, { ...cur, paid: r.paid, phase: r.completed ? 'completed' : cur.phase });
-    watch(t.id, r.paid.stage, Number(r.paid.payment?.unlockTime) || undefined);
     if (r.paid.stage !== cur.paid?.stage) console.log('paid', t.id, r.paid.stage);
     return;
   }

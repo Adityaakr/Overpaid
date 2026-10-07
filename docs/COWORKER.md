@@ -57,6 +57,8 @@ Secrets stay in `services/coworker/.local/` (gitignored, mode 600) and the payme
 
 - **The payment service exited on a DNS error** (`getaddrinfo ENOTFOUND cardano-preprod.blockfrost.io` during a network blip), which also paused collection. It now runs under `scripts/run-mps.sh`, a restart loop, and collection completed after restart.
 
+- **The stalls were self-inflicted.** A worker-side watchdog restarted the payment service whenever a paid stage lasted over two minutes, on the theory that its chain sync had gone stale. Reading the service's log showed 149 restarts, all `SIGTERM` from the watchdog, every three minutes. The sync itself takes 2 to 6 seconds per run on the shared preprod escrow address and works when left alone: with the watchdog off, a lock was recorded within a minute of landing. The watchdog is gone; only the crash-restart supervisor remains.
+
 ## Limits
 
 The payment node, worker and agent API run on a laptop, with a Cloudflare quick tunnel for the agent API. The laptop must stay awake, and the tunnel URL changes if the tunnel restarts. Statements are audited only from what they contain: "no usage signal" means no usage evidence in the statement itself.
