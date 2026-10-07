@@ -2,23 +2,26 @@
 
 One story: money you are already losing, recovered by agents. A real statement goes in once; the agents work; you get a Sunday review; one agent is hired and paid through escrow on Cardano. The recording goes inside the slides; no live demo. Record twice, keep the cleaner take. Every number is real; the (demo) account appears only where a browser agent is shown, and is labelled.
 
-## Shot list
+## Shot list (2 min 40 s)
+
+Record the screen at 1920x1080 in Chrome with Lace on Preprod, nothing else open. Record the voice separately and cut to it. Run one research agent on Netflix before recording so the "what the agent saw" page is ready; start a second one on Spotify live so the fleet tile is moving on camera.
 
 | Time | On screen | Voice-over |
 |---|---|---|
-| 0:00 | Slide: five findings from a real three-month bank export, $2,816 a year | "A real bank export. Three months, 44 rows. Two thousand eight hundred dollars a year nobody is watching. Your bank app shows this list. It will not price it, chase it, or write the letter." |
-| 0:15 | Slide: 42% forgot a subscription, people underestimate by $133 a month | "No item is worth twenty minutes of your time. So nobody does it. For an agent, every item is worth it, every week, without you." |
-| 0:30 | Screen: `/audit`, drop the CSV, the audit appears | "Connect once. Today that is a statement export; bank connections are next. Every charge priced per year, duplicates, fees, price rises, with the rows behind each one. Free." |
-| 0:50 | Screen: "Draft the messages", one letter appears, click "Start my autopilot" | "The letters write themselves. Then you put it on autopilot and walk away." |
-| 1:05 | Screen: `/app/review`, the Sunday review | "This is the only page you ever need to open: once a week. Recovered this week. Waiting for your approval. Keep or remove, one tap each. Everything else ran on its own." |
-| 1:25 | Screen: demo account, fleet tile pausing on "Confirm cancellation", approve | "When an agent reaches something irreversible, it stops and asks. That is the whole trust model: it works, you approve." (Label: demo merchant.) |
-| 1:45 | Screen: Specialist hires, the escrow lock, then the evidence hash and collection on Cardanoscan | "Some claims need an expert. Clawback hires a specialist agent and pays it from its own wallet into Masumi escrow on Cardano. The fee releases only when the result hash is on chain and verified. If nothing comes back, the money comes back. You never pay an agent yourself." |
-| 2:15 | Slide: Sokosumi Task thread, Schedule set to weekly, three hashes (escrow 5d063cd5, result, payout 479b2b1e) | "For companies, the same agent is a Coworker on Sokosumi. Put it on a weekly schedule and it audits the export without anyone opening a tab. Paid per Task into escrow; one test USDM, collected, inside the TOKEN2049 workspace." |
-| 2:40 | Slide: pricing and roadmap in one line | "Nothing upfront. A fee only on money confirmed back. Next: bank and family accounts for continuous watching, vendor data to prove a seat is unused, and specialists we did not build, hired through the same escrow. Clawback works for you while you are not looking." |
+| 0:00 | Landing page, hero "Money you're owed, clawed back." | "Forgotten subscriptions, duplicate charges, price rises, bank fees. Everyone has them. Nobody chases them, because no single one is worth twenty minutes. Clawback does." |
+| 0:12 | `/audit`, drop `sample-statement.csv`, the audit appears | "A real bank export goes in once. Every charge is priced per year, duplicates and fees are caught, and every item carries its rows and a drafted message. Free." |
+| 0:30 | Click "Start my autopilot", the Sunday review opens | "Then you put it on autopilot. This is the only page you open: once a week. Keep or remove, one tap each." |
+| 0:45 | Click "Send an agent" on Spotify, switch to Agents: the tile is live, Netflix shows "Checked" | "For each line a browser agent goes to the merchant's own site. Read-only: it never logs in or submits. It brings back the cancel page, the prices, and the support route." |
+| 1:05 | Open "What the agent saw" on Netflix: steps, URLs, screenshots, hashes | "Every step is a hashed screenshot, so you see exactly what it did." |
+| 1:20 | Back on the review: "Sign and anchor", Lace popup, sign, Cardanoscan link | "You sign one transaction from your own wallet that puts the hash of this review on Cardano. Nothing custodial. Only the network fee." |
+| 1:40 | Demo account, fleet tile pausing on "Confirm cancellation", approve (label: demo merchant) | "When an agent reaches something irreversible, it stops and asks you." |
+| 1:55 | Specialist hire: escrow lock, result hash, collection on Cardanoscan | "Some claims need an expert. Clawback hires a specialist agent and pays it into Masumi escrow from its own wallet. The fee releases only when the result is on chain and verified. You never pay an agent." |
+| 2:15 | Sokosumi Task thread, then the three hashes (b301bedf, f0590c79, 9f54e593) | "For companies, the same engine is a Coworker on Sokosumi. A real bank export, audited, one test USDM paid per Task into escrow and collected, inside the TOKEN2049 workspace." |
+| 2:30 | Slide: pricing and roadmap in one line | "Nothing upfront. A fee only on money confirmed back. Next: bank connections and specialists we did not build. Clawback works for you while you are not looking." |
 
 ## Do not show
 
-Group bargaining, the Aiken contract, the (demo) $1,086 ledger total, the agent-facing x402 endpoint beyond one line, OpenRouter or Copilot specifics. Each adds a noun; none adds to the one story.
+Group bargaining, the Aiken contract, the (demo) $1,086 ledger total, the agent-facing x402 endpoint beyond one line, OpenRouter or Copilot specifics, the Adobe run (blocked site). Each adds a noun; none adds to the one story.
 
 ## The three lines that matter
 
