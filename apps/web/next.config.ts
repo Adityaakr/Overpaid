@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // Workspace packages ship TypeScript source.
   transpilePackages: ['@overpaid/shared'],
+  // Let the dev server load its scripts through a Cloudflare quick tunnel.
+  allowedDevOrigins: ['*.trycloudflare.com'],
   // The browser talks to the API through this same origin, so one public URL serves phones and wallets.
   async rewrites() {
     return [{ source: '/api/:path*', destination: `${API_ORIGIN}/api/:path*` }];
