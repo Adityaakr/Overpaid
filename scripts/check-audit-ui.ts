@@ -10,7 +10,8 @@ const user = account(process.env.AUDIT_TEST_WALLET ?? 'room-150');
 const uc = user.signingClient(bf);
 const addrHex = Address.toHex(Address.fromBech32(user.address));
 
-const browser = await chromium.launch();
+// RESOLVE=host:ip pins a tunnel hostname when the local resolver has cached a failed lookup.
+const browser = await chromium.launch(process.env.RESOLVE ? { args: [`--host-resolver-rules=MAP ${process.env.RESOLVE.replace(':', ' ')}`] } : {});
 const page = await browser.newPage();
 page.on('pageerror', (e) => console.log('pageerror', e.message.slice(0, 300)));
 page.on('console', (m) => m.type() === 'error' && console.log('console error', m.text().slice(0, 300)));
@@ -40,7 +41,10 @@ const connect = page.getByRole('button', { name: /Connect testwallet/i });
 if (!(await connect.isVisible().catch(() => false))) console.log('page text:', (await page.locator('main').innerText()).slice(0, 1500));
 await connect.click();
 await page.getByRole('button', { name: /Unlock the audit/ }).click({ timeout: 30_000 });
-await page.getByText('Paid over x402 on Cardano preprod.').waitFor({ timeout: 180_000 });
+await page.getByText('Paid over x402 on Cardano preprod.').waitFor({ timeout: 180_000 }).catch(async (e) => {
+  console.log('page text:', (await page.locator('main').innerText()).slice(-700));
+  throw e;
+});
 const tx = await page.locator('a.op-pill.good').getAttribute('href');
 console.log('paid:', tx);
 console.log('report starts:', (await page.locator('h2').filter({ hasText: 'Recovery audit' }).count()) > 0);

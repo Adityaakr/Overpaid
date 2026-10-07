@@ -1,5 +1,5 @@
 'use client';
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { ArrowSquareOut, FileArrowUp, LockKey, SealCheck } from '@phosphor-icons/react';
 import { API, api } from '@/product/api';
 import { Logo } from '@/product/ui';
@@ -16,6 +16,12 @@ const STAGE: Record<Stage, string> = {
   sign: 'Approve the payment in your wallet…',
   verify: 'Verifying the payment on Cardano and running the audit…',
 };
+const CLAIM_KEY = 'overpaid.auditClaim';
+const store = { get: () => { try { return localStorage.getItem(CLAIM_KEY); } catch { return null; } }, set: (v: string | null) => { try { v ? localStorage.setItem(CLAIM_KEY, v) : localStorage.removeItem(CLAIM_KEY); } catch {} } };
+async function fetchClaim(claim: string): Promise<Paid | null> {
+  const r = await fetch(`${API}/api/x402/audit/claim/${claim}`).catch(() => null);
+  return r?.ok ? ((await r.json()) as Paid) : null;
+}
 const money = (cents: number) => `$${(cents / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const b64json = (s: string) => JSON.parse(atob(s));
 
@@ -44,6 +50,12 @@ export default function Audit() {
   const [stage, setStage] = useState<Stage>('idle');
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  // A paid audit whose response was lost (closed tab, dropped connection) comes back from its claim id.
+  useEffect(() => {
+    const claim = store.get();
+    if (claim) void fetchClaim(claim).then((p) => p && setPaid(p));
+  }, []);
 
   const loadSample = async () => setStatement(await (await fetch('/sample-statement.csv')).text());
   const loadFile = async (f: File | undefined) => f && setStatement(await f.text());
@@ -78,11 +90,26 @@ export default function Audit() {
       const witnessSet = await w.signTx(built.txCbor, true);
       const { transaction } = await api<{ transaction: string }>('/api/x402/pay/assemble', { method: 'POST', json: { buildId: built.buildId, witnessSet } });
       setStage('verify');
+      const claim = crypto.randomUUID().replace(/-/g, '');
+      store.set(claim);
       const header = btoa(JSON.stringify({ x402Version: 2, resource: required.resource, accepted, payload: { transaction, nonce: built.nonce } }));
-      const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json', 'PAYMENT-SIGNATURE': header }, body: JSON.stringify({ statement }) });
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.error ?? body.invalidMessage ?? `payment was not accepted (${res.status})`);
-      setPaid(body as Paid);
+      const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json', 'PAYMENT-SIGNATURE': header, 'x-audit-claim': claim }, body: JSON.stringify({ statement }) }).catch(() => null);
+      const body = res ? await res.json().catch(() => null) : null;
+      if (res?.ok && body) {
+        setPaid(body as Paid);
+      } else if (res && res.status < 500 && body) {
+        store.set(null);
+        throw new Error(body.error ?? body.invalidMessage ?? `payment was not accepted (${res.status})`);
+      } else {
+        // The response was lost: if the payment settled, the result is waiting under our claim id.
+        let found: Paid | null = null;
+        for (let i = 0; i < 24 && !found; i++) {
+          await new Promise((r) => setTimeout(r, 5000));
+          found = await fetchClaim(claim);
+        }
+        if (!found) throw new Error('No answer from the server. If your wallet shows the payment, reload this page to fetch your audit.');
+        setPaid(found);
+      }
       void w.refresh();
     } catch (e) {
       setErr(errText(e));
@@ -182,7 +209,7 @@ export default function Audit() {
             <a className="op-pill good" href={`${SCAN}/transaction/${paid.paymentTx}`} target="_blank" rel="noreferrer">
               {paid.paymentTx.slice(0, 10)}… <ArrowSquareOut size={14} />
             </a>
-            <button className="link" onClick={() => (setPaid(null), setPreview(null))} style={{ marginLeft: 'auto', fontSize: 14 }}>
+            <button className="link" onClick={() => (store.set(null), setPaid(null), setPreview(null))} style={{ marginLeft: 'auto', fontSize: 14 }}>
               Audit another statement
             </button>
           </div>

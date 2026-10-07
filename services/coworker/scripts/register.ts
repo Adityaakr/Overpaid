@@ -59,6 +59,14 @@ if (mode === 'key') {
     Object.assign(state, { registrationId: r.id, registrationWritePending: false, state: r.state });
     console.log('registration submitted', r.id, r.state);
   }
+} else if (mode === 'update') {
+  // New public URL for the agent API, same agentIdentifier (no new registry NFT).
+  const apiBaseUrl = process.env.COWORKER_PUBLIC_URL;
+  if (!apiBaseUrl?.startsWith('https://') || !state.agentIdentifier) throw new Error('Need COWORKER_PUBLIC_URL and a confirmed registration');
+  const { sellingWalletVkey: _vkey, ...rest } = state.request;
+  const r = await mps<any>('/registry/update', { ...rest, agentIdentifier: state.agentIdentifier, apiBaseUrl: apiBaseUrl.replace(/\/+$/, '') }, admin);
+  Object.assign(state, { request: { ...state.request, apiBaseUrl }, updateState: r.state ?? r.updateStatus ?? 'submitted' });
+  console.log('registry update submitted', r.id ?? '', r.state ?? '');
 } else {
   const r = await mps<any>('/registry?network=Preprod&filterPaymentSourceType=Web3CardanoV2&limit=100', undefined, admin);
   const mine = (r.Assets ?? r.RegistryRequests ?? r.registryRequests ?? []).find((x: any) => x.id === state.registrationId);

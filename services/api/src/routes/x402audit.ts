@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
+import { createHash } from 'node:crypto';
 import { newId } from '@overpaid/shared';
 
 // The statement audit sold per request over x402 (exact scheme, default method): no account, no API key.
@@ -48,6 +49,11 @@ function getOffer(publicBase: string) {
 
 // Unsigned payment transactions waiting for the wallet's signature; the browser never sends a body back.
 const pending = new Map<string, { tx: any; at: number }>();
+// Paid results by a private claim id the buyer sends with the paid request, so a dropped response can be fetched
+// again without paying twice. Only the sha256 of the claim is kept as the key.
+const CLAIM_TTL_MS = 24 * 60 * 60_000;
+const claims = new Map<string, { body: unknown; at: number }>();
+const claimKey = (id: string) => createHash('sha256').update(id).digest('hex');
 
 export async function registerX402AuditRoutes(app: FastifyInstance) {
   const base = (process.env.PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/+$/, '');
@@ -77,17 +83,33 @@ export async function registerX402AuditRoutes(app: FastifyInstance) {
     const { runPaidRoute } = await import('@overpaid/cardano');
     const { buildReport } = await import('@overpaid/coworker/report');
     const { http } = await getOffer(base);
+    let lastBody: unknown;
     const out = await runPaidRoute(
       http,
       { method: 'POST', path: AUDIT_PATH, url: `${base}${AUDIT_PATH}`, headers: req.headers as Record<string, string>, body: parsed.data },
       async (ctx) => {
         const r = await buildReport(parsed.data.statement);
+        lastBody = { report: r.text, findings: r.audit.findings.length, totalCents: r.audit.totalCents, model: r.model, paymentTx: ctx.txHash };
         return { body: { report: r.text, findings: r.audit.findings.length, totalCents: r.audit.totalCents, model: r.model, paymentTx: ctx.txHash } };
+      },
+      (_ctx, _settle) => {
+        // Settled: keep the result for the buyer's claim id in case the response never reaches them.
+        const claim = String(req.headers['x-audit-claim'] ?? '');
+        if (/^[A-Za-z0-9_-]{16,64}$/.test(claim)) {
+          for (const [k, v] of claims) if (Date.now() - v.at > CLAIM_TTL_MS) claims.delete(k);
+          claims.set(claimKey(claim), { body: lastBody, at: Date.now() });
+        }
       },
     );
     for (const [k, v] of Object.entries(out.headers)) reply.header(k, v);
     reply.header('access-control-expose-headers', 'PAYMENT-REQUIRED, PAYMENT-RESPONSE');
     return reply.code(out.status).send(out.body);
+  });
+
+  // A paid result whose response was lost on the way back.
+  app.get<{ Params: { claim: string } }>('/api/x402/audit/claim/:claim', async (req, reply) => {
+    const hit = claims.get(claimKey(req.params.claim));
+    return hit ? hit.body : reply.code(404).send({ error: 'no paid result for that claim yet' });
   });
 
   // Wallet helper, step 1: an unsigned payment for the 402's requirements, spending one of the payer's UTxOs as nonce.

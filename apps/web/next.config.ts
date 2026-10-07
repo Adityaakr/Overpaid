@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   transpilePackages: ['@overpaid/shared'],
   // Let the dev server load its scripts through a Cloudflare quick tunnel.
   allowedDevOrigins: ['*.trycloudflare.com'],
+  // A paid x402 audit verifies the payment, runs the model and settles before it answers.
+  experimental: { proxyTimeout: 300_000 },
   // The browser talks to the API through this same origin, so one public URL serves phones and wallets.
   async rewrites() {
     return [{ source: '/api/:path*', destination: `${API_ORIGIN}/api/:path*` }];
