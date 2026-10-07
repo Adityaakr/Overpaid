@@ -102,7 +102,7 @@ export default function MoneyOnTheTable() {
         sub={
           working ? `${working} agents working, ${fixable} waiting for you`
           : data.demo ? `${data.count} leaks found, ${fixable} ready to fix`
-          : `${data.count} things to act on in your statement, each with what to do`
+          : `${data.count} things found on your accounts. Decide on them in the Sunday review; the agents handle the rest.`
         }
         actions={
           fixable || data.demo ? (
@@ -111,9 +111,9 @@ export default function MoneyOnTheTable() {
               {busy === 'fix' ? 'Starting agents…' : `Approve and fix ${fixable}`}
             </button>
           ) : (
-            <a className="op-btn" href="/audit">
+            <a className="op-btn" href="/app/review">
               <span className="ico"><ArrowRight size={20} /></span>
-              Get messages to send
+              Open the Sunday review
             </a>
           )
         }

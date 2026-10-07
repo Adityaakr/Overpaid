@@ -6,7 +6,7 @@ import {
 } from '@phosphor-icons/react';
 import { API, api } from '@/product/api';
 import { Logo } from '@/product/ui';
-import { ConnectButton, errText, fmtAda, SCAN, useWallet } from '@/product/wallet';
+import { errText, SCAN } from '@/product/wallet';
 import s from './audit.module.css';
 
 type Kind = 'recover' | 'duplicate' | 'fee' | 'price_increase' | 'cancel_or_keep' | 'negotiate';
@@ -17,16 +17,9 @@ type Summary = {
   moneyInCents: number; moneyOutCents: number; avgMonthlyOutCents: number; recurringMonthlyCents: number; claimCents: number; reviewYearCents: number;
   fixed: { title: string; category: string; monthlyCents: number }[];
 };
-type Preview = Summary & { items: ItemLite[]; priceLovelace: string };
+type Preview = Summary & { items: ItemFull[]; priceLovelace: string };
 type Paid = { report: string; actions: string; paymentTx: string; model: string; audit: Summary & { items: ItemFull[] } };
-type Stage = 'idle' | 'quote' | 'build' | 'sign' | 'verify';
 
-const STEPS: { key: Exclude<Stage, 'idle'>; label: string }[] = [
-  { key: 'quote', label: 'Price quoted over HTTP 402' },
-  { key: 'build', label: 'Payment prepared for your wallet' },
-  { key: 'sign', label: 'You approve it in your wallet' },
-  { key: 'verify', label: 'Verified on Cardano, audit runs' },
-];
 const KIND: Record<Kind, { color: string; bg: string; icon: ReactNode }> = {
   recover: { color: 'var(--good)', bg: 'var(--good-bg)', icon: <Receipt size={20} /> },
   duplicate: { color: 'var(--bad)', bg: 'var(--bad-bg)', icon: <Copy size={20} /> },
@@ -63,7 +56,6 @@ function parseMessages(md: string) {
 }
 
 export default function Audit() {
-  const w = useWallet();
   const fileRef = useRef<HTMLInputElement>(null);
   const [statement, setStatement] = useState('');
   const [fileName, setFileName] = useState<string | null>(null);
@@ -71,10 +63,11 @@ export default function Audit() {
   const [over, setOver] = useState(false);
   const [preview, setPreview] = useState<Preview | null>(null);
   const [paid, setPaid] = useState<Paid | null>(null);
-  const [stage, setStage] = useState<Stage>('idle');
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState<number | null>(null);
+  const [actions, setActions] = useState<string | null>(null);
+  const [drafting, setDrafting] = useState(false);
 
   // A paid audit whose response was lost (closed tab, dropped connection) comes back from its claim id.
   useEffect(() => {
@@ -100,56 +93,23 @@ export default function Audit() {
     setStatement(text);
     setFileName(name);
     setPreview(null);
+    setActions(null);
     void analyse(text);
   };
   const onFile = async (f: File | undefined) => f && loadText(await f.text(), f.name);
-  const sample = async () => loadText(await (await fetch('/sample-statement.csv')).text(), 'sample-statement.csv');
-
-  // The x402 flow, exactly as any client runs it: 402 -> pay -> retry with the payment header.
-  const pay = async () => {
+  const draft = async () => {
     setErr(null);
-    setBusy(true);
+    setDrafting(true);
     try {
-      setStage('quote');
-      const url = `${API}/api/x402/audit`;
-      const first = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ statement }) });
-      if (first.status !== 402) throw new Error(`expected a 402 price, got ${first.status}`);
-      const required = JSON.parse(atob(first.headers.get('payment-required') ?? ''));
-      const accepted = required.accepts[0];
-      setStage('build');
-      const built = await api<{ buildId: string; txCbor: string; nonce: string }>('/api/x402/pay/build', { method: 'POST', json: { address: w.address, requirements: accepted } });
-      setStage('sign');
-      const witnessSet = await w.signTx(built.txCbor, true);
-      const { transaction } = await api<{ transaction: string }>('/api/x402/pay/assemble', { method: 'POST', json: { buildId: built.buildId, witnessSet } });
-      setStage('verify');
-      const claim = crypto.randomUUID().replace(/-/g, '');
-      store.set(claim);
-      const header = btoa(JSON.stringify({ x402Version: 2, resource: required.resource, accepted, payload: { transaction, nonce: built.nonce } }));
-      const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json', 'PAYMENT-SIGNATURE': header, 'x-audit-claim': claim }, body: JSON.stringify({ statement }) }).catch(() => null);
-      const body = res ? await res.json().catch(() => null) : null;
-      if (res?.ok && body) setPaid(body as Paid);
-      else if (res && res.status < 500 && body) {
-        store.set(null);
-        throw new Error(body.error ?? body.invalidMessage ?? `payment was not accepted (${res.status})`);
-      } else {
-        // The response was lost: if the payment settled, the result is waiting under our claim id.
-        let found: Paid | null = null;
-        for (let i = 0; i < 24 && !found; i++) {
-          await new Promise((r) => setTimeout(r, 5000));
-          found = await fetchClaim(claim);
-        }
-        if (!found) throw new Error('No answer from the server. If your wallet shows the payment, reload this page to fetch your audit.');
-        setPaid(found);
-      }
-      void w.refresh();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const r = await api<{ actions: string }>('/api/audit/messages', { method: 'POST', json: { statement } });
+      setActions(r.actions);
     } catch (e) {
       setErr(errText(e));
     } finally {
-      setStage('idle');
-      setBusy(false);
+      setDrafting(false);
     }
   };
+  const sample = async () => loadText(await (await fetch('/sample-statement.csv')).text(), 'sample-statement.csv');
 
   const reset = () => {
     store.set(null);
@@ -169,9 +129,7 @@ export default function Audit() {
 
   const view: (Summary & { items: (ItemLite & Partial<ItemFull>)[] }) | null = paid ? paid.audit : preview;
   const cur = view?.currency ?? 'USD';
-  const price = Number(preview?.priceLovelace ?? 2_000_000);
-  const msgs = paid ? parseMessages(paid.actions) : null;
-  const stepIdx = STEPS.findIndex((x) => x.key === stage);
+  const msgs = paid ? parseMessages(paid.actions) : actions ? parseMessages(actions) : null;
 
   return (
     <div className={s.page}>
@@ -190,16 +148,16 @@ export default function Audit() {
         {!view?.ok ? (
           <section className={s.hero}>
             <div>
-              <span className={s.kicker}><i /> Live on Cardano preprod</span>
+              <span className={s.kicker}><i /> Free audit, no account</span>
               <h1 className={s.h1}>See what your statement is quietly costing you.</h1>
               <p className={s.lede}>
-                Drop in a bank or card export. In seconds you see every recurring charge priced per year, price rises, duplicate charges and fees, for free.
-                Unlock the full audit with source rows and ready-to-send messages for {fmtAda(price, 0)}, paid per request from your own wallet.
+                Drop in a bank or card export. In seconds you see every recurring charge priced per year, price rises, duplicate charges and fees, with the rows behind each one and a drafted message to send. Free.
+                Then put it on autopilot: Overpaid keeps watching, and you pay only on money that comes back.
               </p>
               <div className={s.trust}>
                 <span><ShieldCheck size={16} /> Read in memory, never stored</span>
                 <span><SealCheck size={16} /> Every number traced to your rows</span>
-                <span><LockKey size={16} /> No account: pay per audit with x402</span>
+                <span><LockKey size={16} /> Agents pay per request over x402</span>
               </div>
             </div>
             <div className={s.drop}>
@@ -243,7 +201,7 @@ export default function Audit() {
           <>
             <div className={s.row} style={{ justifyContent: 'space-between' }}>
               <div>
-                <h1 style={{ fontSize: 30, letterSpacing: '-0.03em', fontWeight: 500 }}>{paid ? 'Your recovery audit' : 'Here is what we found'}</h1>
+                <h1 style={{ fontSize: 30, letterSpacing: '-0.03em', fontWeight: 500 }}>Your recovery audit</h1>
                 <div className={s.small} style={{ marginTop: 4 }}>
                   {fileName ? `${fileName} · ` : ''}{view.rows} transactions, {view.from} to {view.to} ({view.months} month{view.months === 1 ? '' : 's'})
                 </div>
@@ -307,7 +265,7 @@ export default function Audit() {
                           {money(it.cents, cur)}
                           <small>{it.per === 'year' ? 'per year' : 'one-off'}</small>
                         </div>
-                        {paid && it.why ? (
+                        {it.why ? (
                           <div className={s.detail}>
                             <span>{it.why}</span>
                             <div className={s.action}><b>What to do:</b> {it.action}</div>
@@ -322,9 +280,10 @@ export default function Audit() {
                       </div>
                     );
                   })}
-                  {!paid && view.items.length ? (
+                  {!msgs && view.items.length ? (
                     <div className={s.locked}>
-                      <LockKey size={20} /> The full audit adds why each item was flagged, its exact source rows, what to do, and a ready-to-send message for each merchant.
+                      <Sparkle size={20} /> Want the messages written for you? Claude drafts one per merchant from these findings, free.
+                      <button className="op-btn small" style={{ marginLeft: 'auto' }} onClick={draft} disabled={drafting}>{drafting ? 'Drafting…' : 'Draft the messages'}</button>
                     </div>
                   ) : null}
                   {view.fixed.length ? (
@@ -367,40 +326,24 @@ export default function Audit() {
                 {!paid ? (
                   <div className={s.unlock}>
                     <div>
-                      <div className={s.small} style={{ color: 'rgba(255,255,255,0.6)' }}>Full audit</div>
-                      <div className={s.price}>{fmtAda(price, 0)}</div>
-                      <div className={s.small} style={{ color: 'rgba(255,255,255,0.6)' }}>Paid once, per request, over x402 on Cardano preprod</div>
+                      <div className={s.small} style={{ color: 'rgba(255,255,255,0.6)' }}>Put it on autopilot</div>
+                      <div className={s.price}>Free to run</div>
+                      <div className={s.small} style={{ color: 'rgba(255,255,255,0.6)' }}>A success fee only on money confirmed back</div>
                     </div>
                     <ul>
-                      <li><CheckCircle size={16} /> Reasons and source rows for every item</li>
-                      <li><CheckCircle size={16} /> A ready-to-send message per merchant</li>
-                      <li><CheckCircle size={16} /> Next steps ordered by money at stake</li>
-                      <li><CheckCircle size={16} /> A report you can download</li>
+                      <li><CheckCircle size={16} /> Keeps watching every charge you connect</li>
+                      <li><CheckCircle size={16} /> Agents cancel, claim and renegotiate what you approve</li>
+                      <li><CheckCircle size={16} /> Specialists hired into escrow when a claim needs one</li>
+                      <li><CheckCircle size={16} /> A review every Sunday; keep or remove in one tap</li>
                     </ul>
-                    <div className={s.walletBox} style={{ background: 'var(--card)', color: 'var(--ink)' }}>
-                      <ConnectButton compact />
-                    </div>
-                    {w.address && view.items.length ? (
-                      <button className="op-btn lime" onClick={pay} disabled={busy}>
-                        {busy ? 'Working…' : `Unlock for ${fmtAda(price, 0)}`}
-                      </button>
-                    ) : null}
-                    {stepIdx >= 0 ? (
-                      <div className={s.steps}>
-                        {STEPS.map((st, i) => (
-                          <span key={st.key} className={`${s.step} ${i < stepIdx ? s.stepDone : i === stepIdx ? s.stepNow : ''}`}>
-                            {i < stepIdx ? <CheckCircle size={16} /> : i === stepIdx ? <CircleNotch size={16} /> : <span style={{ width: 16 }} />}
-                            {st.label}
-                          </span>
-                        ))}
-                      </div>
-                    ) : null}
+                    <a className="op-btn lime" href="/app/connect">Start my autopilot</a>
+                    <div className={s.small} style={{ color: 'rgba(255,255,255,0.55)' }}>Today you connect by uploading an export; bank connections are next. Cardano preprod, test money.</div>
                     {err ? <div className="op-banner" style={{ display: 'flex', gap: 8 }}><XCircle size={18} /> {err}</div> : null}
                   </div>
                 ) : (
                   <div className="op-card" style={{ display: 'grid', gap: 10 }}>
                     <h2 style={{ fontSize: 17 }}>Proof of payment</h2>
-                    <div className={s.small}>Your wallet paid {fmtAda(price, 0)} over x402. The facilitator verified the signed transaction before the audit ran.</div>
+                    <div className={s.small}>This audit was bought over x402. The facilitator verified the signed transaction before the audit ran.</div>
                     <a className="op-pill good" href={`${SCAN}/transaction/${paid.paymentTx}`} target="_blank" rel="noreferrer" style={{ justifySelf: 'start' }}>
                       View on Cardanoscan <ArrowSquareOut size={12} />
                     </a>

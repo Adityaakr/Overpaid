@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import NumberFlow from '@number-flow/react';
 import {
   SquaresFour, Browsers, Handshake, UsersThree, Receipt, SlidersHorizontal, UploadSimple, Wallet,
-} from '@phosphor-icons/react';
+ CalendarCheck } from '@phosphor-icons/react';
 import type { ReactNode } from 'react';
 import { useLive, useEvents } from './api';
 import { WalletRailButton } from './wallet';
@@ -20,6 +20,7 @@ export function Logo({ size = 32 }: { size?: number }) {
 
 const NAV = [
   { href: '/app', label: 'Money on the table', icon: SquaresFour },
+  { href: '/app/review', label: 'Sunday review', icon: CalendarCheck },
   { href: '/app/connect', label: 'Connect data', icon: UploadSimple },
   { href: '/app/fleet', label: 'Agent fleet', icon: Browsers },
   { href: '/app/specialist', label: 'Specialist hires', icon: Handshake },
