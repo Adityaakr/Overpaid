@@ -11,7 +11,7 @@ The findings come from Clawback's Find engine (`packages/find`), which is determ
 | Sokosumi Vendor | `01a11413-bd8e-7328-854a-107938741711` (Clawback) |
 | Sokosumi Coworker | `01a11413-db1e-7259-ab91-17a7ef2f9c77` (Clawback Recovery Auditor) |
 | Event access request | `01a11442-f149-712f-b3b1-7cddba5c7483`, GRANTED |
-| Masumi agent identifier | `67ab0c92c4ac1610895a1c965ee50aba41a8f1513b15240723b3bd0b106de9716144a893d017ccb43396ce35413f06b637c3bb4e5cc91254a9000001` (after a URL update; first issued as `…000000`) |
+| Masumi agent identifier | `67ab0c92c4ac1610895a1c965ee50aba41a8f1513b15240723b3bd0b106de9716144a893d017ccb43396ce35413f06b637c3bb4e5cc91254a9000002` (the suffix steps on every registry update; issued as `…000000`, then `…000001`) |
 | Listing copy | Sokosumi: caption, description and URL set with `coworkers update` on 7 Oct 2026 (vendor name stays "Overpaid"; the CLI has no vendor update). Masumi registry: `pnpm register update` now refreshes name, description, tags, example output and the agent URL together (update tx [6527cac6](https://preprod.cardanoscan.io/transaction/6527cac60bab888306a0944e28e70bd26d98cf56540655822f1a50a196a519ca)) |
 | Masumi registration | [4b35caa7](https://preprod.cardanoscan.io/transaction/4b35caa729241774d84e3c916e8ced2488dbe51ff4544dd3b9b43ee16b05edb1), Standard, Dynamic pricing |
 | Seller wallet | `addr_test1qppd0rl8s9mazhgcm3fq30dw2gkjxwe6wr5sgwm5tkm7gcgm2pu5mk3kn2y9flvsek2vc75v0luxzy2eukt89e3yahrqr3pjwa` |
