@@ -1,0 +1,12 @@
+import { Address, Assets, TransactionHash } from '@evolution-sdk/evolution';
+import { account, requireBlockfrost, spendableWalletUtxos, awaitTx, txUrl } from '@overpaid/cardano';
+const [to, ada] = [process.argv[2], Number(process.argv[3])];
+const bf = requireBlockfrost();
+const t = account('treasury');
+const c = t.signingClient(bf);
+const wallet = spendableWalletUtxos(await c.getWalletUtxos());
+const built = await c.newTx().payToAddress({ address: Address.fromBech32(to), assets: Assets.fromLovelace(BigInt(ada * 1_000_000)) }).build({ changeAddress: t.ledgerAddress, availableUtxos: wallet });
+const h = TransactionHash.toHex(await (await built.sign()).submit());
+console.log(h, txUrl(h));
+await awaitTx(bf, h).catch(() => {});
+console.log('confirmed');

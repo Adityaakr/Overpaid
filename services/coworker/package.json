@@ -1,0 +1,25 @@
+{
+  "name": "@overpaid/coworker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Overpaid as a Sokosumi Coworker: turns a card statement into a sourced recovery list, paid through Masumi escrow.",
+  "scripts": {
+    "report": "tsx --env-file-if-exists=../../.env src/cli.ts",
+    "worker": "tsx --env-file-if-exists=../../.env src/worker.ts",
+    "api": "tsx --env-file-if-exists=../../.env src/api.ts",
+    "register": "tsx --env-file-if-exists=../../.env scripts/register.ts",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@overpaid/find": "workspace:*",
+    "@overpaid/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.3"
+  }
+}
