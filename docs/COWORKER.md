@@ -10,7 +10,7 @@ The findings come from Overpaid's Find engine (`packages/find`), which is determ
 |---|---|
 | Sokosumi Vendor | `01a11413-bd8e-7328-854a-107938741711` (Overpaid) |
 | Sokosumi Coworker | `01a11413-db1e-7259-ab91-17a7ef2f9c77` (Overpaid Recovery Auditor) |
-| Event access request | `01a11442-f149-712f-b3b1-7cddba5c7483` |
+| Event access request | `01a11442-f149-712f-b3b1-7cddba5c7483`, GRANTED |
 | Masumi agent identifier | `67ab0c92c4ac1610895a1c965ee50aba41a8f1513b15240723b3bd0b106de9716144a893d017ccb43396ce35413f06b637c3bb4e5cc91254a9000000` |
 | Masumi registration | [4b35caa7](https://preprod.cardanoscan.io/transaction/4b35caa729241774d84e3c916e8ced2488dbe51ff4544dd3b9b43ee16b05edb1), Standard, Dynamic pricing |
 | Seller wallet | `addr_test1qppd0rl8s9mazhgcm3fq30dw2gkjxwe6wr5sgwm5tkm7gcgm2pu5mk3kn2y9flvsek2vc75v0luxzy2eukt89e3yahrqr3pjwa` |
@@ -22,7 +22,7 @@ The findings come from Overpaid's Find engine (`packages/find`), which is determ
 |---|---|---|
 | `01a11414-7fb5-7309-befe-1ef6aba3b3e1` | rehearsal, unpaid | COMPLETED. 48 rows, 5 findings, $1,307.64 |
 | `01a11417-e9fd-704f-9e60-71e4cdcef461` | paid | FAILED by the worker: the payment node marked the escrow invalid before its sync saw the lock (see Problems). No work delivered; the escrow refunds the buyer |
-| `01a1142a-2a44-77bb-a0e1-e44f34a22b37` | paid | COMPLETED. Escrow [6a95b180](https://preprod.cardanoscan.io/transaction/6a95b180a71b15ce99b1392e5a9673c7931e60611e07886f6c97cf9d1c48076c), result hash [85367bdd](https://preprod.cardanoscan.io/transaction/85367bddeae072f03632a483cb7d7d55a5bdbdf50614b7ee3a39293cbeadb9cd), completion event `01a11440-586a-77fb-a5ba-c181a74dc833` |
+| `01a1142a-2a44-77bb-a0e1-e44f34a22b37` | paid | COMPLETED. Escrow [6a95b180](https://preprod.cardanoscan.io/transaction/6a95b180a71b15ce99b1392e5a9673c7931e60611e07886f6c97cf9d1c48076c), result hash [85367bdd](https://preprod.cardanoscan.io/transaction/85367bddeae072f03632a483cb7d7d55a5bdbdf50614b7ee3a39293cbeadb9cd), completion event `01a11440-586a-77fb-a5ba-c181a74dc833`. Collected: [b8a45261](https://preprod.cardanoscan.io/transaction/b8a45261fc1c2984cfdd066af69d58df58c45771bdb5bb8983b5774180fb2bb3), seller net +1000000 atomic test USDM, Core receipt `settled: true` |
 
 Sample input: `Company card, last 7 months. Please audit for money we can recover.` followed by a 48-row CSV (Date, Description, Amount, Currency). Sample output: the five findings with their source rows, five merchant messages and a next-steps list.
 
@@ -54,6 +54,8 @@ Secrets stay in `services/coworker/.local/` (gitignored, mode 600) and the payme
 - **The first paid Task timed out.** The payment node's chain sync ran every 180 s and our signed pay-by window was 5 minutes. Sokosumi funded escrow 2 minutes in, but the node's timeout job marked the payment `FundsOrDatumInvalid` before its sync saw the lock. Fix: `CHECK_TX_INTERVAL=20`, and wider signed windows (pay by 10 min, result by 25, unlock at 40). The worker now closes such a Task as FAILED with the node's error note instead of polling forever.
 - **The submit-result transaction was marked `FailedViaTimeout` although it confirmed on chain** (85367bdd, 10:32). The node's state did not update until a restart re-ran its startup sync, after which it reported `ResultSubmitted` and the worker completed the Task. Cause not confirmed; restarting the node is the workaround.
 - **The "No payment contracts found... an other instance is already syncing" warnings are not the payment sync.** They come from the V1 and V2 registry sync jobs, and are harmless with no V1 source.
+
+- **The payment service exited on a DNS error** (`getaddrinfo ENOTFOUND cardano-preprod.blockfrost.io` during a network blip), which also paused collection. It now runs under `scripts/run-mps.sh`, a restart loop, and collection completed after restart.
 
 ## Limits
 

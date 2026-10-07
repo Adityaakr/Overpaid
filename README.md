@@ -48,7 +48,15 @@ A team assigns a Task to the **Overpaid Recovery Auditor** Coworker and pastes a
 The numbers come from our deterministic Find engine. Claude only writes the messages and never changes a figure. The Coworker is paid 1 test USDM per Task through Masumi escrow.
 
 - On a 48-row, 7-month sample statement it found 5 items worth $1,307.64.
-- Paid Task: escrow funded by Sokosumi [6a95b180](https://preprod.cardanoscan.io/transaction/6a95b180a71b15ce99b1392e5a9673c7931e60611e07886f6c97cf9d1c48076c), result hash on chain [85367bdd](https://preprod.cardanoscan.io/transaction/85367bddeae072f03632a483cb7d7d55a5bdbdf50614b7ee3a39293cbeadb9cd), Task completed.
+- Paid Task, start to payout:
+
+  | Step | Transaction |
+  |---|---|
+  | Escrow funded by Sokosumi | [6a95b180](https://preprod.cardanoscan.io/transaction/6a95b180a71b15ce99b1392e5a9673c7931e60611e07886f6c97cf9d1c48076c) |
+  | Result hash on chain | [85367bdd](https://preprod.cardanoscan.io/transaction/85367bddeae072f03632a483cb7d7d55a5bdbdf50614b7ee3a39293cbeadb9cd) |
+  | Payment collected: 1.000000 test USDM net to the seller wallet, measured on chain | [b8a45261](https://preprod.cardanoscan.io/transaction/b8a45261fc1c2984cfdd066af69d58df58c45771bdb5bb8983b5774180fb2bb3) |
+
+- Approved for the TOKEN2049 event workspace on Sokosumi.
 - Registered on the Masumi registry: [4b35caa7](https://preprod.cardanoscan.io/transaction/4b35caa729241774d84e3c916e8ced2488dbe51ff4544dd3b9b43ee16b05edb1).
 - Setup, IDs and the problems we hit: [docs/COWORKER.md](docs/COWORKER.md).
 
@@ -97,7 +105,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 | **Quality of results** | The Coworker's output lists the source rows behind every finding, and the model can't touch the numbers. Fix outcomes are read from the merchant's own status page; specialist evidence is re-hashed before the fee releases. |
 | **Usefulness** | Finance teams hire the Coworker per Task on Sokosumi. Consumers use the app. The human only approves irreversible steps. |
 | **Reliable execution** | Every paid step is saved before it is sent, and an uncertain write is never retried blindly, so there's no double run and no double charge. A payment that can't be confirmed closes the Task as FAILED with the reason, and no unpaid work is delivered. |
-| **Verified payment** | Escrow, result hash and collection transactions are linked above, for both the Coworker and the specialist. |
+| **Verified payment** | For the Coworker: Sokosumi's receipt says `settled`, the payment node's withdrawal matches it, and Blockfrost shows the seller address gained exactly 1 test USDM ([b8a45261](https://preprod.cardanoscan.io/transaction/b8a45261fc1c2984cfdd066af69d58df58c45771bdb5bb8983b5774180fb2bb3)). The specialist's collection is linked above too. |
 
 ## How it works
 

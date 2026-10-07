@@ -6,10 +6,23 @@ import { pathToFileURL } from 'node:url';
 const env = { ...process.env, PATH: [process.env.SOKOSUMI_NODE_BIN, process.env.PATH].filter(Boolean).join(':') };
 
 export const COWORKER_ID = process.env.COWORKER_ID ?? '';
-/** Personal Workspace by default; set SOKOSUMI_ORG_ID (and SOKOSUMI_ORG_SLUG) for the event Workspace. */
-// `tasks list` takes no --personal flag; it lists the account's Tasks and the worker filters by Coworker.
-export const scope = (kind: 'list' | 'runtime'): string[] =>
-  !process.env.SOKOSUMI_ORG_ID ? (kind === 'list' ? [] : ['--personal']) : kind === 'list' ? ['--organization-slug', process.env.SOKOSUMI_ORG_SLUG ?? ''] : ['--organization-id', process.env.SOKOSUMI_ORG_ID];
+/** Workspaces the worker serves: Personal always, plus organizations from SOKOSUMI_ORGS="slug:orgId,...". */
+export interface Scope {
+  name: string;
+  list: string[];
+  runtime: string[];
+}
+export const SCOPES: Scope[] = [
+  // `tasks list` takes no --personal flag; without one it lists the personal Tasks.
+  { name: 'personal', list: [], runtime: ['--personal'] },
+  ...(process.env.SOKOSUMI_ORGS ?? '')
+    .split(',')
+    .filter(Boolean)
+    .map((pair): Scope => {
+      const [slug = '', id = ''] = pair.split(':');
+      return { name: slug, list: ['--organization-slug', slug], runtime: ['--organization-id', id] };
+    }),
+];
 
 export function cli<T = any>(args: string[]): T {
   const out = execFileSync('sokosumi', ['--preprod', ...args, '--json'], { encoding: 'utf8', timeout: 30_000, maxBuffer: 4 << 20, env });

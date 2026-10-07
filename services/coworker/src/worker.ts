@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { buildReport } from './report.js';
 import { advancePaid, type Paid } from './paid.js';
 import { LOCAL, registration } from './mps.js';
-import { cli, COWORKER_ID, scope } from './sokosumi.js';
+import { cli, COWORKER_ID, SCOPES, type Scope } from './sokosumi.js';
 
 if (!/^[0-9a-f-]{36}$/i.test(COWORKER_ID)) throw new Error('Set COWORKER_ID');
 const PAID = process.env.PAID_TASKS_ENABLED === 'true';
@@ -52,11 +52,11 @@ async function answer(id: string, input: string, deadline?: number) {
   }
 }
 
-async function step(t: { id: string; status: string; coworkerId?: string }) {
+async function step(t: { id: string; status: string; coworkerId?: string }, scope: Scope) {
   let j = load(t.id);
   if (t.status === 'READY' && !j) {
     save(t.id, { phase: 'starting' });
-    const started = cli(['runtime', 'start', t.id, '--coworker-id', COWORKER_ID, ...scope('runtime')]);
+    const started = cli(['runtime', 'start', t.id, '--coworker-id', COWORKER_ID, ...scope.runtime]);
     j = { phase: 'started', input: started.description ?? started.task?.description ?? '' };
     save(t.id, j);
     console.log('started', t.id);
@@ -81,25 +81,27 @@ async function step(t: { id: string; status: string; coworkerId?: string }) {
   }
   if (j.phase === 'result-saved') {
     save(t.id, { ...j, phase: 'complete-pending' });
-    const completion = cli(['runtime', 'complete', t.id, '--coworker-id', COWORKER_ID, ...scope('runtime'), '--result-file', join(dir, `${t.id}.txt`)]);
+    const completion = cli(['runtime', 'complete', t.id, '--coworker-id', COWORKER_ID, ...scope.runtime, '--result-file', join(dir, `${t.id}.txt`)]);
     save(t.id, { ...j, phase: 'completed', completion });
     console.log('completed', t.id);
   }
 }
 
-console.log(`coworker worker ${process.pid} for ${COWORKER_ID} (${PAID ? 'paid' : 'unpaid'} Tasks)`);
+console.log(`coworker worker ${process.pid} for ${COWORKER_ID} (${PAID ? 'paid' : 'unpaid'} Tasks) in ${SCOPES.map((s) => s.name).join(', ')}`);
 for (;;) {
-  try {
-    const { tasks } = cli<{ tasks: any[] }>(['tasks', 'list', '--coworker-id', COWORKER_ID, ...scope('list')]);
-    for (const t of tasks.filter((x) => !x.coworkerId || x.coworkerId === COWORKER_ID)) {
-      try {
-        await step(t);
-      } catch (e) {
-        console.error('task blocked', t.id, String((e as Error).message).slice(0, 200));
+  for (const scope of SCOPES) {
+    try {
+      const { tasks } = cli<{ tasks: any[] }>(['tasks', 'list', '--coworker-id', COWORKER_ID, ...scope.list]);
+      for (const t of tasks.filter((x) => !x.coworkerId || x.coworkerId === COWORKER_ID)) {
+        try {
+          await step(t, scope);
+        } catch (e) {
+          console.error('task blocked', scope.name, t.id, String((e as Error).message).slice(0, 200));
+        }
       }
+    } catch (e) {
+      console.error('poll failed', scope.name, String((e as Error).message).slice(0, 200));
     }
-  } catch (e) {
-    console.error('poll failed', String((e as Error).message).slice(0, 200));
   }
   await new Promise((r) => setTimeout(r, 5000));
 }
