@@ -4,19 +4,9 @@ What Overpaid does today, what the Cardano and Masumi team asked, and the two us
 
 ## 1. What runs today
 
-```
-                       ┌────────────── Overpaid app (Next.js) ──────────────┐
- statement, receipts ─►│ Find: parse, detect recurring, 6 detectors         │
-                       │ Fix: browser fleet on merchant sites, approvals    │
-                       │ Hire: specialist over x402 into Masumi escrow      │
-                       │ Bloc: pledges + settlement in an Aiken contract    │
-                       └────────────────────────────────────────────────────┘
+![Architecture](diagrams/architecture.svg)
 
- Sokosumi Task ─► Coworker worker ─► Find engine + Claude ─► result
-                   │                                          │
-                   └─ Masumi payment service ◄── result hash ─┘
-                      (signed terms, escrow, collection on preprod)
-```
+Editable source: [`diagrams/architecture.excalidraw`](diagrams/architecture.excalidraw) (open it at excalidraw.com).
 
 | Piece | Real or simulated | Where |
 |---|---|---|
