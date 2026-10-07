@@ -1,15 +1,15 @@
-# Overpaid Recovery Auditor (Sokosumi Coworker)
+# Clawback Recovery Auditor (Sokosumi Coworker)
 
 For a finance or ops team: paste a card statement as CSV into a Task, get back a ranked list of money to recover (forgotten subscriptions, duplicate charges, bills above market). Every item cites its statement rows, and each one comes with a ready-to-send message to the merchant.
 
-The findings come from Overpaid's Find engine (`packages/find`), which is deterministic and tested. The model (Claude Sonnet 5.5 through OpenRouter) only drafts the messages and never sees or changes the numbers. If the model is unavailable, the Coworker sends template messages instead, and the findings are unchanged.
+The findings come from Clawback's Find engine (`packages/find`), which is deterministic and tested. The model (Claude Sonnet 5.5 through OpenRouter) only drafts the messages and never sees or changes the numbers. If the model is unavailable, the Coworker sends template messages instead, and the findings are unchanged.
 
 ## IDs
 
 | What | Value |
 |---|---|
-| Sokosumi Vendor | `01a11413-bd8e-7328-854a-107938741711` (Overpaid) |
-| Sokosumi Coworker | `01a11413-db1e-7259-ab91-17a7ef2f9c77` (Overpaid Recovery Auditor) |
+| Sokosumi Vendor | `01a11413-bd8e-7328-854a-107938741711` (Clawback) |
+| Sokosumi Coworker | `01a11413-db1e-7259-ab91-17a7ef2f9c77` (Clawback Recovery Auditor) |
 | Event access request | `01a11442-f149-712f-b3b1-7cddba5c7483`, GRANTED |
 | Masumi agent identifier | `67ab0c92c4ac1610895a1c965ee50aba41a8f1513b15240723b3bd0b106de9716144a893d017ccb43396ce35413f06b637c3bb4e5cc91254a9000001` (after a URL update; first issued as `…000000`) |
 | Masumi registration | [4b35caa7](https://preprod.cardanoscan.io/transaction/4b35caa729241774d84e3c916e8ced2488dbe51ff4544dd3b9b43ee16b05edb1), Standard, Dynamic pricing |

@@ -135,11 +135,11 @@ export default function Audit() {
     <div className={s.page}>
       <nav className={s.nav}>
         <a href="/" className={s.brand}>
-          <Logo size={28} /> Overpaid
+          <Logo size={28} /> Clawback
         </a>
         <div className={s.navLinks}>
           <a href="#agents" className={s.hideSm}>For agents</a>
-          <a href="https://github.com/Adityaakr/Overpaid" target="_blank" rel="noreferrer" className={s.hideSm}>GitHub</a>
+          <a href="https://github.com/Adityaakr/Clawback" target="_blank" rel="noreferrer" className={s.hideSm}>GitHub</a>
           <a href="/app" className="op-btn small">Open the app</a>
         </div>
       </nav>
@@ -152,7 +152,7 @@ export default function Audit() {
               <h1 className={s.h1}>See what your statement is quietly costing you.</h1>
               <p className={s.lede}>
                 Drop in a bank or card export. In seconds you see every recurring charge priced per year, price rises, duplicate charges and fees, with the rows behind each one and a drafted message to send. Free.
-                Then put it on autopilot: Overpaid keeps watching, and you pay only on money that comes back.
+                Then put it on autopilot: Clawback keeps watching, and you pay only on money that comes back.
               </p>
               <div className={s.trust}>
                 <span><ShieldCheck size={16} /> Read in memory, never stored</span>

@@ -2,8 +2,8 @@
 
 Each entry: what, why, and what would change it.
 
-## D1. Product name is Overpaid (6 Oct 2026)
-The human renamed Ombud to Overpaid. User-facing text says Overpaid; the repository directory stays `ombud`. Package scope is `@overpaid/*`. The brief still says Ombud; read it as Overpaid.
+## D1. Product name is Clawback (6 Oct 2026)
+The human renamed Ombud to Clawback. User-facing text says Clawback; the repository directory stays `ombud`. Package scope is `@overpaid/*`. The brief still says Ombud; read it as Clawback.
 
 ## D2. Postgres runs natively, not in Docker (6 Oct 2026)
 The build machine has no Docker. Homebrew Postgres 17 is running locally, database `overpaid`. `infra/docker-compose.yml` is still provided for a clean machine. Change if: a teammate's machine has Docker only.

@@ -3,7 +3,7 @@ import '../product.css';
 import { Rail, MetricsBar } from '@/product/ui';
 import { WalletProvider } from '@/product/wallet';
 
-export const metadata: Metadata = { title: 'Overpaid' };
+export const metadata: Metadata = { title: 'Clawback' };
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (

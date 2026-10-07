@@ -4,7 +4,7 @@ Decision doc from a six-lens Prism run on 7 October 2026, verified by three skep
 
 ## 1. Recommendation (revised the same day)
 
-Position Overpaid as **money on autopilot, outcome-based**: connect once, agents watch every charge and recover what you approve, you get a review on Sunday, and you pay only on money that comes back. The per-audit paywall for people is gone; the website audit is free and ends in "Start my autopilot". The chain is where Overpaid pays its own agents (specialists through Masumi escrow), where other agents buy audits per request (x402), and where companies hire it as a Coworker on a schedule.
+Position Clawback as **money you're owed, recovered by AI, outcome-based**: it is about getting back what you are already losing, not managing what you have. connect once, agents watch every charge and recover what you approve, you get a review on Sunday, and you pay only on money that comes back. The per-audit paywall for people is gone; the website audit is free and ends in "Start my autopilot". The chain is where Clawback pays its own agents (specialists through Masumi escrow), where other agents buy audits per request (x402), and where companies hire it as a Coworker on a schedule.
 
 Why the revision: the first draft (hire per job, 2 tADA per audit) made the user come back and pay every time, which contradicts the product the founder is building. Outcome-based pricing already existed in the code (15% success fee on confirmed recoveries, `services/api/src/routes/fees.ts`); the paywall was the odd one out.
 
@@ -12,19 +12,19 @@ Narrow the 3-minute video to one problem: **a real statement, on autopilot, with
 
 The one-line position:
 
-> Your money, on autopilot. Connect once; agents watch every charge, recover what you approve, and hire specialists through escrow on Cardano. You get a review on Sunday and pay only on money that comes back.
+> Money you're owed, recovered by AI. Clawback finds the subscriptions, fees and overcharges you are already paying for and its agents get the money back, with your approval. A review every Sunday, a fee only when money lands.
 
 What is true today versus next, said on every surface: today you connect by dropping in a statement export; bank and card connections, family accounts and continuous scanning are next. Browser agents act on demo merchants; on real lines you approve a drafted action.
 
 ## 1a. The original recommendation (kept for the record)
 
-Position Overpaid as **the recovery auditor you hire per job**: give it a bank or card statement and it tells you exactly what to cut, claim or renegotiate, with the source rows and the message to send. People use it on the website, companies hire it as a Coworker on Sokosumi, other agents buy it over x402. It is paid per delivered audit, through escrow or per request on Cardano, and a success fee applies only to money confirmed back.
+Position Clawback as **the recovery auditor you hire per job**: give it a bank or card statement and it tells you exactly what to cut, claim or renegotiate, with the source rows and the message to send. People use it on the website, companies hire it as a Coworker on Sokosumi, other agents buy it over x402. It is paid per delivered audit, through escrow or per request on Cardano, and a success fee applies only to money confirmed back.
 
 Narrow the 3-minute video to one problem: **a real statement, audited and paid for on chain**. Demo the website unlock (one screen, one wallet popup, one explorer link). Show the Sokosumi Task as a proof card, not a second demo. Cut the browser fleet and group bargaining from the video.
 
 The one-line position for the README and the landing page:
 
-> Overpaid audits your statement, tells you what to cut, claim or renegotiate, and drafts the messages. Hire it per audit from your wallet, or as a Coworker on Sokosumi. Every agent it pays is paid through escrow on Cardano.
+> Clawback audits your statement, tells you what to cut, claim or renegotiate, and drafts the messages. Hire it per audit from your wallet, or as a Coworker on Sokosumi. Every agent it pays is paid through escrow on Cardano.
 
 ## 2. Why
 
@@ -39,7 +39,7 @@ The one-line position for the README and the landing page:
 - **x402 lets anyone pay per request with no account.** A person pays from their wallet; an agent pays with the standard client and no API key. Each payment spends one specific UTxO, so a retry cannot charge twice (`services/api/src/routes/x402audit.ts:136`). `verified`
 - **Every payment, result hash and payout is public.** The judge does not trust our dashboard; they click the link. `verified`
 
-What is still first-party, said plainly: the specialist our app hires is built by us, and the only x402 sellers on Cardano preprod we found are ours. "Agent hires agent" is real on chain and self-funded in practice. The Coworker's result hash is its commitment on chain; the Sokosumi buyer can dispute, but nobody independently re-verifies that hash today, unlike the specialist's evidence, which Overpaid re-checks before the fee releases.
+What is still first-party, said plainly: the specialist our app hires is built by us, and the only x402 sellers on Cardano preprod we found are ours. "Agent hires agent" is real on chain and self-funded in practice. The Coworker's result hash is its commitment on chain; the Sokosumi buyer can dispute, but nobody independently re-verifies that hash today, unlike the specialist's evidence, which Clawback re-checks before the fee releases.
 
 ## 4. The three sentences for the video
 
@@ -65,9 +65,9 @@ What is still first-party, said plainly: the specialist our app hires is built b
 1. **Scheduled audits on Sokosumi.** Use Task Schedules so a company's monthly export is audited without anyone creating a Task [3][4]. Platform feature; needs only a schedule.
 2. **Prove "unused" with vendor data.** OpenRouter key usage, OpenAI `last_used_at`, GitHub Copilot `last_activity_at`, Google Workspace last login, with a read token to propose and a write token to act after approval ([IMPLEMENTATION.md](IMPLEMENTATION.md)). Documented, not run.
 3. **Replayable agent sessions.** Today every browser step is saved as a hashed screenshot bundle with an RFC 8785 manifest (`services/fleet/src/evidence.ts`) and there is live view. AgentCore Browser also records sessions to S3 and plays them back in the console, with human take-over during live view [6]. Turning that on gives the owner a full replay of what the agent did.
-4. **Sub-agents that specialise.** The specialist hire is the pattern: Overpaid pays another agent into escrow, verifies, and disputes on mismatch. Next are real third-party sellers on the Masumi registry instead of our own.
+4. **Sub-agents that specialise.** The specialist hire is the pattern: Clawback pays another agent into escrow, verifies, and disputes on mismatch. Next are real third-party sellers on the Masumi registry instead of our own.
 5. **Privacy.** Today the app stores uploaded rows in Postgres until the next upload (`services/api/src/find.ts:32`), the audit reads in memory and keeps paid results 24 hours under a claim id. Next: per-user storage, deletion, and redaction before any model call for the Coworker path.
-6. **Cardano's agent rails.** Cardano's public AI positioning is infrastructure for agents (Masumi escrow, the agent registry, x402 on mainnet since April 2026, Veridian, Hydra) [7][8]; we found no first-party Cardano assistant competing with xAI's Grok Bot or OpenAI's Dots [9]. Overpaid is a worked example of an agent that earns on those rails, and the natural next step is mainnet with USDM once the audit has paying customers.
+6. **Cardano's agent rails.** Cardano's public AI positioning is infrastructure for agents (Masumi escrow, the agent registry, x402 on mainnet since April 2026, Veridian, Hydra) [7][8]; we found no first-party Cardano assistant competing with xAI's Grok Bot or OpenAI's Dots [9]. Clawback is a worked example of an agent that earns on those rails, and the natural next step is mainnet with USDM once the audit has paying customers.
 
 ## 8. Open questions for Aditya
 

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { ArrowRight, CaretDown } from '@phosphor-icons/react';
 import { VIGIL } from '@/product/vigils';
+import { DraftButton, LedgerBrief } from '@/product/brief';
 import { api, useLive } from '@/product/api';
 import { Money, PageHead } from '@/product/ui';
 
@@ -76,7 +77,7 @@ export default function MoneyOnTheTable() {
         <div className="op-card" style={{ padding: 48, display: 'grid', gap: 20, justifyItems: 'start' }}>
           <h2 style={{ fontSize: 28 }}>Find what you’re owed in under a minute.</h2>
           <p className="op-muted" style={{ maxWidth: 560, fontSize: 16 }}>
-            Drop in your receipts and a card statement, or use the demo account. Overpaid builds one ledger and shows every overcharge with
+            Drop in your receipts and a card statement, or use the demo account. Clawback builds one ledger and shows every overcharge with
             its reason and the records it came from.
           </p>
           <div style={{ display: 'flex', gap: 12 }}>
@@ -151,6 +152,8 @@ export default function MoneyOnTheTable() {
         </div>
       </div>
 
+      {!data.demo ? <LedgerBrief deps={data.count} /> : null}
+
       <div className="op-card">
         <div className="op-card-head">
           <div>
@@ -199,8 +202,9 @@ export default function MoneyOnTheTable() {
                   </div>
                 </div>
                 {selfServe(it) && it.meta?.action ? (
-                  <div style={{ padding: '0 4px 14px 64px', fontSize: 14, color: 'var(--ink-75)' }}>
-                    <b style={{ color: 'var(--ink)' }}>What to do:</b> {String(it.meta.action)}
+                  <div style={{ padding: '0 4px 14px 64px', fontSize: 14, color: 'var(--ink-75)', display: 'grid', gap: 8 }}>
+                    <div><b style={{ color: 'var(--ink)' }}>What to do:</b> {String(it.meta.action)}</div>
+                    {it.status === 'open' ? <DraftButton id={it.id} initial={typeof it.meta.draft === 'string' ? it.meta.draft : null} /> : null}
                   </div>
                 ) : null}
                 {isOpen ? (

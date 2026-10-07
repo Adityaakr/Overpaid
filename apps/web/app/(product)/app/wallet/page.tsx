@@ -45,7 +45,7 @@ export default function WalletPage() {
       <PageHead
         title="My wallet"
         tone={w.address ? 'good' : w.wrongNetwork ? 'warn' : undefined}
-        sub={w.address ? `${w.walletName} on Cardano preprod` : w.wrongNetwork ? 'Switch your wallet to Preprod' : 'Connect your own Cardano wallet. Overpaid never sees your recovery phrase.'}
+        sub={w.address ? `${w.walletName} on Cardano preprod` : w.wrongNetwork ? 'Switch your wallet to Preprod' : 'Connect your own Cardano wallet. Clawback never sees your recovery phrase.'}
         actions={
           w.address ? (
             <>
@@ -152,7 +152,7 @@ export default function WalletPage() {
           <div className="op-card" style={{ display: 'grid', gap: 8 }}>
             <h2>How signing works</h2>
             <div className="op-muted" style={{ fontSize: 14, lineHeight: 1.5 }}>
-              Overpaid’s server builds each transaction without any keys. Your wallet shows it to you and signs it. The server only attaches your signature and submits it.
+              Clawback’s server builds each transaction without any keys. Your wallet shows it to you and signs it. The server only attaches your signature and submits it.
             </div>
           </div>
         </div>

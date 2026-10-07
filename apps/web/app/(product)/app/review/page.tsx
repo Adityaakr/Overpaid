@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { api, useLive } from '@/product/api';
 import { Money, PageHead } from '@/product/ui';
 import { VIGIL } from '@/product/vigils';
+import { LedgerBrief } from '@/product/brief';
 
 type Item = {
   id: string; merchant: string; vigilType: string; valueEstimate: number; currency: string; status: string; reason: string;
@@ -72,6 +73,8 @@ export default function SundayReview() {
           <div className="card-sub">Left alone until you change your mind.</div>
         </div>
       </div>
+
+      <LedgerBrief deps={data.decide.length} />
 
       {data.awaiting.length ? (
         <div className="op-card" style={{ marginBottom: 20 }}>

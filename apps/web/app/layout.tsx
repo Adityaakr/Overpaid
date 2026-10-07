@@ -8,9 +8,9 @@ const inter = Inter({ subsets: ['latin'], axes: ['opsz'], variable: '--font-inte
 const hand = Caveat({ subsets: ['latin'], weight: ['500'], variable: '--font-hand', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'Overpaid: AI agents that recover the money you’re owed',
+  title: 'Clawback: AI agents that recover the money you’re owed',
   description:
-    "Overpaid is an agent that finds forgotten subscriptions, refunds and price drops, then claims them for you on the merchants' own sites. Paid only on results, with specialist hires and group bargaining on Cardano.",
+    "Clawback is an agent that finds forgotten subscriptions, refunds and price drops, then claims them for you on the merchants' own sites. Paid only on results, with specialist hires and group bargaining on Cardano.",
 };
 
 export const viewport: Viewport = { width: 'device-width', initialScale: 1 };

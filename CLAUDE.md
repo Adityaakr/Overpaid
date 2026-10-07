@@ -1,6 +1,6 @@
-# Overpaid (repo dir `ombud`)
+# Clawback (repo dir `ombud`)
 
-Overpaid finds money people are owed and gets it back: Find (receipts and statements to one ledger), Fix (a fleet of AI browser agents on merchants' own sites), specialist hires paid over x402 into Masumi escrow, and Bloc group bargaining settled by an Aiken contract. Cardano preprod only. Formerly named Ombud (`docs/DECISIONS.md` D1).
+Clawback finds money people are owed and gets it back: Find (receipts and statements to one ledger), Fix (a fleet of AI browser agents on merchants' own sites), specialist hires paid over x402 into Masumi escrow, and Bloc group bargaining settled by an Aiken contract. Cardano preprod only. Formerly named Ombud (`docs/DECISIONS.md` D1).
 
 After any context reset read: this file, `docs/PLAN.md`, `docs/PROGRESS.md`, `docs/DECISIONS.md`. Scope and facts: `docs/BRIEF.md`. Grounded research: `docs/research/*.md`.
 

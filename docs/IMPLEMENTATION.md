@@ -1,6 +1,6 @@
 # Implementation notes (working doc)
 
-What Overpaid does today, what the Cardano and Masumi team asked, and the two use cases we can show working with real accounts. Every outside fact links to its source; anything not checked is marked so.
+What Clawback does today, what the Cardano and Masumi team asked, and the two use cases we can show working with real accounts. Every outside fact links to its source; anything not checked is marked so.
 
 ## 1. What runs today
 

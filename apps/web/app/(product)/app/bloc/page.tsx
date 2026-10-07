@@ -106,13 +106,13 @@ export default function BlocRoom() {
               <div className="op-empty" style={{ height: 284, display: 'grid', placeItems: 'center' }}>QR appears when the join page has a public URL</div>
             )}
             <div className="op-muted" style={{ fontSize: 13 }}>
-              Pledge from your own Cardano wallet on preprod. No wallet? The phone page offers a custodial demo wallet funded by Overpaid, labelled as such.
+              Pledge from your own Cardano wallet on preprod. No wallet? The phone page offers a custodial demo wallet funded by Clawback, labelled as such.
             </div>
           </div>
           <div className="op-card" style={{ display: 'grid', gap: 14 }}>
             <div>
               <h2>Pledge from my wallet</h2>
-              <div className="card-sub">Overpaid builds the transaction; only your wallet signs it. Refundable to your wallet after {fmtDeadline(c?.refundDeadline)} if no deal settles.</div>
+              <div className="card-sub">Clawback builds the transaction; only your wallet signs it. Refundable to your wallet after {fmtDeadline(c?.refundDeadline)} if no deal settles.</div>
             </div>
             <ConnectButton />
             {w.address && c ? <PledgeFromWallet refundDeadline={c.refundDeadline} onDone={reload} /> : null}

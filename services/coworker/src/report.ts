@@ -16,7 +16,7 @@ async function draft(a: Audit, signal?: AbortSignal): Promise<string> {
   const findings = a.items.slice(0, 8).map(({ rows, kind, ...f }) => ({ ...f, finding: kindLabel(kind), amount: (f.cents / 100).toFixed(2), per: f.per, rowCount: rows.length }));
   const res = await fetch(URL, {
     method: 'POST',
-    headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json', 'x-title': 'Overpaid coworker' },
+    headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json', 'x-title': 'Clawback coworker' },
     body: JSON.stringify({
       model: MODEL,
       max_tokens: 2000,
@@ -60,6 +60,6 @@ export async function buildReport(input: string, opts: { today?: string; signal?
     actions = fallback(a);
     model = 'template';
   }
-  const foot = '\n\n---\nOverpaid recovery audit. Figures are computed from the statement rows above; recurring charges are to review, not confirmed unused. Messages are drafts for you to review before sending.';
+  const foot = '\n\n---\nClawback recovery audit. Figures are computed from the statement rows above; recurring charges are to review, not confirmed unused. Messages are drafts for you to review before sending.';
   return { text: `${head}\n\n${actions}${foot}`, actions, audit: a, model };
 }

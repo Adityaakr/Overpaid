@@ -29,7 +29,7 @@ const port = Number(process.env.COWORKER_API_PORT ?? 4600);
 createServer(async (req, res) => {
   try {
     const url = new URL(req.url ?? '/', 'http://localhost');
-    if (req.method === 'GET' && url.pathname === '/availability') return send(res, 200, { status: 'available', type: 'masumi-agent', message: 'Overpaid recovery audit: card statement in, sourced recovery list and merchant messages out.' });
+    if (req.method === 'GET' && url.pathname === '/availability') return send(res, 200, { status: 'available', type: 'masumi-agent', message: 'Clawback recovery audit: card statement in, sourced recovery list and merchant messages out.' });
     if (req.method === 'GET' && url.pathname === '/input_schema') return send(res, 200, schema);
     if (req.method === 'GET' && url.pathname === '/status') {
       const id = url.searchParams.get('job_id') ?? '';

@@ -1,8 +1,8 @@
 # Submission
 
-## Overpaid: AI agents that get your money back
+## Clawback: AI agents that get your money back
 
-Overpaid reads your receipts and card statement, finds money businesses keep from people too busy to chase it, and claims it back on the merchants' own websites with a fleet of browser agents. Claims that need expertise go to a specialist agent paid through Masumi escrow on Cardano over x402. Overpaying users bargain as a bloc, with pledges locked in an Aiken contract and a single settlement transaction that pays the winning provider and refunds everyone the difference.
+Clawback reads your receipts and card statement, finds money businesses keep from people too busy to chase it, and claims it back on the merchants' own websites with a fleet of browser agents. Claims that need expertise go to a specialist agent paid through Masumi escrow on Cardano over x402. Overpaying users bargain as a bloc, with pledges locked in an Aiken contract and a single settlement transaction that pays the winning provider and refunds everyone the difference.
 
 ## What is real
 

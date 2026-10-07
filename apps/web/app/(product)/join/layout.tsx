@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import '../product.css';
 import { WalletProvider } from '@/product/wallet';
 
-export const metadata: Metadata = { title: 'Join the bloc · Overpaid' };
+export const metadata: Metadata = { title: 'Join the bloc · Clawback' };
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#EBEFF5' };
 
 export default function JoinLayout({ children }: { children: React.ReactNode }) {

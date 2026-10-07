@@ -28,11 +28,11 @@ One multi-handler validator (`spend`, `withdraw`, `publish`) parameterised by th
 
 ## Trust model
 
-- **Keys.** Four seeds. Seed A (treasury, bloc admin) never runs on a tunnelled host. Seed S belongs to the specialist alone; its process reads a wallets file holding only seed S. Seed B (Overpaid's agent wallet that pays specialists) runs in the API. Seed C (custodial demo room wallets) holds only enough for one pledge each.
+- **Keys.** Four seeds. Seed A (treasury, bloc admin) never runs on a tunnelled host. Seed S belongs to the specialist alone; its process reads a wallets file holding only seed S. Seed B (Clawback's agent wallet that pays specialists) runs in the API. Seed C (custodial demo room wallets) holds only enough for one pledge each.
 - **Users sign their own money.** Bloc pledges and success fees are built by the server and signed in the user's CIP-30 wallet; the server only merges the wallet's witnesses into the body it built and re-validates before submitting. Pledge refunds go to the user's own address, and after the deadline anyone (including the user, from the app) can build the refund. A ticker refunds every remaining pledge automatically once the deadline passes.
-- **Operator actions are guarded.** Every API write needs a client header (blocks cross-site requests from other origins), and anything that spends Overpaid's own funds or resets state needs the operator token.
+- **Operator actions are guarded.** Every API write needs a client header (blocks cross-site requests from other origins), and anything that spends Clawback's own funds or resets state needs the operator token.
 - **The browsing agent cannot pay.** The fleet holds no key and has no payment or evaluate tool; it runs in its own process. Payments happen only in the API and the bloc service, through structured flows.
 - **Web pages are data.** The system prompt says so; page text asking for payment or off-allowlist navigation is flagged, off-allowlist requests are blocked at the route level, and one demo page carries a hidden injection the fleet visibly ignores.
-- **Agents announce themselves.** Every request carries `X-Overpaid-Agent`; with AgentCore Web Bot Auth enabled, requests are signed and the demo merchants show "Request from an AI agent acting for its user".
-- **Verification never trusts an agent's own claim.** Outcomes are read from merchants' status pages; specialist results are re-checked before Overpaid stays silent and lets the fee release.
-- **Non-custodial by design for users:** pledges sit in a script Overpaid holds no key to, and anyone can build the refund after the deadline. The room's demo wallets are custodial and labelled.
+- **Agents announce themselves.** Every request carries `X-Clawback-Agent`; with AgentCore Web Bot Auth enabled, requests are signed and the demo merchants show "Request from an AI agent acting for its user".
+- **Verification never trusts an agent's own claim.** Outcomes are read from merchants' status pages; specialist results are re-checked before Clawback stays silent and lets the fee release.
+- **Non-custodial by design for users:** pledges sit in a script Clawback holds no key to, and anyone can build the refund after the deadline. The room's demo wallets are custodial and labelled.

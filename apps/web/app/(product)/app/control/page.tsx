@@ -65,7 +65,7 @@ export default function Control() {
         <div className="op-grid">
           <div className="op-card" style={{ display: 'grid', gap: 10 }}>
             <h2>Operator token</h2>
-            <div className="card-sub">Needed for actions that spend Overpaid&apos;s own preprod funds. Stored only in this browser.</div>
+            <div className="card-sub">Needed for actions that spend Clawback&apos;s own preprod funds. Stored only in this browser.</div>
             <input
               type="password"
               value={token}

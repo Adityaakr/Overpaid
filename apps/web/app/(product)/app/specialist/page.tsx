@@ -48,7 +48,7 @@ const STATE_LABEL: Record<string, { label: string; tone: string }> = {
   RefundRequested: { label: 'Refund requested', tone: 'warn' },
   Disputed: { label: 'Disputed', tone: 'bad' },
   RefundAuthorized: { label: 'Refund authorised', tone: 'warn' },
-  RefundWithdrawn: { label: 'Refunded to Overpaid', tone: 'good' },
+  RefundWithdrawn: { label: 'Refunded to Clawback', tone: 'good' },
   failed: { label: 'Failed', tone: 'bad' },
 };
 
@@ -121,15 +121,15 @@ export default function SpecialistPage() {
             <span className={`op-pill ${s?.online ? 'good' : 'bad'}`}>{s?.online ? 'Online' : 'Offline'}</span>
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {s?.firstParty !== false ? <span className="op-pill dark">First-party specialist, built by the Overpaid team</span> : null}
+            {s?.firstParty !== false ? <span className="op-pill dark">First-party specialist, built by the Clawback team</span> : null}
             <span className="op-pill">{s?.registered ? 'Registered on Masumi preprod' : 'Not yet on the Masumi registry'}</span>
           </div>
-          <Row k="Fee" v={s?.fee ? `${s.fee}, paid by Overpaid’s agent wallet, not you` : '—'} />
+          <Row k="Fee" v={s?.fee ? `${s.fee}, paid by Clawback’s agent wallet, not you` : '—'} />
           <Row k="Endpoint" v={s?.url ?? '—'} mono />
           <Row k="Seller wallet" v={s?.sellerAddress ?? '—'} mono />
           {s?.masumiAgentId ? <Row k="Masumi agent id" v={s.masumiAgentId} mono /> : null}
           <div className="op-muted" style={{ fontSize: 13, lineHeight: 1.5 }}>
-            The fee sits in Masumi’s escrow contract. It releases to the specialist after the unlock time unless Overpaid disputes first.
+            The fee sits in Masumi’s escrow contract. It releases to the specialist after the unlock time unless Clawback disputes first.
             Disputes go to Masumi’s admin multisig after the dispute unlock time. No protocol fee is taken by the contract.
           </div>
         </div>

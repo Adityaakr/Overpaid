@@ -11,7 +11,7 @@ import { WalletRailButton } from './wallet';
 
 export function Logo({ size = 32 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" aria-label="Overpaid">
+    <svg width={size} height={size} viewBox="0 0 32 32" aria-label="Clawback">
       <circle cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" strokeWidth="5" />
       <circle cx="18.5" cy="18.5" r="3.6" fill="currentColor" />
     </svg>
@@ -34,7 +34,7 @@ export function Rail() {
   const path = usePathname();
   return (
     <nav className="op-rail" aria-label="Product">
-      <Link href="/" className="logo" aria-label="Overpaid home">
+      <Link href="/" className="logo" aria-label="Clawback home">
         <Logo size={34} />
       </Link>
       {NAV.map(({ href, label, icon: Icon }) => {

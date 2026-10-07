@@ -1,6 +1,6 @@
-# Overpaid build plan
+# Clawback build plan
 
-Overpaid (formerly Ombud; renamed 6 October 2026, see DECISIONS.md D1) finds money people are owed and gets it back: Find, Fix, Bargain, with specialist hires and bloc settlement on Cardano preprod. Scope, facts and process come from `docs/BRIEF.md`; this file is the working plan.
+Clawback (formerly Ombud; renamed 6 October 2026, see DECISIONS.md D1) finds money people are owed and gets it back: Find, Fix, Bargain, with specialist hires and bloc settlement on Cardano preprod. Scope, facts and process come from `docs/BRIEF.md`; this file is the working plan.
 
 ## Milestones and order
 

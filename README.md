@@ -1,16 +1,16 @@
-# Overpaid
+# Clawback
 
-**Your money, on autopilot. Connect once; agents watch every charge, recover what you approve, and hire specialists through escrow on Cardano. You get a review on Sunday and pay only on money that comes back.**
+**Money you're owed, recovered by AI.** You are already paying for subscriptions you forgot, fees you never agreed to and prices that quietly went up. Clawback finds them in your statement and its agents get the money back, with your approval. A review every Sunday, a fee only when money lands.
 
-Nobody wants to spend Sunday evenings on their statement. Overpaid does it for you: it reads every charge on the accounts you connect, prices what each one costs per year, catches duplicates, fees and price rises, drafts the cancellation or dispute, and runs browser agents and specialist agents to get the money back, stopping for your approval before anything irreversible. Once a week you get a review: keep this, remove that, approve the rest. It is outcome-based: nothing upfront, a success fee only on money confirmed back.
+Clawback reads every charge on the accounts you connect, prices what each one costs per year, catches duplicates, fees and price rises, drafts the cancellation or dispute, and runs browser agents and specialist agents to get the money back, stopping for your approval before anything irreversible. Once a week you get a review: keep this, remove that, approve the rest. Nothing upfront; a success fee only on money confirmed back.
 
-The chain is where Overpaid pays its agents, not where you pay Overpaid. Every specialist it hires is paid through Masumi escrow, released only when the result hash is on chain and verified. Other agents can buy single audits over x402 per request, and companies can hire the same agent as a Coworker on Sokosumi, on a schedule. Today you connect by dropping in a statement export; bank and card connections are the next step. The reasoning and evidence are in [docs/POSITIONING.md](docs/POSITIONING.md).
+The chain is where Clawback pays its agents, not where you pay Clawback. Every specialist it hires is paid through Masumi escrow, released only when the result hash is on chain and verified. Other agents can buy single audits over x402 per request, and companies can hire the same agent as a Coworker on Sokosumi, on a schedule. Today you connect by dropping in a statement export; bank and card connections are the next step. The reasoning and evidence are in [docs/POSITIONING.md](docs/POSITIONING.md).
 
 It runs three ways: the **app** for people (free audit, autopilot, Sunday review), a **Coworker on Sokosumi** that companies hire per Task or on a weekly schedule, and an **x402 endpoint** other agents pay per request.
 
 Built for the TOKEN2049 Origins Hackathon (Singapore, October 2026). Cardano preprod only, no real money.
 
-![Overpaid architecture](docs/diagrams/architecture.svg)
+![Clawback architecture](docs/diagrams/architecture.svg)
 
 ## The problem
 
@@ -28,7 +28,7 @@ Built for the TOKEN2049 Origins Hackathon (Singapore, October 2026). Cardano pre
 
 ## The solution
 
-| Problem | What Overpaid does |
+| Problem | What Clawback does |
 |---|---|
 | Leaks nobody notices | **Autopilot** reads every charge on the accounts you connect, prices each recurring charge per year, flags price rises, duplicate charges and fees, and keeps rent and loans out of the actions. Every figure cites the exact rows. You see it on Sunday, not every day. |
 | Nobody knows what to do next | Each finding comes with a concrete action and a drafted message to the merchant or bank. In the Sunday review you keep or remove each line in one tap; the agents take it from there. The model writes words only; it can't change a number. |
@@ -45,7 +45,7 @@ Pricing, in one line: nothing to run, a success fee of 15% only on money confirm
 | Who | How | What happens |
 |---|---|---|
 | **A person** | Open **`/audit`** and drop in a bank or card CSV, then **Start my autopilot** | The full audit, free: every item with its reasons, source rows, action and a drafted message. On autopilot it keeps watching, runs the agents, and shows you a Sunday review at `/app/review`. |
-| **A company** | On Sokosumi, create a Task (or a weekly Schedule) for **Overpaid Recovery Auditor** (Coworker `01a11413-db1e-7259-ab91-17a7ef2f9c77`) and paste the statement | The Coworker requests payment into Masumi escrow, runs the audit, puts the result hash on chain and posts the report in the Task thread. A Schedule creates a new Task on each occurrence, so the audit runs without anyone opening Sokosumi. |
+| **A company** | On Sokosumi, create a Task (or a weekly Schedule) for **Clawback Recovery Auditor** (Coworker `01a11413-db1e-7259-ab91-17a7ef2f9c77`) and paste the statement | The Coworker requests payment into Masumi escrow, runs the audit, puts the result hash on chain and posts the report in the Task thread. A Schedule creates a new Task on each occurrence, so the audit runs without anyone opening Sokosumi. |
 | **Another agent** | `POST /api/x402/audit` with `{ "statement": "..." }` | `402 Payment Required` with the price; any `@x402/cardano` client pays and retries. No account, no API key. |
 
 ### What a real statement gets you
@@ -70,7 +70,7 @@ The audit reads comma, semicolon, tab and pipe exports; US and European number a
 
 ### 1. Recovery audit on Sokosumi: verified
 
-The **Overpaid Recovery Auditor** Coworker is registered on the Masumi registry ([4b35caa7](https://preprod.cardanoscan.io/transaction/4b35caa729241774d84e3c916e8ced2488dbe51ff4544dd3b9b43ee16b05edb1)), approved for the TOKEN2049 event workspace, and paid 1 test USDM per Task through Masumi escrow.
+The **Clawback Recovery Auditor** Coworker is registered on the Masumi registry ([4b35caa7](https://preprod.cardanoscan.io/transaction/4b35caa729241774d84e3c916e8ced2488dbe51ff4544dd3b9b43ee16b05edb1)), approved for the TOKEN2049 event workspace, and paid 1 test USDM per Task through Masumi escrow.
 
 | Paid Task, start to payout | Transaction |
 |---|---|
@@ -93,7 +93,7 @@ If the response is lost after payment, the page recovers the paid result with a 
 
 ### 3. Expert claims through a hired specialist: verified
 
-Some claims need know-how, like a delayed flight the airline's form rejects unless you pick the right category. Overpaid hires a specialist agent over x402 into Masumi escrow. The specialist files the claim, waits until the airline shows "Compensation paid" and puts its evidence hash on chain. Overpaid re-checks the status page and the hash before letting the fee release, and disputes automatically on a mismatch.
+Some claims need know-how, like a delayed flight the airline's form rejects unless you pick the right category. Clawback hires a specialist agent over x402 into Masumi escrow. The specialist files the claim, waits until the airline shows "Compensation paid" and puts its evidence hash on chain. Clawback re-checks the status page and the hash before letting the fee release, and disputes automatically on a mismatch.
 
 | Step | Transaction |
 |---|---|
@@ -130,7 +130,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 3. **Replayable agent sessions.** Today every browser step is a hashed screenshot in an evidence bundle, with live view while it runs. AgentCore Browser also records sessions to S3 for replay with human take-over [14]; turning that on gives the owner a full replay of what the agent did.
 4. **Third-party sub-agents.** The specialist hire is the pattern (escrow, verify, auto-dispute); next are sellers on the Masumi registry that we did not build.
 5. **Privacy.** Per-user storage and deletion, and redaction before any model call. Today the app stores uploaded rows until the next upload and the audit keeps a paid result for 24 hours.
-6. **Mainnet on Cardano's agent rails.** Cardano's public AI positioning is infrastructure for agents (Masumi, the agent registry, x402 on mainnet since April 2026) [15]; Overpaid is an agent that earns on those rails, and mainnet with USDM follows paying customers.
+6. **Mainnet on Cardano's agent rails.** Cardano's public AI positioning is infrastructure for agents (Masumi, the agent registry, x402 on mainnet since April 2026) [15]; Clawback is an agent that earns on those rails, and mainnet with USDM follows paying customers.
 
 ## What is real and what is demo
 
@@ -139,7 +139,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 | **Your upload** on `/audit` or in the app's Connect page, and every finding it produces | **"Use demo data"**: a synthetic account with receipts and a statement |
 | **The Coworker** on Sokosumi: Tasks, escrow, result hashes, payout | **Fix agents** operate only on our four demo merchant sites. On real uploads they never run; real lines are marked "Your action" with a concrete step instead. |
 | **Every x402 payment, pledge, refund, settlement, success fee and registration** on preprod | **The specialist** files on a demo airline |
-| **Wallets**: users sign their own transactions in Lace, Eternl or SubWallet | **eSIM providers** and 60 of the pledges are simulated; the room's custodial demo wallets are run by Overpaid |
+| **Wallets**: users sign their own transactions in Lace, Eternl or SubWallet | **eSIM providers** and 60 of the pledges are simulated; the room's custodial demo wallets are run by Clawback |
 
 ## Why the claims hold up
 
@@ -156,7 +156,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 |---|---|
 | **Find** (`packages/find`) | Parses `.eml`/`.mbox` receipts and CSV or PDF statements in the bank formats covered by its 59 tests (delimiters, US and European numbers and dates, signed or debit and credit columns), detects recurring charges, and runs six detectors: forgotten subscription, duplicate charge, price drop, undelivered order, flight compensation, bill above market. |
 | **Audit** (`services/coworker/src/audit.ts`) | Prices every recurring charge per year, categorises it (subscription, bill, fixed cost), catches price rises on plans, same-day and near-duplicate charges and bank fees, and attaches an action and source rows to each. Shared by the website, the app, the Coworker and the x402 endpoint. |
-| **Fix** (`services/fleet`) | Claude tool loop (OpenRouter, Bedrock or the Anthropic API) in local Chromium or AgentCore Browser. Every request carries `X-Overpaid-Agent`. |
+| **Fix** (`services/fleet`) | Claude tool loop (OpenRouter, Bedrock or the Anthropic API) in local Chromium or AgentCore Browser. Every request carries `X-Clawback-Agent`. |
 | **Hire** (`services/specialist`, `packages/cardano`) | The specialist is an x402 `masumi` seller with a MIP-003 API and its own wallet. The buyer side verifies the quote, locks escrow, verifies the result and disputes automatically on a mismatch. |
 | **Bargain** (`services/bloc`, `contracts/bloc`) | One Aiken validator with spend, withdraw and publish handlers. A withdraw-zero settlement checks the whole batch at once, which fits 40 pledges per transaction. |
 | **Coworker** (`services/coworker`) | A Sokosumi worker for both the personal and event workspaces, a local Masumi payment service for signed terms, escrow and collection, and a MIP-003 agent API for the registry listing. |
