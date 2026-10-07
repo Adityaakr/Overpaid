@@ -18,7 +18,11 @@ export function webOrigins(): string[] {
 const PUBLIC_WRITES = [
   /^\/api\/bloc\/(join|pledge\/build|pledge\/submit|refund\/build|refund\/submit)$/,
   /^\/api\/fees\/[^/]+\/(build|submit)$/,
+  /^\/api\/audit\/preview$/,
+  /^\/api\/x402\/(audit|pay\/build|pay\/assemble)$/,
 ];
+// Open to any client, including other agents: payment is the gate.
+const OPEN_ROUTES = [/^\/api\/x402\/audit$/];
 
 const same = (a: string, b: string) => a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b));
 
@@ -29,6 +33,7 @@ export function registerGuard(app: FastifyInstance) {
     const path = req.url.split('?')[0]!;
     // Every write must come from our web app or a local script: a custom header forces a CORS preflight,
     // which foreign origins fail, so other websites can't drive this API from the user's browser.
+    if (OPEN_ROUTES.some((r) => r.test(path))) return;
     if (req.headers['x-overpaid-client'] === undefined) return reply.code(403).send({ error: 'missing x-overpaid-client header' });
     // Requests through the public tunnel carry cf-connecting-ip; everything except the public writes is the operator's.
     const host = String(req.headers['x-forwarded-host'] ?? req.headers.host ?? '');
