@@ -1,6 +1,6 @@
 # Clawback
 
-**Money you're owed, clawed back for you.** You are already paying for subscriptions you forgot, fees you never agreed to and prices that quietly went up. Clawback finds them in your statement and its agents get the money back, with your approval. A review every Sunday, a fee only when money lands.
+**Money you're owed, clawed back.** You are already paying for subscriptions you forgot, fees you never agreed to and prices that quietly went up. Clawback finds them in your statement and its agents get the money back, with your approval. A review every Sunday, a fee only when money lands.
 
 Clawback reads every charge on the accounts you connect, prices what each one costs per year, catches duplicates, fees and price rises, drafts the cancellation or dispute, and runs browser agents and specialist agents to get the money back, stopping for your approval before anything irreversible. Once a week you get a review: keep this, remove that, approve the rest. Nothing upfront; a success fee only on money confirmed back.
 

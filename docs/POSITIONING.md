@@ -4,7 +4,7 @@ Decision doc from a six-lens Prism run on 7 October 2026, verified by three skep
 
 ## 1. Recommendation (revised the same day)
 
-Position Clawback as **money you're owed, clawed back for you, outcome-based**: it is about getting back what you are already losing, not managing what you have. connect once, agents watch every charge and recover what you approve, you get a review on Sunday, and you pay only on money that comes back. The per-audit paywall for people is gone; the website audit is free and ends in "Start my autopilot". The chain is where Clawback pays its own agents (specialists through Masumi escrow), where other agents buy audits per request (x402), and where companies hire it as a Coworker on a schedule.
+Position Clawback as **money you're owed, clawed back, outcome-based**: it is about getting back what you are already losing, not managing what you have. connect once, agents watch every charge and recover what you approve, you get a review on Sunday, and you pay only on money that comes back. The per-audit paywall for people is gone; the website audit is free and ends in "Start my autopilot". The chain is where Clawback pays its own agents (specialists through Masumi escrow), where other agents buy audits per request (x402), and where companies hire it as a Coworker on a schedule.
 
 Why the revision: the first draft (hire per job, 2 tADA per audit) made the user come back and pay every time, which contradicts the product the founder is building. Outcome-based pricing already existed in the code (15% success fee on confirmed recoveries, `services/api/src/routes/fees.ts`); the paywall was the odd one out.
 
@@ -12,7 +12,7 @@ Narrow the 3-minute video to one problem: **a real statement, on autopilot, with
 
 The one-line position:
 
-> Money you're owed, clawed back for you. Clawback finds the subscriptions, fees and overcharges you are already paying for and its agents get the money back, with your approval. A review every Sunday, a fee only when money lands.
+> Money you're owed, clawed back. Clawback finds the subscriptions, fees and overcharges you are already paying for and its agents get the money back, with your approval. A review every Sunday, a fee only when money lands.
 
 What is true today versus next, said on every surface: today you connect by dropping in a statement export; bank and card connections, family accounts and continuous scanning are next. Browser agents act on demo merchants; on real lines you approve a drafted action.
 
