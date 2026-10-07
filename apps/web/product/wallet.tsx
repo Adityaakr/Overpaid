@@ -176,15 +176,15 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const apiRef = useRef<Cip30Api | null>(null);
 
   const load = useCallback(async (w: Cip30Api) => {
-    const net = await w.getNetworkId();
-    if (net !== 0) {
+    // Trust the address over getNetworkId: multi-chain wallets can report mainnet while serving a testnet account.
+    const addr = addressToBech32(await w.getChangeAddress());
+    if (!addr.startsWith('addr_test1')) {
       setWrongNetwork(true);
       setAddress(null);
       setBalance(null);
       return;
     }
     setWrongNetwork(false);
-    const addr = addressToBech32(await w.getChangeAddress());
     setAddress(addr);
     try {
       setBalance(lovelaceFromValueCbor(await w.getBalance()));
@@ -288,7 +288,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
   const signTx = useCallback(async (txCbor: string, partial = true) => {
     if (!apiRef.current) throw new Error('Connect your wallet first.');
-    if ((await apiRef.current.getNetworkId()) !== 0) throw new Error('Switch your wallet to Preprod.');
+    if (!addressToBech32(await apiRef.current.getChangeAddress()).startsWith('addr_test1')) throw new Error('Switch your wallet to Preprod.');
     return apiRef.current.signTx(txCbor, partial);
   }, []);
 
@@ -384,7 +384,10 @@ export function ConnectButton({ compact }: { compact?: boolean }) {
   if (w.wrongNetwork) {
     return (
       <div style={{ display: 'grid', gap: 10 }}>
-        <div className="op-banner">Switch your wallet to Preprod. {w.walletName ?? 'Your wallet'} is on another network.</div>
+        <div className="op-banner">
+          Switch your wallet to Preprod. {w.walletName ?? 'Your wallet'} is on another network.
+          {/subwallet/i.test(w.walletName ?? '') ? ' In SubWallet, open Manage networks and turn off Cardano (mainnet) so only Cardano Preprod is on, then reconnect.' : ''}
+        </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button className="op-btn plain small" onClick={() => w.refresh()}>I switched, check again</button>
           <button className="op-btn plain small" onClick={w.disconnect}>Disconnect</button>
