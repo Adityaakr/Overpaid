@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ArrowSquareOut } from '@phosphor-icons/react';
 import { api } from '@/product/api';
 import { PageHead } from '@/product/ui';
-import { ConnectButton, errText, FAUCET, fmtAda, SCAN, useWallet } from '@/product/wallet';
+import { ConnectButton, errText, FAUCET, fmtAda, SCAN, useWallet, WalletDiagnostics } from '@/product/wallet';
 
 type Chain = {
   pledges: { label: string; txHash: string | null; state: string; lockedLovelace: number; refundTxHash: string | null; settlementTxHash: string | null }[];
@@ -60,6 +60,7 @@ export default function WalletPage() {
           <div className="op-card" style={{ display: 'grid', gap: 14 }}>
             <h2>Wallet</h2>
             <ConnectButton />
+            <WalletDiagnostics />
             {w.address ? (
               <div style={{ display: 'grid', gap: 6 }}>
                 <div className="op-label">Address</div>

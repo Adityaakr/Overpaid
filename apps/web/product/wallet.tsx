@@ -23,6 +23,11 @@ type Cip30Wallet = { name?: string; icon?: string; apiVersion?: string; enable()
 type WindowCardano = Record<string, Cip30Wallet | unknown>;
 
 export type WalletOption = { key: string; name: string; icon: string | null };
+export type WalletDiag = { key: string; apiVersion: string | null; networkId: number | null; change: string | null; used: string[]; unused: string[]; steps: string[] };
+
+/** CIP-30 calls can hang in multi-chain wallets; never let one call freeze the page. */
+const withTimeout = <T,>(p: Promise<T>, ms: number, what: string) =>
+  Promise.race([p, new Promise<T>((_, rej) => setTimeout(() => rej(new Error(`${what} did not answer within ${ms / 1000}s`)), ms))]);
 
 export const SCAN = 'https://preprod.cardanoscan.io';
 export const FAUCET = 'https://docs.cardano.org/cardano-testnets/tools/faucet';
@@ -63,12 +68,13 @@ function bech32Encode(hrp: string, bytes: Uint8Array) {
 const hexBytes = (hex: string) => new Uint8Array((hex.match(/../g) ?? []).map((h) => parseInt(h, 16)));
 
 /** The first Preprod (addr_test1) address the wallet exposes: change, then used, then unused. */
-async function preprodAddress(w: Cip30Api): Promise<{ preprod: string | null; first: string | null }> {
+async function preprodAddress(w: Cip30Api, trace?: Partial<WalletDiag>): Promise<{ preprod: string | null; first: string | null }> {
+  const steps = trace?.steps ?? [];
   const lists: string[][] = [];
-  try { lists.push([await w.getChangeAddress()]); } catch {}
-  try { if (w.getUsedAddresses) lists.push((await w.getUsedAddresses()) ?? []); } catch {}
-  try { if (w.getUnusedAddresses) lists.push((await w.getUnusedAddresses()) ?? []); } catch {}
-  const all = lists.flat().filter(Boolean).map(addressToBech32);
+  try { const c = addressToBech32(await withTimeout(w.getChangeAddress(), 8000, 'getChangeAddress')); lists.push([c]); if (trace) trace.change = c; steps.push(`change ${c.slice(0, 14)}…`); } catch (e) { steps.push(`getChangeAddress failed: ${errText(e)}`); }
+  try { if (w.getUsedAddresses) { const u = ((await withTimeout(w.getUsedAddresses(), 8000, 'getUsedAddresses')) ?? []).map(addressToBech32); lists.push(u); if (trace) trace.used = u.slice(0, 5); steps.push(`used ${u.length}`); } } catch (e) { steps.push(`getUsedAddresses failed: ${errText(e)}`); }
+  try { if (w.getUnusedAddresses) { const u = ((await withTimeout(w.getUnusedAddresses(), 8000, 'getUnusedAddresses')) ?? []).map(addressToBech32); lists.push(u); if (trace) trace.unused = u.slice(0, 5); steps.push(`unused ${u.length}`); } } catch (e) { steps.push(`getUnusedAddresses failed: ${errText(e)}`); }
+  const all = lists.flat().filter(Boolean);
   return { preprod: all.find((a) => a.startsWith('addr_test1')) ?? null, first: all[0] ?? null };
 }
 
@@ -133,6 +139,8 @@ type WalletState = {
   wrongNetwork: boolean;
   /** The first address the wallet gave us, shown when it is not on Preprod. */
   seenAddress: string | null;
+  /** What the wallet actually answered during connect, for the wallet page and support. */
+  diag: WalletDiag | null;
   connecting: boolean;
   error: string | null;
   connect(key: string): Promise<void>;
@@ -186,6 +194,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [balance, setBalance] = useState<bigint | null>(null);
   const [wrongNetwork, setWrongNetwork] = useState(false);
   const [seenAddress, setSeenAddress] = useState<string | null>(null);
+  const [diag, setDiag] = useState<WalletDiag | null>(null);
   const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const apiRef = useRef<Cip30Api | null>(null);
@@ -193,7 +202,10 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const load = useCallback(async (w: Cip30Api) => {
     // Trust addresses over getNetworkId: multi-chain wallets can report mainnet while serving a testnet account,
     // and some hand out a mainnet change address while their used addresses are on Preprod.
-    const { preprod, first } = await preprodAddress(w);
+    const trace: WalletDiag = { key: '', apiVersion: null, networkId: null, change: null, used: [], unused: [], steps: [] };
+    try { trace.networkId = await withTimeout(w.getNetworkId(), 5000, 'getNetworkId'); trace.steps.push(`networkId ${trace.networkId}`); } catch (e) { trace.steps.push(`getNetworkId failed: ${errText(e)}`); }
+    const { preprod, first } = await preprodAddress(w, trace);
+    setDiag((d) => ({ ...trace, key: d?.key ?? '', apiVersion: d?.apiVersion ?? null }));
     setSeenAddress(first);
     if (!preprod) {
       setWrongNetwork(true);
@@ -225,8 +237,9 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       setConnecting(true);
       setError(null);
       try {
-        const handle = await w.enable();
+        const handle = await withTimeout(w.enable(), 60_000, 'The wallet connection popup');
         apiRef.current = handle;
+        setDiag({ key, apiVersion: w.apiVersion ?? null, networkId: null, change: null, used: [], unused: [], steps: [] });
         setWalletKey(key);
         setWalletName(listWallets().find((o) => o.key === key)?.name ?? key);
         storeSet(key);
@@ -308,7 +321,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const signTx = useCallback(async (txCbor: string, partial = true) => {
     if (!apiRef.current) throw new Error('Connect your wallet first.');
     if (!(await preprodAddress(apiRef.current)).preprod) throw new Error('Switch your wallet to Preprod.');
-    return apiRef.current.signTx(txCbor, partial);
+    return withTimeout(apiRef.current.signTx(txCbor, partial), 120_000, 'The wallet signing popup');
   }, []);
 
   return (
@@ -322,6 +335,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         balanceLovelace: balance,
         wrongNetwork,
         seenAddress,
+        diag,
         connecting,
         error,
         connect,
@@ -420,6 +434,7 @@ export function ConnectButton({ compact }: { compact?: boolean }) {
           <button className="op-btn plain small" onClick={() => w.refresh()}>I switched, check again</button>
           <button className="op-btn plain small" onClick={w.disconnect}>Disconnect</button>
         </div>
+        <WalletDiagnostics compact />
       </div>
     );
   }
@@ -468,5 +483,26 @@ export function WalletRailButton() {
       {w.address ? <span className="bal num">{(Number(w.balanceLovelace ?? 0n) / 1_000_000).toFixed(0)}</span> : null}
       <span className="tip">{label}</span>
     </Link>
+  );
+}
+
+/** What the wallet answered during connect. Shown on the wallet page and under a network warning, so a
+ *  wallet that misbehaves can be diagnosed from a screenshot. */
+export function WalletDiagnostics({ compact }: { compact?: boolean }) {
+  const w = useWallet();
+  const d = w.diag;
+  if (!d) return null;
+  const net = d.networkId === 0 ? 'Preprod/testnet (0)' : d.networkId === 1 ? 'mainnet (1)' : d.networkId === null ? 'no answer' : String(d.networkId);
+  return (
+    <details className="op-muted" style={{ fontSize: 12.5, lineHeight: 1.5 }} open={!compact}>
+      <summary style={{ cursor: 'pointer' }}>What {w.walletName ?? d.key} told us</summary>
+      <div className="op-mono" style={{ display: 'grid', gap: 2, marginTop: 6 }}>
+        <span>provider: window.cardano.{d.key} · api {d.apiVersion ?? '?'}</span>
+        <span>networkId: {net}</span>
+        <span>change: {d.change ? `${d.change.slice(0, 18)}…` : 'none'}</span>
+        <span>used: {d.used.length ? d.used.map((a) => a.slice(0, 12)).join(', ') : 'none'} · unused: {d.unused.length ? d.unused.map((a) => a.slice(0, 12)).join(', ') : 'none'}</span>
+        {d.steps.filter((x) => /failed/.test(x)).map((x, i) => <span key={i} style={{ color: 'var(--bad)' }}>{x}</span>)}
+      </div>
+    </details>
   );
 }

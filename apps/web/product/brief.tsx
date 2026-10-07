@@ -24,7 +24,7 @@ export function LedgerBrief({ deps }: { deps: unknown }) {
       <div className="op-card-head" style={{ marginBottom: 0 }}>
         <div>
           <h2><Sparkle size={18} style={{ verticalAlign: -3 }} /> In plain words</h2>
-          <div className="card-sub">Written by Claude from the ledger rows. The numbers are the engine\'s; the words are the model\'s.</div>
+          <div className="card-sub">Written by Claude from the ledger rows. The numbers are the engine’s; the words are the model’s.</div>
         </div>
       </div>
       {loading && !text ? <div className="op-muted">Reading your ledger…</div> : null}
