@@ -48,6 +48,10 @@
       "hint": "The start page is a web search. Pick the result that is the merchant's own domain, not a review site or an app store listing."
     },
     {
+      "step": "blocked",
+      "hint": "If the search page shows a bot challenge or a site answers Access Denied, go straight to the obvious official domain (https://www.<merchant>.com, then its /help, /support or /pricing path) and try the help subdomain (help., support.). If the official site stays blocked, say so in notes; never guess links you did not open."
+    },
+    {
       "step": "help",
       "hint": "Cancellation and refund instructions usually live under Help, Support, FAQ or Account pages; use the site search if there is one."
     },
