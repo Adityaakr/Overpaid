@@ -646,7 +646,7 @@ function Block({ block, cls, a, ctx, te }: { block: FNode; cls: string; a: Attrs
         if (te) wordIndex += text.split(/\s+/).filter(Boolean).length;
         const inner = te ? <Words text={text} te={te} startIndex={start} /> : withBreaks(text);
         const link = hrefFor(ra.link);
-        if (link) return <a key={ri} href={link.href} style={rs}>{inner}</a>;
+        if (link) return <a key={ri} href={link.href} style={rs} target={link.newTab ? '_blank' : undefined} rel={link.newTab ? 'noreferrer' : undefined}>{inner}</a>;
         return Object.keys(rs).length ? <span key={ri} style={rs}>{inner}</span> : <Fragment key={ri}>{inner}</Fragment>;
       })}
     </Tag>

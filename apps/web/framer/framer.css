@@ -81,3 +81,6 @@
 .ts-small-bullet-list{font-family:var(--font-inter);font-variation-settings:"opsz" 32;font-weight:400;font-size:16px;line-height:2.5em;letter-spacing:0px;color:rgba(36, 36, 38, 0.75);text-transform:none;margin:0;}
 
 .fr-wordmark { font-weight: 600; font-size: 19px; letter-spacing: -0.02em; line-height: 1; color: inherit; white-space: nowrap; }
+
+/* The template uses one arrow icon for both carousel buttons; mirror the previous one. */
+[data-name="ButtonPrev"] [style*="mask-image"] { rotate: 180deg; }
