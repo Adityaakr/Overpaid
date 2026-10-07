@@ -139,7 +139,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 | **Your upload** on `/audit` or in the app's Connect page, and every finding it produces | **"Use demo data"**: a synthetic account with receipts and a statement |
 | **The Coworker** on Sokosumi: Tasks, escrow, result hashes, payout | **Fix agents** operate only on our four demo merchant sites. On real uploads they never run; real lines are marked "Your action" with a concrete step instead. |
 | **Every x402 payment, pledge, refund, settlement, success fee and registration** on preprod | **The specialist** files on a demo airline |
-| **Wallets**: users sign their own transactions in Lace, Eternl or SubWallet | **eSIM providers** and 60 of the pledges are simulated; the room's custodial demo wallets are run by Clawback |
+| **Wallets**: users sign their own transactions in Lace or Eternl (SubWallet connects Cardano dApps on mainnet only today) | **eSIM providers** and 60 of the pledges are simulated; the room's custodial demo wallets are run by Clawback |
 
 ## Why the claims hold up
 

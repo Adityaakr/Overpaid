@@ -295,9 +295,14 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         }
       }, ms),
     );
+    const onInject = () => !cancelled && setAvailable(listWallets());
+    window.addEventListener('subwallet#initialized', onInject);
+    window.addEventListener('cardano#initialized', onInject);
     return () => {
       cancelled = true;
       timers.forEach(clearTimeout);
+      window.removeEventListener('subwallet#initialized', onInject);
+      window.removeEventListener('cardano#initialized', onInject);
     };
   }, [connect]);
 
@@ -398,7 +403,13 @@ function WalletChoices({ compact }: { compact?: boolean }) {
   return (
     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
       {w.available.map((o) => (
-        <button key={o.key} className={`op-btn${compact ? ' small' : ''}`} onClick={() => w.connect(o.key)} disabled={w.connecting}>
+        <button
+          key={o.key}
+          className={`op-btn${compact ? ' small' : ''}${/subwallet/i.test(o.key) ? ' light' : ''}`}
+          onClick={() => w.connect(o.key)}
+          disabled={w.connecting}
+          title={/subwallet/i.test(o.key) ? 'SubWallet connects Cardano dApps on mainnet only today; it cannot sign on Preprod.' : undefined}
+        >
           {compact ? null : (
             <span className="ico">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -408,6 +419,11 @@ function WalletChoices({ compact }: { compact?: boolean }) {
           {w.connecting ? 'Connecting…' : `Connect ${o.name}`}
         </button>
       ))}
+      {w.available.some((o) => /subwallet/i.test(o.key)) && !w.available.some((o) => /lace|eternl/i.test(o.key)) ? (
+        <div className="op-muted" style={{ fontSize: 13, width: '100%' }}>
+          SubWallet's Cardano dApp connection is mainnet-only today, so it cannot sign on Preprod. <a className="link" href={LACE} target="_blank" rel="noreferrer">Install Lace</a> and set it to Preprod.
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -424,7 +440,7 @@ export function ConnectButton({ compact }: { compact?: boolean }) {
           </span>
           {/subwallet/i.test(w.walletName ?? '') ? (
             <span>
-              In SubWallet: open Manage networks and turn off Cardano (mainnet), keep Cardano Preprod on, then disconnect this site in SubWallet and connect again. If it still shares a mainnet address, Lace (Settings, Network, Preprod) works reliably.
+              SubWallet's Cardano dApp connection is mainnet-only for now (its code auto-selects mainnet and has no network switch), so it cannot sign on Preprod whatever you enable in Manage networks. Use Lace (Settings, Network, Preprod) or Eternl for this app.
             </span>
           ) : (
             <span>Switch the wallet's network to Preprod, then check again.</span>
