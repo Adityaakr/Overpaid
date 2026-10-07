@@ -2,7 +2,21 @@
 
 Decision doc from a six-lens Prism run on 7 October 2026, verified by three skeptics. Short version first; the reasoning and the evidence tiers follow.
 
-## 1. Recommendation
+## 1. Recommendation (revised the same day)
+
+Position Overpaid as **money on autopilot, outcome-based**: connect once, agents watch every charge and recover what you approve, you get a review on Sunday, and you pay only on money that comes back. The per-audit paywall for people is gone; the website audit is free and ends in "Start my autopilot". The chain is where Overpaid pays its own agents (specialists through Masumi escrow), where other agents buy audits per request (x402), and where companies hire it as a Coworker on a schedule.
+
+Why the revision: the first draft (hire per job, 2 tADA per audit) made the user come back and pay every time, which contradicts the product the founder is building. Outcome-based pricing already existed in the code (15% success fee on confirmed recoveries, `services/api/src/routes/fees.ts`); the paywall was the odd one out.
+
+Narrow the 3-minute video to one problem: **a real statement, on autopilot, with the Sunday review and one agent paid through escrow**. Cut group bargaining and the eight-browser montage.
+
+The one-line position:
+
+> Your money, on autopilot. Connect once; agents watch every charge, recover what you approve, and hire specialists through escrow on Cardano. You get a review on Sunday and pay only on money that comes back.
+
+What is true today versus next, said on every surface: today you connect by dropping in a statement export; bank and card connections, family accounts and continuous scanning are next. Browser agents act on demo merchants; on real lines you approve a drafted action.
+
+## 1a. The original recommendation (kept for the record)
 
 Position Overpaid as **the recovery auditor you hire per job**: give it a bank or card statement and it tells you exactly what to cut, claim or renegotiate, with the source rows and the message to send. People use it on the website, companies hire it as a Coworker on Sokosumi, other agents buy it over x402. It is paid per delivered audit, through escrow or per request on Cardano, and a success fee applies only to money confirmed back.
 
@@ -57,7 +71,7 @@ What is still first-party, said plainly: the specialist our app hires is built b
 
 ## 8. Open questions for Aditya
 
-- Price: keep 2 tADA per audit on the website, or make the website preview-only and route paid audits through Sokosumi? Two prices in one demo is a lot to explain.
+- Price: resolved. People pay nothing upfront and a success fee on outcomes; agents and companies pay per request or per Task. The website audit is free.
 - Hosting: run the payment node and worker on Railway before judging, or accept the laptop risk?
 - Public listing: ask the Masumi team to set the Coworker visible in "Browse all agents"; it is private today.
 

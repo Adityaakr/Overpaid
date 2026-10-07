@@ -1,10 +1,12 @@
 # Overpaid
 
-**The recovery auditor you hire per job: it reads your statement, tells you what to cut, claim or renegotiate, and drafts the messages. Paid per delivered audit through escrow on Cardano.**
+**Your money, on autopilot. Connect once; agents watch every charge, recover what you approve, and hire specialists through escrow on Cardano. You get a review on Sunday and pay only on money that comes back.**
 
-Overpaid reads a bank or card statement, finds what is quietly costing you (recurring charges, price rises, duplicate charges, fees, forgotten subscriptions), tells you exactly what to do about each one, and drafts the messages to send. Every agent in the system, including Overpaid itself, is paid through Masumi escrow or per request over x402 on Cardano, so no agent is paid before its result hash is on chain and the buyer has had a chance to dispute. The reasoning behind this positioning, with evidence tiers, is in [docs/POSITIONING.md](docs/POSITIONING.md).
+Nobody wants to spend Sunday evenings on their statement. Overpaid does it for you: it reads every charge on the accounts you connect, prices what each one costs per year, catches duplicates, fees and price rises, drafts the cancellation or dispute, and runs browser agents and specialist agents to get the money back, stopping for your approval before anything irreversible. Once a week you get a review: keep this, remove that, approve the rest. It is outcome-based: nothing upfront, a success fee only on money confirmed back.
 
-It runs three ways: a **website** anyone can use with their own statement, a **Coworker on Sokosumi** that companies hire per Task, and an **x402 endpoint** other agents pay per request.
+The chain is where Overpaid pays its agents, not where you pay Overpaid. Every specialist it hires is paid through Masumi escrow, released only when the result hash is on chain and verified. Other agents can buy single audits over x402 per request, and companies can hire the same agent as a Coworker on Sokosumi, on a schedule. Today you connect by dropping in a statement export; bank and card connections are the next step. The reasoning and evidence are in [docs/POSITIONING.md](docs/POSITIONING.md).
+
+It runs three ways: the **app** for people (free audit, autopilot, Sunday review), a **Coworker on Sokosumi** that companies hire per Task or on a weekly schedule, and an **x402 endpoint** other agents pay per request.
 
 Built for the TOKEN2049 Origins Hackathon (Singapore, October 2026). Cardano preprod only, no real money.
 
@@ -28,21 +30,22 @@ Built for the TOKEN2049 Origins Hackathon (Singapore, October 2026). Cardano pre
 
 | Problem | What Overpaid does |
 |---|---|
-| Leaks nobody notices | **Audit** reads any bank or card export and prices every recurring charge per year, flags price rises, duplicate charges and fees, and keeps rent and loans out of the actions. Every figure cites the exact statement rows. |
-| Nobody knows what to do next | Each finding comes with a concrete action, and Claude drafts a message to each merchant or bank. The model writes words only; it can't change a number. |
+| Leaks nobody notices | **Autopilot** reads every charge on the accounts you connect, prices each recurring charge per year, flags price rises, duplicate charges and fees, and keeps rent and loans out of the actions. Every figure cites the exact rows. You see it on Sunday, not every day. |
+| Nobody knows what to do next | Each finding comes with a concrete action and a drafted message to the merchant or bank. In the Sunday review you keep or remove each line in one tap; the agents take it from there. The model writes words only; it can't change a number. |
 | Cancelling is a maze | **Fix** runs Claude browser agents on merchants' own sites, stopping before anything irreversible for a one-tap human approval. An outcome only counts once the merchant's status page confirms it. |
 | Agents can't be trusted with money | Browsing agents **hold no keys and have no payment tools**. Users sign their own money in their own wallet. Page text is treated as data, not instructions. |
 | Hiring strangers is a gamble | Agents are paid **through Masumi escrow on Cardano**: the fee locks when work starts, the result hash goes on chain, and the buyer can dispute or is refunded if nothing arrives. One-off purchases are paid per request over **x402**. |
 | Small bills aren't worth anyone's time | **Bargain** pools people who overpay for the same thing: members pledge into an Aiken contract, providers bid, and one transaction pays the winner and refunds everyone the difference. |
+| Nobody wants another app to check | **Sunday review.** One page a week: recovered, waiting for your approval, keep or remove. Companies get the same from a scheduled Coworker Task on Sokosumi. |
 
-Pricing, in one line: the preview is free, the full audit is one small payment per request (2 tADA on preprod) from the user's own wallet, and recoveries in the app carry a success fee of 15% only on money confirmed back. Bill negotiation services charge 33% to 60% of savings for comparable work [6].
+Pricing, in one line: nothing to run, a success fee of 15% only on money confirmed back, paid from your wallet after the recovery. Companies pay per Task on Sokosumi (1 test USDM, held in escrow); other agents pay per request over x402 (2 tADA on preprod). Bill negotiation services charge 33% to 60% of savings for comparable work [6].
 
 ## Try it
 
 | Who | How | What happens |
 |---|---|---|
-| **A person** | Open **`/audit`** on the website and drop in a bank or card CSV | A free dashboard of everything worth acting on. Pay 2 tADA from your own wallet over x402 to unlock the reasons, source rows, actions and drafted messages. |
-| **A company** | On Sokosumi, create a Task for **Overpaid Recovery Auditor** (Coworker `01a11413-db1e-7259-ab91-17a7ef2f9c77`) and paste the statement | The Coworker requests payment into Masumi escrow, runs the audit, puts the result hash on chain and posts the report in the Task thread. |
+| **A person** | Open **`/audit`** and drop in a bank or card CSV, then **Start my autopilot** | The full audit, free: every item with its reasons, source rows, action and a drafted message. On autopilot it keeps watching, runs the agents, and shows you a Sunday review at `/app/review`. |
+| **A company** | On Sokosumi, create a Task (or a weekly Schedule) for **Overpaid Recovery Auditor** (Coworker `01a11413-db1e-7259-ab91-17a7ef2f9c77`) and paste the statement | The Coworker requests payment into Masumi escrow, runs the audit, puts the result hash on chain and posts the report in the Task thread. A Schedule creates a new Task on each occurrence, so the audit runs without anyone opening Sokosumi. |
 | **Another agent** | `POST /api/x402/audit` with `{ "statement": "..." }` | `402 Payment Required` with the price; any `@x402/cardano` client pays and retries. No account, no API key. |
 
 ### What a real statement gets you
@@ -77,9 +80,9 @@ The **Overpaid Recovery Auditor** Coworker is registered on the Masumi registry 
 
 A second paid Task ran inside the TOKEN2049 event workspace, start to payout: escrow [5d063cd5](https://preprod.cardanoscan.io/transaction/5d063cd5757cb8c631622ea64289b7df91d15a7b40111222c1ec82175d8607e3), result hash confirmed, Task completed, 1.000000 test USDM collected [479b2b1e](https://preprod.cardanoscan.io/transaction/479b2b1e4dc29f320bd1c8ad25fbc373738b8de7ddf4d97d3905f1a0a87a1928). Setup, every ID and the problems we hit are in [docs/COWORKER.md](docs/COWORKER.md).
 
-### 2. Pay-per-request audit over x402: verified
+### 2. Pay-per-request audit over x402, for agents: verified
 
-The website and the agent endpoint sell the same audit per request. The server builds the payment and the buyer's wallet signs it. The x402 facilitator runs inside our API, holds no keys, and only checks the signed transaction against the 402 terms before submitting it through Blockfrost; the result is released only after that settles. The only x402 sellers on Cardano preprod we found are our own, so the "agent buys from agent" transaction below is self-funded.
+`POST /api/x402/audit` sells the same audit per request to any x402 client; people use it free and pay only on outcomes. The browser-wallet rows below were recorded while the website still charged per audit and stand as proof that a person can pay the endpoint too. The server builds the payment and the buyer's wallet signs it. The x402 facilitator runs inside our API, holds no keys, and only checks the signed transaction against the 402 terms before submitting it through Blockfrost; the result is released only after that settles. The only x402 sellers on Cardano preprod we found are our own, so the "agent buys from agent" transaction below is self-funded.
 
 | Buyer | Payment |
 |---|---|
@@ -122,7 +125,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 
 ## Roadmap
 
-1. **Scheduled audits.** Sokosumi Task Schedules run a Coworker daily, weekly or monthly and create a new Task on each occurrence [13], so a company points Overpaid at its monthly export once.
+1. **Bank and card connections.** Today autopilot runs on statement exports; connecting accounts directly (and family accounts) makes it continuous. On Sokosumi, Task Schedules already run the Coworker weekly or monthly and create a new Task on each occurrence [13].
 2. **Prove "unused" with vendor data** (OpenRouter, OpenAI, GitHub Copilot, Google Workspace), then act with a scoped write token after approval. Documented in [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md), not run.
 3. **Replayable agent sessions.** Today every browser step is a hashed screenshot in an evidence bundle, with live view while it runs. AgentCore Browser also records sessions to S3 for replay with human take-over [14]; turning that on gives the owner a full replay of what the agent did.
 4. **Third-party sub-agents.** The specialist hire is the pattern (escrow, verify, auto-dispute); next are sellers on the Masumi registry that we did not build.
@@ -143,7 +146,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 | What matters | How |
 |---|---|
 | **Quality of results** | Findings come from a deterministic engine with 62 tests across real export formats; every figure cites its rows. Claude drafts only the messages. Fix outcomes are read from the merchant's status page; specialist evidence is re-hashed before the fee releases. |
-| **Usefulness** | One upload gives a person or a finance team a ranked list of actions with yearly values and messages ready to send. The human approves irreversible steps. |
+| **Usefulness** | A person connects once and gets a Sunday review with keep or remove in one tap; a finance team gets the same from a scheduled Coworker. The human approves irreversible steps and nothing else. |
 | **Reliable execution** | On the Coworker and x402 paths every paid step is saved before it is sent and an uncertain write is never retried blindly, so there is no double run and no double charge; each x402 payment spends one specific UTxO. For browser fixes, a task is only marked failed after the fleet confirms it never accepted it. A connection refused before sending is rolled back and retried safely. A payment that can't be confirmed closes the Task as FAILED with the reason, and no unpaid work is delivered. A watchdog restarts the payment node when its chain sync goes stale, and a supervisor restarts it if it crashes. |
 | **Verified payment** | For the Coworker, Sokosumi's receipt says `settled`, the payment node's withdrawal matches it, and Blockfrost shows the seller address gained exactly 1 test USDM ([b8a45261](https://preprod.cardanoscan.io/transaction/b8a45261fc1c2984cfdd066af69d58df58c45771bdb5bb8983b5774180fb2bb3)). |
 
@@ -157,7 +160,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 | **Hire** (`services/specialist`, `packages/cardano`) | The specialist is an x402 `masumi` seller with a MIP-003 API and its own wallet. The buyer side verifies the quote, locks escrow, verifies the result and disputes automatically on a mismatch. |
 | **Bargain** (`services/bloc`, `contracts/bloc`) | One Aiken validator with spend, withdraw and publish handlers. A withdraw-zero settlement checks the whole batch at once, which fits 40 pledges per transaction. |
 | **Coworker** (`services/coworker`) | A Sokosumi worker for both the personal and event workspaces, a local Masumi payment service for signed terms, escrow and collection, and a MIP-003 agent API for the registry listing. |
-| **x402 audit** (`services/api/src/routes/x402audit.ts`) | Free preview, the paid resource behind a 402, wallet build and assemble helpers, and claim-based recovery of paid results. |
+| **Audit and review** (`services/api/src/routes/x402audit.ts`, `product.ts`) | The free audit and drafted messages, the x402 resource behind a 402 for agents, and the Sunday review (`/api/review`) with keep, remove and undo per line. |
 
 Step-by-step flows: [docs/COWORKER.md](docs/COWORKER.md) (paid Task sequence) and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (components, keys, escrow states).
 
