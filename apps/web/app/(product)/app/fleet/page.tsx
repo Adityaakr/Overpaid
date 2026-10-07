@@ -54,10 +54,13 @@ export default function FleetPage() {
             : 'No tasks yet. Approve fixes from the ledger.'
         }
         actions={
-          <span className="op-pill ghost">
-            {data.provider === 'agentcore' ? 'Amazon Bedrock AgentCore Browser' : 'Local Chromium (fallback)'}
-            {data.model ? ` · ${data.model}` : ' · scripted mode'}
-          </span>
+          <>
+            <a className="op-btn plain small" href="/app/specialist">Specialist hires</a>
+            <span className="op-pill ghost">
+              {data.provider === 'agentcore' ? 'Amazon Bedrock AgentCore Browser' : 'Local Chromium (fallback)'}
+              {data.model ? ` · ${data.model}` : ' · scripted mode'}
+            </span>
+          </>
         }
       />
 

@@ -49,6 +49,7 @@ export default function WalletPage() {
         actions={
           w.address ? (
             <>
+              <a className="op-btn plain small" href="/app/receipts">Receipts</a>
               <button className="op-btn plain small" onClick={() => { void w.refresh(); load(); }}>Refresh</button>
               <button className="op-btn plain small" onClick={w.disconnect}>Disconnect</button>
             </>

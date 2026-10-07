@@ -19,15 +19,13 @@ export function Logo({ size = 32 }: { size?: number }) {
 }
 
 const NAV = [
-  { href: '/app', label: 'Money on the table', icon: SquaresFour },
-  { href: '/app/review', label: 'Sunday review', icon: CalendarCheck },
-  { href: '/app/connect', label: 'Connect data', icon: UploadSimple },
-  { href: '/app/fleet', label: 'Agent fleet', icon: Browsers },
-  { href: '/app/specialist', label: 'Specialist hires', icon: Handshake },
-  { href: '/app/bloc', label: 'Bloc room', icon: UsersThree },
-  { href: '/app/receipts', label: 'Receipts', icon: Receipt },
-  { href: '/app/wallet', label: 'My wallet', icon: Wallet },
-  ...(process.env.NEXT_PUBLIC_DEMO_CONTROL === '1' ? [{ href: '/app/control', label: 'Demo control', icon: SlidersHorizontal }] : []),
+  { href: '/app', label: 'Overview', icon: SquaresFour },
+  { href: '/app/review', label: 'Review', icon: CalendarCheck },
+  { href: '/app/connect', label: 'Connect', icon: UploadSimple },
+  { href: '/app/fleet', label: 'Agents', icon: Browsers },
+  { href: '/app/bloc', label: 'Bloc', icon: UsersThree },
+  { href: '/app/wallet', label: 'Wallet', icon: Wallet },
+  ...(process.env.NEXT_PUBLIC_DEMO_CONTROL === '1' ? [{ href: '/app/control', label: 'Demo', icon: SlidersHorizontal }] : []),
 ];
 
 export function Rail() {
@@ -41,8 +39,8 @@ export function Rail() {
         const active = href === '/app' ? path === '/app' : path?.startsWith(href);
         return (
           <Link key={href} href={href} className={`item${active ? ' active' : ''}`} aria-label={label}>
-            <Icon size={24} weight={active ? 'regular' : 'light'} />
-            <span className="tip">{label}</span>
+            <Icon size={22} weight={active ? 'regular' : 'light'} />
+            <span className="lbl">{label}</span>
           </Link>
         );
       })}

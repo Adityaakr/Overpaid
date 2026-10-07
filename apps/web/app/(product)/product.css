@@ -69,11 +69,13 @@
   place-items: center;
 }
 .op-rail a.item {
-  width: 56px;
+  width: 60px;
   height: 56px;
-  border-radius: 999px;
+  border-radius: 18px;
   display: grid;
   place-items: center;
+  align-content: center;
+  gap: 3px;
   color: var(--ink-50);
   position: relative;
   transition: background 0.2s, color 0.2s;
@@ -85,6 +87,12 @@
 .op-rail a.item.active {
   background: var(--lime);
   color: var(--ink);
+}
+.op-rail a.item .lbl {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
 }
 .op-rail a.item .tip {
   position: absolute;
