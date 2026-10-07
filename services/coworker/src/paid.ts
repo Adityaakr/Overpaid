@@ -90,7 +90,14 @@ export async function advancePaid(taskId: string, input: string, paid: Paid | un
       metadata: JSON.stringify({ taskId }),
     };
     put({ stage: 'terms-pending', nonce, request });
-    const payment = await mps('/payment', request);
+    let payment;
+    try {
+      payment = await mps('/payment', request);
+    } catch (e) {
+      // Connection refused means the request never reached the node: safe to start over next poll.
+      if ((e as { cause?: { code?: string } }).cause?.code === 'ECONNREFUSED') put({ stage: '' });
+      throw e;
+    }
     return { paid: put({ ...p, stage: 'terms-saved', payment }) };
   }
   if (p.stage === 'terms-saved') {
