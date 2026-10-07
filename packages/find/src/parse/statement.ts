@@ -1,7 +1,7 @@
 import { parse } from 'csv-parse/sync';
 import { normaliseDescriptor } from '../normalise.js';
 import type { FindTransaction } from '../types.js';
-import { parseLooseDate, parseMoney, shortHash } from '../util.js';
+import { detectDateOrder, parseLooseDate, parseMoney, shortHash } from '../util.js';
 
 export interface StatementRow {
   date: string;
@@ -11,19 +11,25 @@ export interface StatementRow {
   card: string | null;
 }
 
+// Header names seen in real bank and card exports (lowercased, punctuation stripped).
 const HEADER_ALIASES: Record<keyof StatementRow | 'debit' | 'credit', string[]> = {
-  date: ['date', 'transaction date', 'posted date', 'posting date', 'trans date'],
-  descriptor: ['description', 'descriptor', 'merchant', 'details', 'narrative', 'payee'],
-  amount: ['amount', 'value', 'amount (usd)'],
-  debit: ['debit', 'withdrawal', 'money out'],
-  credit: ['credit', 'deposit', 'money in'],
-  currency: ['currency', 'ccy'],
-  card: ['card', 'card last4', 'card number', 'last4', 'card no'],
+  date: ['date', 'transaction date', 'trans date', 'posted date', 'posting date', 'post date', 'booking date', 'value date', 'completed date', 'started date', 'date posted', 'txn date'],
+  descriptor: ['description', 'descriptor', 'merchant', 'merchant name', 'details', 'transaction details', 'transaction description', 'narrative', 'payee', 'name', 'memo', 'reference', 'particulars', 'counterparty', 'beneficiary', 'original description'],
+  amount: ['amount', 'value', 'transaction amount', 'amount usd', 'amount eur', 'amount gbp', 'amount sgd', 'amount inr', 'amount aud', 'amount cad', 'net amount', 'billing amount'],
+  debit: ['debit', 'debits', 'debit amount', 'withdrawal', 'withdrawals', 'withdrawal amount', 'money out', 'paid out', 'out', 'spent'],
+  credit: ['credit', 'credits', 'credit amount', 'deposit', 'deposits', 'deposit amount', 'money in', 'paid in', 'in', 'received'],
+  currency: ['currency', 'ccy', 'currency code'],
+  card: ['card', 'card last4', 'card number', 'last4', 'card no', 'account', 'account number'],
 };
 
+const normHeader = (h: string) => h.trim().toLowerCase().replace(/[()\[\]:.]/g, ' ').replace(/\s+/g, ' ').trim();
+
 function findColumn(headers: string[], field: keyof typeof HEADER_ALIASES): number {
-  const norm = headers.map((h) => h.trim().toLowerCase());
-  return norm.findIndex((h) => HEADER_ALIASES[field].includes(h));
+  const norm = headers.map(normHeader);
+  const exact = norm.findIndex((h) => HEADER_ALIASES[field].includes(h));
+  if (exact >= 0 || field === 'currency' || field === 'card') return exact;
+  // Loose fallback: "Amount (SGD)", "Description 1", "Debit (USD)".
+  return norm.findIndex((h) => HEADER_ALIASES[field].some((a) => a.length > 3 && h.startsWith(a)));
 }
 
 /** Map a table (first row = header) to statement rows. Shared by the CSV and PDF paths. */
@@ -35,9 +41,11 @@ export function rowsFromTable(table: string[][], defaultCurrency = 'USD'): { row
   const col = (f: keyof typeof HEADER_ALIASES) => findColumn(header, f);
   const [cDate, cDesc, cAmt, cDebit, cCredit, cCur, cCard] = [col('date'), col('descriptor'), col('amount'), col('debit'), col('credit'), col('currency'), col('card')];
   const rows: StatementRow[] = [];
-  table.slice(headerIdx + 1).forEach((r, i) => {
+  const body = table.slice(headerIdx + 1);
+  const order = detectDateOrder(body.map((r) => r[cDate] ?? ''));
+  body.forEach((r, i) => {
     const cell = (c: number) => (c >= 0 ? (r[c] ?? '').trim() : '');
-    const date = parseLooseDate(cell(cDate));
+    const date = parseLooseDate(cell(cDate), order);
     const descriptor = cell(cDesc).replace(/\s+/g, ' ');
     let amount: number | null = null;
     if (cAmt >= 0) amount = parseMoney(cell(cAmt));
@@ -65,8 +73,23 @@ export function rowsFromTable(table: string[][], defaultCurrency = 'USD'): { row
   return { rows, warnings };
 }
 
+/** The delimiter that splits the header-looking lines most consistently: comma, semicolon, tab or pipe. */
+export function sniffDelimiter(text: string): string {
+  const lines = text.split(/\r?\n/).filter((l) => l.trim()).slice(0, 20);
+  let best = ',';
+  let bestScore = -1;
+  for (const d of [',', ';', '\t', '|']) {
+    const counts = lines.map((l) => l.split(d).length - 1).filter((n) => n > 0);
+    if (!counts.length) continue;
+    const mode = counts.sort((a, b) => counts.filter((x) => x === b).length - counts.filter((x) => x === a).length)[0]!;
+    const score = counts.filter((n) => n === mode).length * 10 + mode;
+    if (score > bestScore) [best, bestScore] = [d, score];
+  }
+  return best;
+}
+
 export function parseStatementCsv(text: string, defaultCurrency = 'USD'): { rows: StatementRow[]; warnings: string[] } {
-  const table = parse(text, { bom: true, skip_empty_lines: true, relax_column_count: true, trim: true }) as string[][];
+  const table = parse(text, { bom: true, skip_empty_lines: true, relax_column_count: true, relax_quotes: true, trim: true, delimiter: sniffDelimiter(text) }) as string[][];
   return rowsFromTable(table, defaultCurrency);
 }
 

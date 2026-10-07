@@ -28,27 +28,57 @@ export function dateInZone(d: Date, timeZone: string): string {
 }
 
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-/** Parses "16 September 2026", "Sep 16, 2026", "2026-09-16", "16/09/2026" (day first). Returns ISO date or null. */
-export function parseLooseDate(s: string): string | null {
+export type DateOrder = 'dmy' | 'mdy';
+const year4 = (y: string) => (y.length === 2 ? `20${y}` : y);
+/**
+ * Parses "16 September 2026", "Sep 16, 2026", "2026-09-16", "2026/09/16", and numeric day/month dates with
+ * `/`, `.` or `-` separators and 2- or 4-digit years. Numeric dates are day first unless `order` is 'mdy'.
+ */
+export function parseLooseDate(s: string, order: DateOrder = 'dmy'): string | null {
   const t = s.trim();
-  let m = t.match(/(\d{4})-(\d{2})-(\d{2})/);
-  if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+  let m = t.match(/(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
+  if (m) return `${m[1]}-${m[2]!.padStart(2, '0')}-${m[3]!.padStart(2, '0')}`;
   const mon = (name: string) => MONTHS.indexOf(name.slice(0, 3).toLowerCase()) + 1;
-  const fmt = (y: string, mo: number, d: string) => (mo > 0 ? `${y}-${String(mo).padStart(2, '0')}-${d.padStart(2, '0')}` : null);
-  m = t.match(/(\d{1,2})\s+([A-Za-z]{3,9})\.?,?\s+(\d{4})/);
+  const fmt = (y: string, mo: number, d: string) => (mo > 0 && mo <= 12 && Number(d) >= 1 && Number(d) <= 31 ? `${year4(y)}-${String(mo).padStart(2, '0')}-${d.padStart(2, '0')}` : null);
+  m = t.match(/(\d{1,2})[\s-]+([A-Za-z]{3,9})\.?,?[\s-]+(\d{2,4})/);
   if (m) return fmt(m[3]!, mon(m[2]!), m[1]!);
   m = t.match(/([A-Za-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})/);
   if (m) return fmt(m[3]!, mon(m[1]!), m[2]!);
-  m = t.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if (m) return fmt(m[3]!, Number(m[2]), m[1]!);
+  m = t.match(/^(\d{1,2})[/.-](\d{1,2})[/.-](\d{2}|\d{4})\b/);
+  if (m) return order === 'mdy' ? fmt(m[3]!, Number(m[1]), m[2]!) : fmt(m[3]!, Number(m[2]), m[1]!);
   return null;
 }
 
-/** Parses "$1,234.56", "-29.90", "(12.30)", "USD 5.00" into integer cents. */
+/** Day/month order for a column of numeric dates: whichever position ever exceeds 12 is the day. */
+export function detectDateOrder(cells: string[]): DateOrder {
+  for (const c of cells) {
+    const m = c.trim().match(/^(\d{1,2})[/.-](\d{1,2})[/.-]\d{2,4}/);
+    if (!m) continue;
+    if (Number(m[1]) > 12) return 'dmy';
+    if (Number(m[2]) > 12) return 'mdy';
+  }
+  return 'dmy';
+}
+
+/**
+ * Parses "$1,234.56", "-29.90", "(12.30)", "USD 5.00", "1.234,56", "12,50", "12.00-", "45.00 CR" into integer cents.
+ * CR marks a credit (negative), DR a debit.
+ */
 export function parseMoney(s: string): number | null {
-  const t = s.replace(/[\s,]/g, '');
-  const m = t.match(/(\(|-)?[A-Z$€£S]*\$?(\d+(?:\.\d{1,2})?)\)?/);
-  if (!m) return null;
-  const v = Math.round(Number(m[2]) * 100);
-  return m[1] ? -v : v;
+  let t = s.trim();
+  if (!t) return null;
+  const credit = /\bCR\b/i.test(t);
+  t = t.replace(/\b(CR|DR)\b/gi, '').replace(/[^\d.,()\-+]/g, '');
+  const neg = /^\(.*\)$/.test(t) || t.startsWith('-') || t.endsWith('-');
+  t = t.replace(/[()\-+]/g, '');
+  // Decimal separator: the last of '.' or ',' when followed by 1-2 digits; the other is a thousands separator.
+  const lastDot = t.lastIndexOf('.');
+  const lastComma = t.lastIndexOf(',');
+  const decAt = Math.max(lastDot, lastComma);
+  let num: string;
+  if (decAt >= 0 && t.length - decAt - 1 >= 1 && t.length - decAt - 1 <= 2) num = t.slice(0, decAt).replace(/[.,]/g, '') + '.' + t.slice(decAt + 1);
+  else num = t.replace(/[.,]/g, '');
+  if (!/^\d+(\.\d{1,2})?$/.test(num)) return null;
+  const v = Math.round(Number(num) * 100);
+  return neg || credit ? -v : v;
 }
