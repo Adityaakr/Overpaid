@@ -315,7 +315,7 @@ function hrefFor(link: any): { href: string; newTab: boolean } | null {
   if (!link) return null;
   let href = typeof link === 'string' ? link : link.href;
   if (!href || href === 'null' || typeof href !== 'string') return null;
-  if (href.includes(':slug') || /^\/(blog|contact|about|changelog|home-alt)/.test(href)) href = href.startsWith('/contact') ? '/#faq' : href.startsWith('/blog') ? '/#blog' : '/';
+  if (href.includes(':slug') || /^\/(blog|contact|about|changelog|home-alt)/.test(href)) href = href.startsWith('/contact') ? '/#faq' : '/';
   return { href, newTab: link.openInNewTab === true || link.openInNewTab === 'true' };
 }
 
