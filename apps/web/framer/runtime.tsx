@@ -50,6 +50,15 @@ export function FramerSite({ data }: { data: SiteData }) {
     });
     // In-page anchors: every breakpoint tree carries the same ids, so scroll to the copy that is shown.
     const onClick = (e: MouseEvent) => {
+      // The template's call-to-action buttons carry no links; route them into the working product.
+      const btn = (e.target as HTMLElement)?.closest?.('a, [data-name*="utton" i]') as HTMLElement | null;
+      const text = btn?.textContent?.trim() ?? '';
+      const to = Object.entries(CTA_ROUTES).find(([label]) => text.startsWith(label))?.[1];
+      if (to) {
+        e.preventDefault();
+        window.location.href = to;
+        return;
+      }
       const a = (e.target as HTMLElement)?.closest?.('a[href^="/#"], a[href^="#"]') as HTMLAnchorElement | null;
       if (!a) return;
       const id = a.getAttribute('href')!.split('#')[1];
@@ -285,6 +294,15 @@ export function imageUrl(v: any): string | undefined {
   if (typeof v === 'string') return v;
   return v.src || v.value || v.url;
 }
+
+// Matched on the button's visible text (hover effects repeat the label, so prefix match).
+const CTA_ROUTES: Record<string, string> = {
+  'Find my money': '/audit',
+  'Start finding money': '/audit',
+  'Join blocs with one tap': '/app/bloc',
+  'Read the build notes': 'https://github.com/Adityaakr/Overpaid',
+  'Visit Blog': 'https://github.com/Adityaakr/Overpaid',
+};
 
 function hrefFor(link: any): { href: string; newTab: boolean } | null {
   if (!link) return null;

@@ -94,9 +94,14 @@ export default function Audit() {
 
   return (
     <main style={{ minHeight: '100svh', padding: '28px 20px 60px', display: 'grid', alignContent: 'start', gap: 22, maxWidth: 760, margin: '0 auto' }}>
-      <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, fontWeight: 600, fontSize: 18 }}>
-        <Logo size={28} /> Overpaid
-      </a>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, fontWeight: 600, fontSize: 18 }}>
+          <Logo size={28} /> Overpaid
+        </a>
+        <a className="link" href="/app" style={{ fontSize: 14 }}>
+          Open the full app
+        </a>
+      </div>
       <div>
         <h1 style={{ fontSize: 40, lineHeight: 1.08, letterSpacing: '-0.04em', fontWeight: 500 }}>Find the money your card statement is hiding.</h1>
         <p className="op-muted" style={{ marginTop: 10, fontSize: 17 }}>
