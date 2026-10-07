@@ -7,8 +7,9 @@ const env = { ...process.env, PATH: [process.env.SOKOSUMI_NODE_BIN, process.env.
 
 export const COWORKER_ID = process.env.COWORKER_ID ?? '';
 /** Personal Workspace by default; set SOKOSUMI_ORG_ID (and SOKOSUMI_ORG_SLUG) for the event Workspace. */
-export const scope = (kind: 'task' | 'runtime'): string[] =>
-  !process.env.SOKOSUMI_ORG_ID ? ['--personal'] : kind === 'task' ? ['--organization-slug', process.env.SOKOSUMI_ORG_SLUG ?? ''] : ['--organization-id', process.env.SOKOSUMI_ORG_ID];
+// `tasks list` takes no --personal flag; it lists the account's Tasks and the worker filters by Coworker.
+export const scope = (kind: 'list' | 'runtime'): string[] =>
+  !process.env.SOKOSUMI_ORG_ID ? (kind === 'list' ? [] : ['--personal']) : kind === 'list' ? ['--organization-slug', process.env.SOKOSUMI_ORG_SLUG ?? ''] : ['--organization-id', process.env.SOKOSUMI_ORG_ID];
 
 export function cli<T = any>(args: string[]): T {
   const out = execFileSync('sokosumi', ['--preprod', ...args, '--json'], { encoding: 'utf8', timeout: 30_000, maxBuffer: 4 << 20, env });

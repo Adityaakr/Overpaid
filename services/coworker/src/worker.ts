@@ -90,7 +90,7 @@ async function step(t: { id: string; status: string; coworkerId?: string }) {
 console.log(`coworker worker ${process.pid} for ${COWORKER_ID} (${PAID ? 'paid' : 'unpaid'} Tasks)`);
 for (;;) {
   try {
-    const { tasks } = cli<{ tasks: any[] }>(['tasks', 'list', '--coworker-id', COWORKER_ID, ...scope('task')]);
+    const { tasks } = cli<{ tasks: any[] }>(['tasks', 'list', '--coworker-id', COWORKER_ID, ...scope('list')]);
     for (const t of tasks.filter((x) => !x.coworkerId || x.coworkerId === COWORKER_ID)) {
       try {
         await step(t);
