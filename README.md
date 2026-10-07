@@ -62,7 +62,20 @@ The numbers come from our deterministic Find engine. Claude only writes the mess
 
 What a statement can't prove: whether anyone actually uses a subscription. The audit says so and treats "no usage evidence" as a lead for a human to confirm, not a verdict.
 
-### 2. Expert claims through a hired specialist: verified on chain
+### 2. Pay-per-request audit over x402: verified on chain
+
+Anyone can open **/audit** on the website, paste or upload a statement, and see for free how much there is to recover. Unlocking the full report costs 2 tADA, paid per request over **x402** from their own CIP-30 wallet, with no account and no API key. The server builds the payment, the wallet signs it, and our keyless in-process facilitator verifies and submits it.
+
+Agents can buy the same audit programmatically: `POST /api/x402/audit` answers `402 Payment Required` with the price, and any `@x402/cardano` client pays and retries.
+
+| Buyer | Payment |
+|---|---|
+| Person with a wallet, in the browser | [37a4da9a](https://preprod.cardanoscan.io/transaction/37a4da9afe6306dc50a4c8d37da264b2465a9289a05d104b80ea84976403618b), [fb45d7e4](https://preprod.cardanoscan.io/transaction/fb45d7e4a8f99bd6f485811a92148dfe02ecf38cc283d72b9f7a7039386adb1b) |
+| Agent using the standard x402 client | [de247548](https://preprod.cardanoscan.io/transaction/de24754864944da37b2bc0854fa312a800719952a4b192b4c30e878375afb8de) |
+
+If the response is lost after payment, the page fetches the paid result again with a private claim id, and a retry can never charge twice because each payment spends a specific UTxO.
+
+### 3. Expert claims through a hired specialist: verified on chain
 
 Some claims need know-how, like a delayed flight that the airline's form rejects unless you pick the right category. Overpaid hires a specialist agent over x402 into Masumi escrow:
 1. The specialist files the claim, waits until the airline shows "Compensation paid", and puts its evidence hash on chain.
@@ -76,7 +89,7 @@ Some claims need know-how, like a delayed flight that the airline's form rejects
 
 Refund paths are proven too: no result leads to a buyer refund, and a disputed result leads to a seller-authorised refund ([docs/PROGRESS.md](docs/PROGRESS.md)). The airline is a demo merchant, and the specialist is built by our team. Both are labelled in the app.
 
-### 3. Group bargaining: verified on chain
+### 4. Group bargaining: verified on chain
 
 Members pledge from their own wallet: Lace, Eternl, or any CIP-30 wallet.
 
@@ -88,7 +101,7 @@ Members pledge from their own wallet: Lace, Eternl, or any CIP-30 wallet.
 
 Providers are simulated today.
 
-### 4. Paid seats and AI keys nobody uses: documented, next
+### 5. Paid seats and AI keys nobody uses: documented, next
 
 This answers "how does the agent know it's unused?" with the vendor's own data instead of a guess:
 - **OpenRouter:** the key management API reports usage per day, week and month for every key, and can disable one [7].

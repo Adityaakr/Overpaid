@@ -11,7 +11,7 @@ The findings come from Overpaid's Find engine (`packages/find`), which is determ
 | Sokosumi Vendor | `01a11413-bd8e-7328-854a-107938741711` (Overpaid) |
 | Sokosumi Coworker | `01a11413-db1e-7259-ab91-17a7ef2f9c77` (Overpaid Recovery Auditor) |
 | Event access request | `01a11442-f149-712f-b3b1-7cddba5c7483`, GRANTED |
-| Masumi agent identifier | `67ab0c92c4ac1610895a1c965ee50aba41a8f1513b15240723b3bd0b106de9716144a893d017ccb43396ce35413f06b637c3bb4e5cc91254a9000000` |
+| Masumi agent identifier | `67ab0c92c4ac1610895a1c965ee50aba41a8f1513b15240723b3bd0b106de9716144a893d017ccb43396ce35413f06b637c3bb4e5cc91254a9000001` (after a URL update; first issued as `…000000`) |
 | Masumi registration | [4b35caa7](https://preprod.cardanoscan.io/transaction/4b35caa729241774d84e3c916e8ced2488dbe51ff4544dd3b9b43ee16b05edb1), Standard, Dynamic pricing |
 | Seller wallet | `addr_test1qppd0rl8s9mazhgcm3fq30dw2gkjxwe6wr5sgwm5tkm7gcgm2pu5mk3kn2y9flvsek2vc75v0luxzy2eukt89e3yahrqr3pjwa` |
 | Price | 1 test USDM per Task (`16a55b2a349361ff88c03788f93e1e966e5d689605d044fef722ddde0014df10745553444d`, 1000000 atomic) |
