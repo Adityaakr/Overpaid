@@ -59,12 +59,35 @@ export function MetricsBar() {
   const { data: m } = useLive<Metrics>('/api/metrics', ['metrics.updated'], {});
   const online = useEvents(() => {});
   const escrow = (m.escrow_state as string) || 'idle';
+  const run = m.find_run as { demo?: boolean; ranAt?: string } | undefined;
+  // On a real upload the strip shows only this account's numbers; the demo world's history stays out of it.
+  if (run && run.demo === false) {
+    const next = new Date();
+    next.setDate(next.getDate() + ((7 - next.getDay()) % 7 || 7));
+    return (
+      <div className="op-metrics" role="status" aria-label="Live metrics">
+        <div className={`op-metric${online ? '' : ' offline'}`}>
+          <span className="live" />
+          {online ? 'Live' : 'Offline'}
+        </div>
+        <Metric label="At stake" cents={n(m.found_cents)} />
+        <div className="op-metric">
+          Agents working <b className="num"><NumberFlow value={n(m.browsers_live)} /></b>
+        </div>
+        <div className="op-metric">
+          Next review <b>{next.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</b>
+        </div>
+        <div className="op-metric">Your statement, Cardano preprod</div>
+      </div>
+    );
+  }
   return (
     <div className="op-metrics" role="status" aria-label="Live metrics">
       <div className={`op-metric${online ? '' : ' offline'}`}>
         <span className="live" />
         {online ? 'Live' : 'Offline'}
       </div>
+      <div className="op-metric">Demo account</div>
       <Metric label="Found" cents={n(m.found_cents)} />
       <Metric label="Recovered" cents={n(m.recovered_cents)} good />
       <div className="op-metric">

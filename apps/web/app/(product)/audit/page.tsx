@@ -97,6 +97,20 @@ export default function Audit() {
     void analyse(text);
   };
   const onFile = async (f: File | undefined) => f && loadText(await f.text(), f.name);
+  // Hand the audited statement to the app: it becomes the ledger, and the Sunday review opens on it.
+  const [starting, setStarting] = useState(false);
+  const startAutopilot = async () => {
+    setStarting(true);
+    setErr(null);
+    try {
+      const base64 = btoa(unescape(encodeURIComponent(statement)));
+      await api('/api/find/run', { method: 'POST', json: { mode: 'upload', files: [{ name: fileName ?? 'statement.csv', base64 }] } });
+      window.location.href = '/app/review';
+    } catch (e) {
+      setErr(errText(e));
+      setStarting(false);
+    }
+  };
   const draft = async () => {
     setErr(null);
     setDrafting(true);
@@ -336,7 +350,7 @@ export default function Audit() {
                       <li><CheckCircle size={16} /> Specialists hired into escrow when a claim needs one</li>
                       <li><CheckCircle size={16} /> A review every Sunday; keep or remove in one tap</li>
                     </ul>
-                    <a className="op-btn lime" href="/app/connect">Start my autopilot</a>
+                    <button className="op-btn lime" onClick={startAutopilot} disabled={starting || !statement.trim()}>{starting ? 'Loading your ledger…' : 'Start my autopilot'}</button>
                     <div className={s.small} style={{ color: 'rgba(255,255,255,0.55)' }}>Today you connect by uploading an export; bank connections are next. Cardano preprod, test money.</div>
                     {err ? <div className="op-banner" style={{ display: 'flex', gap: 8 }}><XCircle size={18} /> {err}</div> : null}
                   </div>
