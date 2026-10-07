@@ -88,7 +88,13 @@ export class Orchestrator {
         });
         if (!res.ok) throw new Error(`fleet ${res.status}`);
       } catch (e) {
-        await this.fail(id, `Fleet unavailable: ${(e as Error).message}`);
+        // A timed-out POST may still have been accepted: failing it here would free the line for a second
+        // browser run. Ask the fleet before giving up.
+        const accepted = await fetch(`${FLEET_URL}/tasks`, { signal: AbortSignal.timeout(5000) })
+          .then((r) => (r.ok ? r.json() : []))
+          .then((list: unknown) => Array.isArray(list) && list.some((t: { taskId?: string }) => t.taskId === id))
+          .catch(() => false);
+        if (!accepted) await this.fail(id, `Fleet unavailable: ${(e as Error).message}`);
       }
     }
     return created;
