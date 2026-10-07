@@ -48,10 +48,10 @@ function fallback(a: Audit): string {
 }
 
 /** Full Task result: sourced findings first, then drafted messages. The model never touches the numbers. */
-export async function buildReport(input: string, opts: { today?: string; signal?: AbortSignal } = {}): Promise<{ text: string; audit: Audit; model: string }> {
+export async function buildReport(input: string, opts: { today?: string; signal?: AbortSignal } = {}): Promise<{ text: string; actions: string; audit: Audit; model: string }> {
   const a = await audit(input, opts.today);
   const head = renderFindings(a);
-  if (!a.ok || !a.items.length) return { text: head, audit: a, model: 'none' };
+  if (!a.ok || !a.items.length) return { text: head, actions: '', audit: a, model: 'none' };
   let actions: string;
   let model = MODEL;
   try {
@@ -61,5 +61,5 @@ export async function buildReport(input: string, opts: { today?: string; signal?
     model = 'template';
   }
   const foot = '\n\n---\nOverpaid recovery audit. Figures are computed from the statement rows above; recurring charges are to review, not confirmed unused. Messages are drafts for you to review before sending.';
-  return { text: `${head}\n\n${actions}${foot}`, audit: a, model };
+  return { text: `${head}\n\n${actions}${foot}`, actions, audit: a, model };
 }

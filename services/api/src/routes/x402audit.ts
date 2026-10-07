@@ -62,16 +62,16 @@ export async function registerX402AuditRoutes(app: FastifyInstance) {
   app.post('/api/audit/preview', async (req, reply) => {
     const parsed = Body.safeParse(req.body);
     if (!parsed.success) return reply.code(400).send({ error: 'Paste a statement as CSV with Date, Description and Amount columns.' });
-    const { audit } = await import('@overpaid/coworker/audit');
+    const { audit, kindLabel } = await import('@overpaid/coworker/audit');
     const a = await audit(parsed.data.statement);
+    // Free: the summary and what each item is worth. Paid: source rows, reasons, actions and messages.
     return {
-      ok: a.ok,
-      rows: a.rows,
-      months: a.months,
-      count: a.findings.length,
-      totalCents: a.totalCents,
-      currency: a.currency,
-      types: [...new Set(a.findings.map((f) => f.type))],
+      ok: a.ok, warnings: a.warnings, currency: a.currency, rows: a.rows, months: a.months, from: a.from, to: a.to,
+      moneyInCents: a.moneyInCents, moneyOutCents: a.moneyOutCents, avgMonthlyOutCents: a.avgMonthlyOutCents, recurringMonthlyCents: a.recurringMonthlyCents,
+      claimCents: a.claimCents, reviewYearCents: a.reviewYearCents,
+      items: a.items.map((i) => ({ kind: i.kind, label: kindLabel(i.kind), title: i.title, category: i.category, cents: i.cents, per: i.per, confidence: i.confidence })),
+      fixed: a.fixed,
+      count: a.items.length, totalCents: a.totalCents,
       priceLovelace: PRICE_LOVELACE.toString(),
     };
   });
@@ -89,8 +89,12 @@ export async function registerX402AuditRoutes(app: FastifyInstance) {
       { method: 'POST', path: AUDIT_PATH, url: `${base}${AUDIT_PATH}`, headers: req.headers as Record<string, string>, body: parsed.data },
       async (ctx) => {
         const r = await buildReport(parsed.data.statement);
-        lastBody = { report: r.text, findings: r.audit.findings.length, totalCents: r.audit.totalCents, model: r.model, paymentTx: ctx.txHash };
-        return { body: { report: r.text, findings: r.audit.findings.length, totalCents: r.audit.totalCents, model: r.model, paymentTx: ctx.txHash } };
+        const { kindLabel } = await import('@overpaid/coworker/audit');
+        lastBody = {
+          report: r.text, actions: r.actions, model: r.model, paymentTx: ctx.txHash, findings: r.audit.items.length, totalCents: r.audit.totalCents,
+          audit: { ...r.audit, findings: undefined, items: r.audit.items.map((i) => ({ ...i, label: kindLabel(i.kind) })) },
+        };
+        return { body: lastBody };
       },
       (_ctx, _settle) => {
         // Settled: keep the result for the buyer's claim id in case the response never reaches them.

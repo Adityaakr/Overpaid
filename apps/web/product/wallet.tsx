@@ -13,6 +13,8 @@ import { api } from './api';
 type Cip30Api = {
   getNetworkId(): Promise<number>;
   getChangeAddress(): Promise<string>;
+  getUsedAddresses?(paginate?: unknown): Promise<string[]>;
+  getUnusedAddresses?(): Promise<string[]>;
   getBalance(): Promise<string>;
   getUtxos(amount?: string, paginate?: unknown): Promise<string[] | null | undefined>;
   signTx(tx: string, partialSign?: boolean): Promise<string>;
@@ -59,6 +61,16 @@ function bech32Encode(hrp: string, bytes: Uint8Array) {
   return `${hrp}1${[...words, ...checksum].map((w) => CHARSET[w]).join('')}`;
 }
 const hexBytes = (hex: string) => new Uint8Array((hex.match(/../g) ?? []).map((h) => parseInt(h, 16)));
+
+/** The first Preprod (addr_test1) address the wallet exposes: change, then used, then unused. */
+async function preprodAddress(w: Cip30Api): Promise<{ preprod: string | null; first: string | null }> {
+  const lists: string[][] = [];
+  try { lists.push([await w.getChangeAddress()]); } catch {}
+  try { if (w.getUsedAddresses) lists.push((await w.getUsedAddresses()) ?? []); } catch {}
+  try { if (w.getUnusedAddresses) lists.push((await w.getUnusedAddresses()) ?? []); } catch {}
+  const all = lists.flat().filter(Boolean).map(addressToBech32);
+  return { preprod: all.find((a) => a.startsWith('addr_test1')) ?? null, first: all[0] ?? null };
+}
 
 /** CIP-30 returns raw address bytes as hex; render them as a CIP-19 bech32 address. */
 export function addressToBech32(hexOrBech: string) {
@@ -119,6 +131,8 @@ type WalletState = {
   address: string | null;
   balanceLovelace: bigint | null;
   wrongNetwork: boolean;
+  /** The first address the wallet gave us, shown when it is not on Preprod. */
+  seenAddress: string | null;
   connecting: boolean;
   error: string | null;
   connect(key: string): Promise<void>;
@@ -171,22 +185,27 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
   const [balance, setBalance] = useState<bigint | null>(null);
   const [wrongNetwork, setWrongNetwork] = useState(false);
+  const [seenAddress, setSeenAddress] = useState<string | null>(null);
   const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const apiRef = useRef<Cip30Api | null>(null);
 
   const load = useCallback(async (w: Cip30Api) => {
-    // Trust the address over getNetworkId: multi-chain wallets can report mainnet while serving a testnet account.
-    const addr = addressToBech32(await w.getChangeAddress());
-    if (!addr.startsWith('addr_test1')) {
+    // Trust addresses over getNetworkId: multi-chain wallets can report mainnet while serving a testnet account,
+    // and some hand out a mainnet change address while their used addresses are on Preprod.
+    const { preprod, first } = await preprodAddress(w);
+    setSeenAddress(first);
+    if (!preprod) {
       setWrongNetwork(true);
       setAddress(null);
       setBalance(null);
       return;
     }
+    const addr = preprod;
     setWrongNetwork(false);
     setAddress(addr);
     try {
+      if (addressToBech32(await w.getChangeAddress()) !== addr) throw new Error('balance belongs to another address');
       setBalance(lovelaceFromValueCbor(await w.getBalance()));
     } catch {
       // Fall back to the API's view of the address if the wallet's CBOR is unusual.
@@ -288,7 +307,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
   const signTx = useCallback(async (txCbor: string, partial = true) => {
     if (!apiRef.current) throw new Error('Connect your wallet first.');
-    if (!addressToBech32(await apiRef.current.getChangeAddress()).startsWith('addr_test1')) throw new Error('Switch your wallet to Preprod.');
+    if (!(await preprodAddress(apiRef.current)).preprod) throw new Error('Switch your wallet to Preprod.');
     return apiRef.current.signTx(txCbor, partial);
   }, []);
 
@@ -302,6 +321,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         address,
         balanceLovelace: balance,
         wrongNetwork,
+        seenAddress,
         connecting,
         error,
         connect,
@@ -384,9 +404,17 @@ export function ConnectButton({ compact }: { compact?: boolean }) {
   if (w.wrongNetwork) {
     return (
       <div style={{ display: 'grid', gap: 10 }}>
-        <div className="op-banner">
-          Switch your wallet to Preprod. {w.walletName ?? 'Your wallet'} is on another network.
-          {/subwallet/i.test(w.walletName ?? '') ? ' In SubWallet, open Manage networks and turn off Cardano (mainnet) so only Cardano Preprod is on, then reconnect.' : ''}
+        <div className="op-banner" style={{ display: 'grid', gap: 6 }}>
+          <span>
+            {w.walletName ?? 'Your wallet'} shared a mainnet address{w.seenAddress ? ` (${shortAddr(w.seenAddress, 10, 6)})` : ''}. This app runs on Cardano Preprod, so it needs an address starting with addr_test1.
+          </span>
+          {/subwallet/i.test(w.walletName ?? '') ? (
+            <span>
+              In SubWallet: open Manage networks and turn off Cardano (mainnet), keep Cardano Preprod on, then disconnect this site in SubWallet and connect again. If it still shares a mainnet address, Lace (Settings, Network, Preprod) works reliably.
+            </span>
+          ) : (
+            <span>Switch the wallet's network to Preprod, then check again.</span>
+          )}
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button className="op-btn plain small" onClick={() => w.refresh()}>I switched, check again</button>

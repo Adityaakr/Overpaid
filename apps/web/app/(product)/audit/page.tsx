@@ -1,55 +1,80 @@
 'use client';
-import { useEffect, useState, type ReactNode } from 'react';
-import { ArrowSquareOut, FileArrowUp, LockKey, SealCheck } from '@phosphor-icons/react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import {
+  ArrowSquareOut, ArrowsClockwise, Bank, CheckCircle, CircleNotch, ClipboardText, Copy, DownloadSimple, FileCsv, Handshake, LockKey,
+  Receipt, SealCheck, ShieldCheck, Sparkle, TrendUp, UploadSimple, XCircle,
+} from '@phosphor-icons/react';
 import { API, api } from '@/product/api';
 import { Logo } from '@/product/ui';
 import { ConnectButton, errText, fmtAda, SCAN, useWallet } from '@/product/wallet';
+import s from './audit.module.css';
 
-type Preview = { ok: boolean; rows: number; months: number; count: number; totalCents: number; currency: string; types: string[]; priceLovelace: string };
-type Paid = { report: string; findings: number; totalCents: number; paymentTx: string };
+type Kind = 'recover' | 'duplicate' | 'fee' | 'price_increase' | 'cancel_or_keep' | 'negotiate';
+type ItemLite = { kind: Kind; label: string; title: string; category: string; cents: number; per: 'once' | 'year'; confidence: string };
+type ItemFull = ItemLite & { why: string; action: string; rows: { date: string; descriptor: string; cents: number }[]; monthlyCents: number | null };
+type Summary = {
+  ok: boolean; warnings: string[]; currency: string; rows: number; months: number; from: string | null; to: string | null;
+  moneyInCents: number; moneyOutCents: number; avgMonthlyOutCents: number; recurringMonthlyCents: number; claimCents: number; reviewYearCents: number;
+  fixed: { title: string; category: string; monthlyCents: number }[];
+};
+type Preview = Summary & { items: ItemLite[]; priceLovelace: string };
+type Paid = { report: string; actions: string; paymentTx: string; model: string; audit: Summary & { items: ItemFull[] } };
 type Stage = 'idle' | 'quote' | 'build' | 'sign' | 'verify';
 
-const STAGE: Record<Stage, string> = {
-  idle: '',
-  quote: 'Asking for the price (HTTP 402)…',
-  build: 'Preparing the payment…',
-  sign: 'Approve the payment in your wallet…',
-  verify: 'Verifying the payment on Cardano and running the audit…',
+const STEPS: { key: Exclude<Stage, 'idle'>; label: string }[] = [
+  { key: 'quote', label: 'Price quoted over HTTP 402' },
+  { key: 'build', label: 'Payment prepared for your wallet' },
+  { key: 'sign', label: 'You approve it in your wallet' },
+  { key: 'verify', label: 'Verified on Cardano, audit runs' },
+];
+const KIND: Record<Kind, { color: string; bg: string; icon: ReactNode }> = {
+  recover: { color: 'var(--good)', bg: 'var(--good-bg)', icon: <Receipt size={20} /> },
+  duplicate: { color: 'var(--bad)', bg: 'var(--bad-bg)', icon: <Copy size={20} /> },
+  fee: { color: 'var(--bad)', bg: 'var(--bad-bg)', icon: <Bank size={20} /> },
+  price_increase: { color: 'var(--warn)', bg: 'var(--warn-bg)', icon: <TrendUp size={20} /> },
+  cancel_or_keep: { color: '#2563eb', bg: 'rgba(37,99,235,0.1)', icon: <ArrowsClockwise size={20} /> },
+  negotiate: { color: '#7c3aed', bg: 'rgba(124,58,237,0.1)', icon: <Handshake size={20} /> },
 };
 const CLAIM_KEY = 'overpaid.auditClaim';
-const store = { get: () => { try { return localStorage.getItem(CLAIM_KEY); } catch { return null; } }, set: (v: string | null) => { try { v ? localStorage.setItem(CLAIM_KEY, v) : localStorage.removeItem(CLAIM_KEY); } catch {} } };
-async function fetchClaim(claim: string): Promise<Paid | null> {
+const store = {
+  get: () => { try { return localStorage.getItem(CLAIM_KEY); } catch { return null; } },
+  set: (v: string | null) => { try { v ? localStorage.setItem(CLAIM_KEY, v) : localStorage.removeItem(CLAIM_KEY); } catch {} },
+};
+const fetchClaim = async (claim: string): Promise<Paid | null> => {
   const r = await fetch(`${API}/api/x402/audit/claim/${claim}`).catch(() => null);
   return r?.ok ? ((await r.json()) as Paid) : null;
-}
-const money = (cents: number) => `$${(cents / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-const b64json = (s: string) => JSON.parse(atob(s));
+};
+const money = (cents: number, cur = 'USD') => {
+  try {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur, maximumFractionDigits: cents % 100 === 0 ? 0 : 2 }).format(cents / 100);
+  } catch {
+    return `${(cents / 100).toFixed(2)} ${cur}`;
+  }
+};
 
-// Minimal markdown for the report: headings, bullets, bold, horizontal rules.
-function Report({ text }: { text: string }) {
-  const inline = (s: string): ReactNode[] => s.split(/(\*\*[^*]+\*\*)/).map((p, i) => (p.startsWith('**') ? <b key={i}>{p.slice(2, -2)}</b> : p));
-  return (
-    <div style={{ display: 'grid', gap: 8, fontSize: 15, lineHeight: 1.55 }}>
-      {text.split('\n').map((l, i) =>
-        l.startsWith('# ') ? <h2 key={i} style={{ fontSize: 24, marginTop: 4 }}>{l.slice(2)}</h2>
-        : l.startsWith('## ') ? <h3 key={i} style={{ fontSize: 18, marginTop: 14 }}>{inline(l.slice(3))}</h3>
-        : l.startsWith('- ') ? <div key={i} className="op-mono" style={{ fontSize: 13, paddingLeft: 12, color: 'var(--ink-75)' }}>{l.slice(2)}</div>
-        : l === '---' ? <hr key={i} style={{ border: 0, borderTop: '1px solid var(--line, #e5e5e5)', margin: '10px 0' }} />
-        : l.trim() ? <p key={i}>{inline(l)}</p>
-        : null,
-      )}
-    </div>
-  );
+/** Splits the drafted "## Messages to send" section into one block per merchant, plus the next steps. */
+function parseMessages(md: string) {
+  const [msgPart = '', stepPart = ''] = md.split(/^## Next steps/m);
+  const parts = msgPart.replace(/^## Messages to send\s*/m, '').split(/^\*\*(.+?)\*\*\s*$/m);
+  const out: { to: string; body: string }[] = [];
+  for (let i = 1; i < parts.length; i += 2) out.push({ to: parts[i]!.trim(), body: (parts[i + 1] ?? '').trim() });
+  const steps = stepPart.split('\n').map((l) => l.replace(/^\s*(\d+\.|-)\s*/, '').replace(/\*\*/g, '').trim()).filter(Boolean);
+  return { out, steps };
 }
 
 export default function Audit() {
   const w = useWallet();
+  const fileRef = useRef<HTMLInputElement>(null);
   const [statement, setStatement] = useState('');
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [paste, setPaste] = useState(false);
+  const [over, setOver] = useState(false);
   const [preview, setPreview] = useState<Preview | null>(null);
   const [paid, setPaid] = useState<Paid | null>(null);
   const [stage, setStage] = useState<Stage>('idle');
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [copied, setCopied] = useState<number | null>(null);
 
   // A paid audit whose response was lost (closed tab, dropped connection) comes back from its claim id.
   useEffect(() => {
@@ -57,23 +82,30 @@ export default function Audit() {
     if (claim) void fetchClaim(claim).then((p) => p && setPaid(p));
   }, []);
 
-  const loadSample = async () => setStatement(await (await fetch('/sample-statement.csv')).text());
-  const loadFile = async (f: File | undefined) => f && setStatement(await f.text());
-
-  const check = async () => {
+  const analyse = async (text: string) => {
     setErr(null);
     setPaid(null);
     setBusy(true);
     try {
-      setPreview(await api<Preview>('/api/audit/preview', { method: 'POST', json: { statement } }));
+      const p = await api<Preview>('/api/audit/preview', { method: 'POST', json: { statement: text } });
+      setPreview(p);
+      if (!p.ok) setErr(p.warnings[0] ?? 'We could not read that file. It needs a header row with a date, a description and an amount.');
     } catch (e) {
       setErr(errText(e));
     } finally {
       setBusy(false);
     }
   };
+  const loadText = (text: string, name: string | null) => {
+    setStatement(text);
+    setFileName(name);
+    setPreview(null);
+    void analyse(text);
+  };
+  const onFile = async (f: File | undefined) => f && loadText(await f.text(), f.name);
+  const sample = async () => loadText(await (await fetch('/sample-statement.csv')).text(), 'sample-statement.csv');
 
-  // The x402 flow, as any client would run it: 402 -> pay -> retry with the payment header.
+  // The x402 flow, exactly as any client runs it: 402 -> pay -> retry with the payment header.
   const pay = async () => {
     setErr(null);
     setBusy(true);
@@ -82,7 +114,7 @@ export default function Audit() {
       const url = `${API}/api/x402/audit`;
       const first = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ statement }) });
       if (first.status !== 402) throw new Error(`expected a 402 price, got ${first.status}`);
-      const required = b64json(first.headers.get('payment-required') ?? '');
+      const required = JSON.parse(atob(first.headers.get('payment-required') ?? ''));
       const accepted = required.accepts[0];
       setStage('build');
       const built = await api<{ buildId: string; txCbor: string; nonce: string }>('/api/x402/pay/build', { method: 'POST', json: { address: w.address, requirements: accepted } });
@@ -95,9 +127,8 @@ export default function Audit() {
       const header = btoa(JSON.stringify({ x402Version: 2, resource: required.resource, accepted, payload: { transaction, nonce: built.nonce } }));
       const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json', 'PAYMENT-SIGNATURE': header, 'x-audit-claim': claim }, body: JSON.stringify({ statement }) }).catch(() => null);
       const body = res ? await res.json().catch(() => null) : null;
-      if (res?.ok && body) {
-        setPaid(body as Paid);
-      } else if (res && res.status < 500 && body) {
+      if (res?.ok && body) setPaid(body as Paid);
+      else if (res && res.status < 500 && body) {
         store.set(null);
         throw new Error(body.error ?? body.invalidMessage ?? `payment was not accepted (${res.status})`);
       } else {
@@ -111,6 +142,7 @@ export default function Audit() {
         setPaid(found);
       }
       void w.refresh();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e) {
       setErr(errText(e));
     } finally {
@@ -119,110 +151,276 @@ export default function Audit() {
     }
   };
 
+  const reset = () => {
+    store.set(null);
+    setPaid(null);
+    setPreview(null);
+    setStatement('');
+    setFileName(null);
+    setErr(null);
+  };
+  const download = () => {
+    if (!paid) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([paid.report], { type: 'text/markdown' }));
+    a.download = 'overpaid-audit.md';
+    a.click();
+  };
+
+  const view: (Summary & { items: (ItemLite & Partial<ItemFull>)[] }) | null = paid ? paid.audit : preview;
+  const cur = view?.currency ?? 'USD';
+  const price = Number(preview?.priceLovelace ?? 2_000_000);
+  const msgs = paid ? parseMessages(paid.actions) : null;
+  const stepIdx = STEPS.findIndex((x) => x.key === stage);
+
   return (
-    <main style={{ minHeight: '100svh', padding: '28px 20px 60px', display: 'grid', alignContent: 'start', gap: 22, maxWidth: 760, margin: '0 auto' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, fontWeight: 600, fontSize: 18 }}>
+    <div className={s.page}>
+      <nav className={s.nav}>
+        <a href="/" className={s.brand}>
           <Logo size={28} /> Overpaid
         </a>
-        <a className="link" href="/app" style={{ fontSize: 14 }}>
-          Open the full app
-        </a>
-      </div>
-      <div>
-        <h1 style={{ fontSize: 40, lineHeight: 1.08, letterSpacing: '-0.04em', fontWeight: 500 }}>Find the money your card statement is hiding.</h1>
-        <p className="op-muted" style={{ marginTop: 10, fontSize: 17 }}>
-          Forgotten subscriptions, duplicate charges, bills above market. See how much for free; unlock the full audit and ready-to-send messages for {fmtAda(2_000_000, 0)}, paid per request with x402 from your own wallet. No account.
-        </p>
-      </div>
-
-      {!paid ? (
-        <div className="op-card" style={{ display: 'grid', gap: 14 }}>
-          <div>
-            <h2>1. Your statement</h2>
-            <div className="card-sub">CSV with Date, Description and Amount columns, ideally three months or more. It is read in memory to compute the audit, not stored.</div>
-          </div>
-          <textarea
-            value={statement}
-            onChange={(e) => (setStatement(e.target.value), setPreview(null))}
-            placeholder={'Date,Description,Amount,Currency\n2026-04-12,TUNEWAVE*PREMIUM,10.99,USD\n…'}
-            rows={9}
-            className="op-mono"
-            style={{ width: '100%', fontSize: 13, padding: 12, borderRadius: 12, border: '1px solid var(--line, #ddd)', background: 'var(--paper, #fff)', resize: 'vertical' }}
-          />
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
-            <button className="op-btn" onClick={check} disabled={busy || statement.trim().length < 20}>
-              Check for free
-            </button>
-            <label className="op-btn light" style={{ cursor: 'pointer' }}>
-              <span className="ico"><FileArrowUp size={18} /></span> Upload CSV
-              <input type="file" accept=".csv,text/csv" hidden onChange={(e) => loadFile(e.target.files?.[0])} />
-            </label>
-            <button className="link" onClick={loadSample} style={{ fontSize: 14 }}>
-              Use a sample statement
-            </button>
-          </div>
+        <div className={s.navLinks}>
+          <a href="#agents" className={s.hideSm}>For agents</a>
+          <a href="https://github.com/Adityaakr/Overpaid" target="_blank" rel="noreferrer" className={s.hideSm}>GitHub</a>
+          <a href="/app" className="op-btn small">Open the app</a>
         </div>
-      ) : null}
+      </nav>
 
-      {preview && !paid ? (
-        <div className="op-card" style={{ display: 'grid', gap: 14 }}>
-          {preview.ok ? (
-            <>
+      <main className={s.wrap}>
+        {!view?.ok ? (
+          <section className={s.hero}>
+            <div>
+              <span className={s.kicker}><i /> Live on Cardano preprod</span>
+              <h1 className={s.h1}>See what your statement is quietly costing you.</h1>
+              <p className={s.lede}>
+                Drop in a bank or card export. In seconds you see every recurring charge priced per year, price rises, duplicate charges and fees, for free.
+                Unlock the full audit with source rows and ready-to-send messages for {fmtAda(price, 0)}, paid per request from your own wallet.
+              </p>
+              <div className={s.trust}>
+                <span><ShieldCheck size={16} /> Read in memory, never stored</span>
+                <span><SealCheck size={16} /> Every number traced to your rows</span>
+                <span><LockKey size={16} /> No account: pay per audit with x402</span>
+              </div>
+            </div>
+            <div className={s.drop}>
+              {!paste ? (
+                <div
+                  className={`${s.zone} ${over ? s.zoneOver : ''}`}
+                  onClick={() => fileRef.current?.click()}
+                  onDragOver={(e) => (e.preventDefault(), setOver(true))}
+                  onDragLeave={() => setOver(false)}
+                  onDrop={(e) => (e.preventDefault(), setOver(false), void onFile(e.dataTransfer.files[0]))}
+                >
+                  <div className={s.zoneIcon}>{busy ? <CircleNotch size={24} /> : <UploadSimple size={24} />}</div>
+                  <b>{busy ? 'Reading your statement…' : 'Drop your statement CSV here'}</b>
+                  <span className={s.small}>Any bank or card export: comma or semicolon, US or European format, signed amounts or debit and credit columns.</span>
+                  <input ref={fileRef} type="file" accept=".csv,.txt,text/csv" hidden onChange={(e) => onFile(e.target.files?.[0])} />
+                </div>
+              ) : (
+                <>
+                  <textarea className={`${s.textarea} op-mono`} rows={8} value={statement} onChange={(e) => setStatement(e.target.value)} placeholder={'Date,Description,Amount\n2026-07-06,Cloud hosting subscription,-49.00\n…'} />
+                  <button className="op-btn" onClick={() => analyse(statement)} disabled={busy || statement.trim().length < 20}>
+                    {busy ? 'Reading…' : 'Analyse for free'}
+                  </button>
+                </>
+              )}
+              {fileName && !busy ? (
+                <div className={s.fileChip}>
+                  <span className={s.row}><FileCsv size={18} /> {fileName}</span>
+                  <button className={s.linkBtn} onClick={reset}>Clear</button>
+                </div>
+              ) : null}
+              <div className={s.row} style={{ justifyContent: 'space-between' }}>
+                <button className={s.linkBtn} onClick={() => setPaste(!paste)}>{paste ? 'Upload a file instead' : 'Paste rows instead'}</button>
+                <button className={s.linkBtn} onClick={sample}>Try a sample statement</button>
+              </div>
+              {err ? <div className="op-banner">{err}</div> : null}
+            </div>
+          </section>
+        ) : null}
+
+        {view?.ok ? (
+          <>
+            <div className={s.row} style={{ justifyContent: 'space-between' }}>
               <div>
-                <h2>2. What we found</h2>
-                <div className="card-sub">
-                  {preview.rows} transactions over {preview.months} month{preview.months === 1 ? '' : 's'}.
+                <h1 style={{ fontSize: 30, letterSpacing: '-0.03em', fontWeight: 500 }}>{paid ? 'Your recovery audit' : 'Here is what we found'}</h1>
+                <div className={s.small} style={{ marginTop: 4 }}>
+                  {fileName ? `${fileName} · ` : ''}{view.rows} transactions, {view.from} to {view.to} ({view.months} month{view.months === 1 ? '' : 's'})
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
-                <span className="num" style={{ fontSize: 44, letterSpacing: '-0.04em', color: 'var(--good)' }}>{money(preview.totalCents)}</span>
-                <span className="op-muted">in {preview.count} item{preview.count === 1 ? '' : 's'}: {preview.types.join(', ').toLowerCase() || 'nothing to recover'}</span>
+              <div className={s.row}>
+                {paid ? (
+                  <>
+                    <a className="op-pill good" href={`${SCAN}/transaction/${paid.paymentTx}`} target="_blank" rel="noreferrer">
+                      <SealCheck size={14} /> Paid over x402 · {paid.paymentTx.slice(0, 8)}… <ArrowSquareOut size={12} />
+                    </a>
+                    <button className="op-btn small light" onClick={download}><DownloadSimple size={16} /> Download</button>
+                  </>
+                ) : null}
+                <button className="op-btn small light" onClick={reset}>New statement</button>
               </div>
-              {preview.count ? (
-                <>
-                  <div className="card-sub" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <LockKey size={16} /> The full audit lists each merchant with its source rows and a message to send. Pay {fmtAda(Number(preview.priceLovelace), 0)} on Cardano preprod to unlock it.
+            </div>
+
+            <div className={s.stats}>
+              <div className={`${s.stat} ${s.feature}`}>
+                <span className={s.statLabel}>Recurring spend to cut or review</span>
+                <span className={s.statValue}>{money(view.reviewYearCents, cur)}<small style={{ fontSize: 15, opacity: 0.7 }}> /yr</small></span>
+              </div>
+              <div className={s.stat}>
+                <span className={s.statLabel}>To claim back now</span>
+                <span className={s.statValue} style={{ color: view.claimCents ? 'var(--good)' : undefined }}>{money(view.claimCents, cur)}</span>
+              </div>
+              <div className={s.stat}>
+                <span className={s.statLabel}>Recurring charges</span>
+                <span className={s.statValue}>{money(view.recurringMonthlyCents, cur)}<small style={{ fontSize: 15, color: 'var(--ink-50)' }}> /mo</small></span>
+              </div>
+              <div className={s.stat}>
+                <span className={s.statLabel}>Average money out</span>
+                <span className={s.statValue}>{money(view.avgMonthlyOutCents, cur)}<small style={{ fontSize: 15, color: 'var(--ink-50)' }}> /mo</small></span>
+              </div>
+            </div>
+
+            <div className={s.results}>
+              <div style={{ display: 'grid', gap: 20 }}>
+                <div className={s.list}>
+                  <div className={s.listHead}>
+                    <h2 style={{ fontSize: 18, fontWeight: 600 }}>{view.items.length} thing{view.items.length === 1 ? '' : 's'} to act on</h2>
+                    <span className={s.small}>Claims first, then by yearly cost</span>
                   </div>
-                  <ConnectButton />
-                  {w.address ? (
-                    <button className="op-btn" onClick={pay} disabled={busy} style={{ justifySelf: 'start' }}>
-                      {busy ? STAGE[stage] : `Unlock the audit for ${fmtAda(Number(preview.priceLovelace), 0)}`}
-                    </button>
+                  {view.items.length === 0 ? (
+                    <div className={s.locked}><CheckCircle size={20} /> No duplicates, fees, price rises or reviewable recurring charges. This statement looks clean.</div>
                   ) : null}
-                </>
-              ) : null}
-            </>
-          ) : (
-            <div className="op-banner">No statement found. Paste CSV rows with a header like Date,Description,Amount.</div>
-          )}
-        </div>
-      ) : null}
+                  {view.items.map((it, i) => {
+                    const k = KIND[it.kind];
+                    return (
+                      <div key={i} className={s.item}>
+                        <div className={s.itemIcon} style={{ background: k.bg, color: k.color }}>{k.icon}</div>
+                        <div>
+                          <div className={s.itemTitle}>{it.title}</div>
+                          <div className={s.itemMeta}>
+                            <span className={s.badge} style={{ background: k.bg, color: k.color }}>{it.label}</span>
+                            <span>{it.category}</span>
+                            <span>· {it.confidence} confidence</span>
+                          </div>
+                        </div>
+                        <div className={s.amount}>
+                          {money(it.cents, cur)}
+                          <small>{it.per === 'year' ? 'per year' : 'one-off'}</small>
+                        </div>
+                        {paid && it.why ? (
+                          <div className={s.detail}>
+                            <span>{it.why}</span>
+                            <div className={s.action}><b>What to do:</b> {it.action}</div>
+                            <div className={s.rows}>
+                              {it.rows?.slice(0, 6).map((r, j) => (
+                                <span key={j}>{r.date} · {r.descriptor} · {money(r.cents, cur)}</span>
+                              ))}
+                              {it.rows && it.rows.length > 6 ? <span>and {it.rows.length - 6} more</span> : null}
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                  {!paid && view.items.length ? (
+                    <div className={s.locked}>
+                      <LockKey size={20} /> The full audit adds why each item was flagged, its exact source rows, what to do, and a ready-to-send message for each merchant.
+                    </div>
+                  ) : null}
+                  {view.fixed.length ? (
+                    <div className={s.small} style={{ padding: '10px 16px 14px' }}>
+                      Fixed costs left out of the actions: {view.fixed.map((f) => `${f.title} ${money(f.monthlyCents, cur)}/mo`).join(', ')}.
+                    </div>
+                  ) : null}
+                </div>
 
-      {err ? <div className="op-banner">{err}</div> : null}
+                {msgs && msgs.out.length ? (
+                  <div className={s.messages}>
+                    <div className={s.row} style={{ justifyContent: 'space-between' }}>
+                      <h2 style={{ fontSize: 18, fontWeight: 600 }}><Sparkle size={18} style={{ verticalAlign: -3 }} /> Messages to send</h2>
+                      <span className={s.small}>Drafted by Claude from the findings above. Review before sending.</span>
+                    </div>
+                    {msgs.out.map((m, i) => (
+                      <div key={i} className={s.msg}>
+                        <div className={s.row} style={{ justifyContent: 'space-between' }}>
+                          <b>To: {m.to}</b>
+                          <button className="op-btn small light" onClick={() => (void navigator.clipboard.writeText(m.body), setCopied(i), setTimeout(() => setCopied(null), 1500))}>
+                            <ClipboardText size={15} /> {copied === i ? 'Copied' : 'Copy'}
+                          </button>
+                        </div>
+                        <div style={{ whiteSpace: 'pre-wrap' }}>{m.body}</div>
+                      </div>
+                    ))}
+                    {msgs.steps.length ? (
+                      <div>
+                        <b>Next steps</b>
+                        <ol style={{ margin: '8px 0 0 18px', display: 'grid', gap: 4, fontSize: 14 }}>
+                          {msgs.steps.map((x, i) => <li key={i}>{x}</li>)}
+                        </ol>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : null}
+              </div>
 
-      {paid ? (
-        <>
-          <div className="op-card" style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-            <SealCheck size={22} color="var(--good)" />
-            <span>Paid over x402 on Cardano preprod.</span>
-            <a className="op-pill good" href={`${SCAN}/transaction/${paid.paymentTx}`} target="_blank" rel="noreferrer">
-              {paid.paymentTx.slice(0, 10)}… <ArrowSquareOut size={14} />
-            </a>
-            <button className="link" onClick={() => (store.set(null), setPaid(null), setPreview(null))} style={{ marginLeft: 'auto', fontSize: 14 }}>
-              Audit another statement
-            </button>
-          </div>
-          <div className="op-card">
-            <Report text={paid.report} />
-          </div>
-        </>
-      ) : null}
+              <aside className={s.side}>
+                {!paid ? (
+                  <div className={s.unlock}>
+                    <div>
+                      <div className={s.small} style={{ color: 'rgba(255,255,255,0.6)' }}>Full audit</div>
+                      <div className={s.price}>{fmtAda(price, 0)}</div>
+                      <div className={s.small} style={{ color: 'rgba(255,255,255,0.6)' }}>Paid once, per request, over x402 on Cardano preprod</div>
+                    </div>
+                    <ul>
+                      <li><CheckCircle size={16} /> Reasons and source rows for every item</li>
+                      <li><CheckCircle size={16} /> A ready-to-send message per merchant</li>
+                      <li><CheckCircle size={16} /> Next steps ordered by money at stake</li>
+                      <li><CheckCircle size={16} /> A report you can download</li>
+                    </ul>
+                    <div className={s.walletBox} style={{ background: 'var(--card)', color: 'var(--ink)' }}>
+                      <ConnectButton compact />
+                    </div>
+                    {w.address && view.items.length ? (
+                      <button className="op-btn lime" onClick={pay} disabled={busy}>
+                        {busy ? 'Working…' : `Unlock for ${fmtAda(price, 0)}`}
+                      </button>
+                    ) : null}
+                    {stepIdx >= 0 ? (
+                      <div className={s.steps}>
+                        {STEPS.map((st, i) => (
+                          <span key={st.key} className={`${s.step} ${i < stepIdx ? s.stepDone : i === stepIdx ? s.stepNow : ''}`}>
+                            {i < stepIdx ? <CheckCircle size={16} /> : i === stepIdx ? <CircleNotch size={16} /> : <span style={{ width: 16 }} />}
+                            {st.label}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                    {err ? <div className="op-banner" style={{ display: 'flex', gap: 8 }}><XCircle size={18} /> {err}</div> : null}
+                  </div>
+                ) : (
+                  <div className="op-card" style={{ display: 'grid', gap: 10 }}>
+                    <h2 style={{ fontSize: 17 }}>Proof of payment</h2>
+                    <div className={s.small}>Your wallet paid {fmtAda(price, 0)} over x402. The facilitator verified the signed transaction before the audit ran.</div>
+                    <a className="op-pill good" href={`${SCAN}/transaction/${paid.paymentTx}`} target="_blank" rel="noreferrer" style={{ justifySelf: 'start' }}>
+                      View on Cardanoscan <ArrowSquareOut size={12} />
+                    </a>
+                  </div>
+                )}
+                <div className="op-card" id="agents" style={{ display: 'grid', gap: 8 }}>
+                  <h2 style={{ fontSize: 16 }}>For agents</h2>
+                  <div className={s.fine}>
+                    The same audit is an x402 resource: <span className={s.code}>POST /api/x402/audit</span> answers <span className={s.code}>402</span> with the price, and any x402 Cardano client pays and retries. No account, no API key.
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </>
+        ) : null}
 
-      <p className="op-muted" style={{ fontSize: 13 }}>
-        Preprod test network only, no real money. Findings come from the statement rows; messages are drafts for you to review. Agents can buy the same audit
-        programmatically: <span className="op-mono">POST /api/x402/audit</span> answers 402 with the price.
-      </p>
-    </main>
+        <p className={s.fine} style={{ textAlign: 'center' }}>
+          Preprod test network, no real money. Recurring charges are listed to review: a statement shows what you pay, not whether you use it.
+        </p>
+      </main>
+    </div>
   );
 }

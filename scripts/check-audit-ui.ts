@@ -31,22 +31,22 @@ await page.addInitScript(`(() => {
 })()`);
 
 await page.goto(`${WEB}/audit`);
-await page.getByRole('button', { name: /Connect testwallet/i }).or(page.getByText('Find the money')).first().waitFor();
+await page.getByText('Drop your statement CSV here').waitFor();
 await page.waitForTimeout(3000);
-await page.getByText('Use a sample statement').click();
-await page.getByRole('button', { name: 'Check for free' }).click();
-await page.getByText('What we found').waitFor({ timeout: 60_000 });
-console.log('preview:', (await page.locator('.num').first().textContent())?.trim());
-const connect = page.getByRole('button', { name: /Connect testwallet/i });
-if (!(await connect.isVisible().catch(() => false))) console.log('page text:', (await page.locator('main').innerText()).slice(0, 1500));
-await connect.click();
-await page.getByRole('button', { name: /Unlock the audit/ }).click({ timeout: 30_000 });
-await page.getByText('Paid over x402 on Cardano preprod.').waitFor({ timeout: 180_000 }).catch(async (e) => {
+// A real export if given (STATEMENT=path), otherwise the sample.
+if (process.env.STATEMENT) await page.locator('input[type=file]').setInputFiles(process.env.STATEMENT);
+else await page.getByText('Try a sample statement').click();
+await page.getByText('Here is what we found').waitFor({ timeout: 60_000 });
+console.log('preview:', (await page.locator('main').innerText()).match(/to act on|Recurring spend[^\n]*\n[^\n]*/g)?.join(' | '));
+if (process.env.SHOT_PREVIEW) await page.screenshot({ path: process.env.SHOT_PREVIEW, fullPage: true });
+await page.getByRole('button', { name: /Connect testwallet/i }).click();
+await page.getByRole('button', { name: /Unlock for/ }).click({ timeout: 30_000 });
+await page.getByText('Your recovery audit').waitFor({ timeout: 180_000 }).catch(async (e) => {
   console.log('page text:', (await page.locator('main').innerText()).slice(-700));
   throw e;
 });
-const tx = await page.locator('a.op-pill.good').getAttribute('href');
+const tx = await page.locator('a.op-pill.good').first().getAttribute('href');
 console.log('paid:', tx);
-console.log('report starts:', (await page.locator('h2').filter({ hasText: 'Recovery audit' }).count()) > 0);
+console.log('messages:', await page.getByText(/^To: /).count());
 await page.screenshot({ path: process.env.SHOT ?? '/tmp/audit-ui.png', fullPage: true });
 await browser.close();
