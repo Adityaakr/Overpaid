@@ -25,6 +25,23 @@ const PUBLIC_WRITES = [
 ];
 // Open to any client, including other agents: payment is the gate.
 const OPEN_ROUTES = [/^\/api\/x402\/audit$/];
+// What a visitor may start that costs us something (a parse, a browser agent, a demo step): allowed, but
+// capped per address per hour so a public link cannot drain the model or browser budget.
+const VISITOR_WRITES: [RegExp, number][] = [
+  [/^\/api\/find\/run$/, 8],
+  [/^\/api\/fix$/, 6],
+  [/^\/api\/approvals\/[^/]+$/, 20],
+];
+const visits = new Map<string, number[]>();
+function overLimit(who: string, key: string, limit: number): boolean {
+  const now = Date.now();
+  const k = `${who} ${key}`;
+  const recent = (visits.get(k) ?? []).filter((t) => now - t < 3_600_000);
+  if (recent.length >= limit) return true;
+  visits.set(k, [...recent, now]);
+  if (visits.size > 5000) for (const [kk, v] of visits) if (!v.some((t) => now - t < 3_600_000)) visits.delete(kk);
+  return false;
+}
 
 const same = (a: string, b: string) => a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b));
 
@@ -40,6 +57,12 @@ export function registerGuard(app: FastifyInstance) {
     // Requests through the public tunnel carry cf-connecting-ip; everything except the public writes is the operator's.
     const host = String(req.headers['x-forwarded-host'] ?? req.headers.host ?? '');
     const remote = req.headers['cf-connecting-ip'] !== undefined || !/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);
+    const visitor = VISITOR_WRITES.find(([r]) => r.test(path));
+    if (remote && visitor && !OPERATOR_ROUTES.some((r) => r.test(path))) {
+      const who = String(req.headers['cf-connecting-ip'] ?? req.ip);
+      if (overLimit(who, visitor[0].source, visitor[1])) return reply.code(429).send({ error: 'That is enough for one hour from this address. Try again later.' });
+      return;
+    }
     if (OPERATOR_ROUTES.some((r) => r.test(path)) || (remote && !PUBLIC_WRITES.some((r) => r.test(path)))) {
       const got = String(req.headers['x-operator-token'] ?? '');
       if (!token || !same(got, token)) return reply.code(401).send({ error: 'operator token required for this action' });
