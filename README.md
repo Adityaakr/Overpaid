@@ -137,7 +137,7 @@ The Coworker would read with a read-only token, post a priced proposal in the Ta
 | Real | Demo or simulated, labelled in the app |
 |---|---|
 | **Your upload** on `/audit` or in the app's Connect page, and every finding it produces | **"Use demo data"**: a synthetic account with receipts and a statement |
-| **The Coworker** on Sokosumi: Tasks, escrow, result hashes, payout | **Fix agents** operate only on our four demo merchant sites. On real uploads they never run; real lines are marked "Your action" with a concrete step instead. |
+| **The Coworker** on Sokosumi: Tasks, escrow, result hashes, payout. **Research agents** on real merchants: "Send an agent" opens a Claude browser agent on the merchant's own site, read-only (never logs in, submits or pays), and brings back the cancel page, prices and support route with a hashed screenshot of every step (`/app/evidence/:taskId`) | **Fix agents** that click through to a cancellation or refund run only on our four demo merchant sites; a real cancellation needs your logged-in session |
 | **Every x402 payment, pledge, refund, settlement, success fee and registration** on preprod | **The specialist** files on a demo airline |
 | **Wallets**: users sign their own transactions in Lace or Eternl (SubWallet connects Cardano dApps on mainnet only today) | **eSIM providers** and 60 of the pledges are simulated; the room's custodial demo wallets are run by Clawback |
 

@@ -201,11 +201,12 @@ describe('fleet end to end (scripted, every recipe, 3 runs)', () => {
 
         // Independent check of the merchant status page (not the fleet's or the script's claim).
         const recipe = fleet!.recipes.get(t.recipeId)!;
-        expect([...recipe.successSignal.successValues, ...recipe.successSignal.finalValues]).toContain(t.verifiedStatus);
-        const statusPath = new URL(recipe.successSignal.statusUrl.replace('{{origin}}', origin(recipe.merchant)).replace(/\{\{(\w+)\}\}/g, (_, k: string) => String((t.params as Record<string, string>)[k] ?? (k === 'orderId' ? 'CW-4417' : 'SKX7Q2'))));
+        const sig = recipe.successSignal!;
+        expect([...sig.successValues, ...sig.finalValues]).toContain(t.verifiedStatus);
+        const statusPath = new URL(sig.statusUrl.replace('{{origin}}', origin(recipe.merchant as Exclude<typeof recipe.merchant, 'external'>)).replace(/\{\{(\w+)\}\}/g, (_, k: string) => String((t.params as Record<string, string>)[k] ?? (k === 'orderId' ? 'CW-4417' : 'SKX7Q2'))));
         const html = await (await fetch(statusPath, { headers: COOKIE })).text();
         expect(html, `${t.taskId} status page`).toContain(t.confirmationCode!);
-        if (!recipe.successSignal.followLink) expect(html).toContain(`data-status="${t.verifiedStatus}"`);
+        if (!sig.followLink) expect(html).toContain(`data-status="${t.verifiedStatus}"`);
       }
       // Every task paused for exactly one approval with a screenshot.
       for (const t of tasks) {

@@ -14,7 +14,7 @@ The one-line position:
 
 > Money you're owed, clawed back. Clawback finds the subscriptions, fees and overcharges you are already paying for and its agents get the money back, with your approval. A review every Sunday, a fee only when money lands.
 
-What is true today versus next, said on every surface: today you connect by dropping in a statement export; bank and card connections, family accounts and continuous scanning are next. Browser agents act on demo merchants; on real lines you approve a drafted action.
+What is true today versus next, said on every surface: today you connect by dropping in a statement export; bank and card connections, family accounts and continuous scanning are next. On real lines a browser agent researches the merchant's own site read-only and shows you what it saw; agents that click through to a cancellation run on demo merchants today.
 
 ## 1a. The original recommendation (kept for the record)
 

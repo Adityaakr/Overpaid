@@ -255,11 +255,13 @@ export class TaskManager {
     if (v.amountCents !== null) data.amountCents = v.amountCents;
     if (v.confirmationCode) data.confirmationCode = v.confirmationCode;
     if (v.evidenceSha256) data.evidenceSha256 = v.evidenceSha256;
+    if (v.evidencePath) data.manifestPath = v.evidencePath;
     if (v.verifiedStatus) {
       data.verifiedStatus = v.verifiedStatus;
       data.recovered = v.recovered;
     }
     if (v.failureReason) data.failureReason = v.failureReason;
+    if (v.verifiedStatus === 'researched' && v.agentClaim?.summary) data.summary = v.agentClaim.summary;
     this.events.emit('event', { type: 'task.updated', data } satisfies FleetEvent);
   }
 
@@ -433,8 +435,16 @@ export class TaskManager {
       if (rejected) failure = rejected;
       t.view.agentClaim = claim;
 
+      // Research runs have no status page: the agent's findings are the result, with the screenshots as evidence.
+      if (!failure && recipe.research) {
+        if (!claim?.summary?.trim()) failure = 'the agent finished without findings';
+        else {
+          t.view.verifiedStatus = 'researched';
+          t.view.recovered = false;
+        }
+      }
       // Independent verification from the merchant's status page: never trust the agent's (or script's) claim.
-      if (!failure) {
+      if (!failure && !recipe.research && recipe.successSignal) {
         this.setStep(t, 'verifying on status page');
         await ev.record(page, 'final page');
         const v = await this.verifier.verify(resolved, recipe.successSignal.waitSeconds);

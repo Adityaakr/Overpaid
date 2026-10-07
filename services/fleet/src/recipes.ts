@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { VigilType, type MerchantKey } from '@overpaid/shared';
 import { FLEET_ROOT, merchantOrigin, type FleetConfig } from './config.js';
 
-export const MerchantKeySchema = z.enum(['vistaflix', 'cartwell', 'skylane', 'parcelo']);
+export const MerchantKeySchema = z.enum(['vistaflix', 'cartwell', 'skylane', 'parcelo', 'external']);
 
 const Template = z.string().min(1);
 
@@ -25,6 +25,8 @@ export const RecipeSchema = z
       .record(z.string(), z.object({ description: z.string(), default: z.string().optional(), required: z.boolean().default(true) }))
       .default({}),
     hints: z.array(z.object({ step: z.string(), hint: z.string(), selector: z.string().optional() })).default([]),
+    /** Research run: read-only on a real merchant's site; no verification page, the agent's findings are the result. */
+    research: z.boolean().default(false),
     successSignal: z.object({
       /** Status page re-read in a fresh page to verify the outcome. Templated. */
       statusUrl: Template,
@@ -41,7 +43,7 @@ export const RecipeSchema = z
       amountAttr: z.string().default('data-amount-cents'),
       /** Poll the status page this long for a success value (merchants resolve asynchronously). */
       waitSeconds: z.number().int().min(0).max(600).default(30),
-    }),
+    }).optional(),
     irreversibleSteps: z
       .array(
         z.object({
@@ -58,7 +60,8 @@ export const RecipeSchema = z
     /** Module name under services/merchants/scripted (without extension). */
     scripted: z.string().regex(/^[a-z0-9-]+$/).nullable().default(null),
   })
-  .strict();
+  .strict()
+  .refine((r) => r.research || r.successSignal !== undefined, { message: 'successSignal is required unless research is true' });
 export type Recipe = z.infer<typeof RecipeSchema>;
 
 export const RECIPES_DIR = path.join(FLEET_ROOT, 'recipes');
@@ -86,7 +89,7 @@ export function renderTemplate(t: string, vars: Record<string, string>): string 
 /** A recipe with every template resolved for one task. */
 export interface ResolvedRecipe {
   recipe: Recipe;
-  merchant: MerchantKey;
+  merchant: MerchantKey | 'external';
   origin: string;
   params: Record<string, string>;
   allowedDomains: string[];
@@ -117,9 +120,9 @@ export function resolveRecipe(recipe: Recipe, input: Record<string, unknown>, cf
     allowedDomains: recipe.allowedDomains.map((d) => renderTemplate(d, vars)),
     entryUrl: renderTemplate(recipe.entryUrl, vars),
     goal: renderTemplate(recipe.goal, vars),
-    statusUrl: renderTemplate(recipe.successSignal.statusUrl, vars),
-    statusSelector: renderTemplate(recipe.successSignal.selector, vars),
+    statusUrl: recipe.successSignal ? renderTemplate(recipe.successSignal.statusUrl, vars) : '',
+    statusSelector: recipe.successSignal ? renderTemplate(recipe.successSignal.selector, vars) : '',
     hints: recipe.hints.map((h) => ({ ...h, hint: renderTemplate(h.hint, vars), ...(h.selector ? { selector: renderTemplate(h.selector, vars) } : {}) })),
-    followLink: recipe.successSignal.followLink ? renderTemplate(recipe.successSignal.followLink, vars) : null,
+    followLink: recipe.successSignal?.followLink ? renderTemplate(recipe.successSignal.followLink, vars) : null,
   };
 }

@@ -8,6 +8,10 @@ import { FLEET_PUBLIC_URL, type Orchestrator } from '../orchestrator.js';
 import { feeView } from './fees.js';
 import { runFindAndPersist } from '../find.js';
 import type { Ctx } from './core.js';
+import { fileURLToPath } from 'node:url';
+
+/** Where the fleet writes evidence bundles (services/fleet/src/config.ts uses the same default). */
+const EVIDENCE_ROOT = process.env.EVIDENCE_DIR ?? fileURLToPath(new URL('../../../../evidence', import.meta.url));
 
 export async function registerProductRoutes(app: FastifyInstance, { db, bus }: Ctx, orch: Orchestrator) {
   // ---------- Find ----------
@@ -130,16 +134,36 @@ export async function registerProductRoutes(app: FastifyInstance, { db, bus }: C
     return orch.decideApproval(req.params.id, approved);
   });
 
-  // Evidence bundle manifest for a task (read-only).
+  // Evidence bundle for a task (read-only): the manifest, and the step screenshots it hashes.
+  const evidenceDir = async (taskId: string) => {
+    const [e] = await db.select().from(evidence).where(eq(evidence.taskId, taskId));
+    if (!e) return null;
+    const path = await import('node:path');
+    // Older rows were written without the manifest path; the fleet's bundle dir is deterministic.
+    return { sha256: e.sha256, dir: e.manifestPath ? path.dirname(e.manifestPath) : path.join(EVIDENCE_ROOT, taskId) };
+  };
   app.get<{ Params: { taskId: string } }>('/api/evidence/:taskId', async (req, reply) => {
-    const [e] = await db.select().from(evidence).where(eq(evidence.taskId, req.params.taskId));
-    if (!e?.manifestPath) return reply.code(404).send({ error: 'no evidence' });
+    if (!/^task_[a-z0-9]+$/.test(req.params.taskId)) return reply.code(404).send({ error: 'no evidence' });
+    const ev = await evidenceDir(req.params.taskId);
+    if (!ev) return reply.code(404).send({ error: 'no evidence' });
     const { readFile } = await import('node:fs/promises');
     try {
-      const manifest = JSON.parse(await readFile(e.manifestPath, 'utf8'));
-      return { sha256: e.sha256, manifest };
+      const manifest = JSON.parse(await readFile(`${ev.dir}/manifest.json`, 'utf8'));
+      return { sha256: ev.sha256, manifest };
     } catch {
       return reply.code(404).send({ error: 'manifest missing on disk' });
+    }
+  });
+  app.get<{ Params: { taskId: string; file: string } }>('/api/evidence/:taskId/:file', async (req, reply) => {
+    if (!/^task_[a-z0-9]+$/.test(req.params.taskId) || !/^step-\d{3}\.png$/.test(req.params.file)) return reply.code(404).send({ error: 'no such file' });
+    const ev = await evidenceDir(req.params.taskId);
+    if (!ev) return reply.code(404).send({ error: 'no evidence' });
+    const { readFile } = await import('node:fs/promises');
+    try {
+      const png = await readFile(`${ev.dir}/${req.params.file}`);
+      return reply.header('content-type', 'image/png').header('cache-control', 'private, max-age=3600').send(png);
+    } catch {
+      return reply.code(404).send({ error: 'screenshot missing on disk' });
     }
   });
 
@@ -189,7 +213,7 @@ export async function registerProductRoutes(app: FastifyInstance, { db, bus }: C
     const item = (o: typeof opps[number]) => ({
       id: o.id, merchant: o.merchant, vigilType: o.vigilType, valueEstimate: o.valueEstimate, currency: o.currency, status: o.status,
       reason: o.reason, action: (o.meta.action as string | undefined) ?? null, valueBasis: (o.meta.valueBasis as string | undefined) ?? null,
-      selfServe: Boolean(o.meta.selfServe), decision: (o.meta.decision as string | undefined) ?? null, task: taskByOpp.get(o.id)?.state ?? null,
+      selfServe: Boolean(o.meta.selfServe), decision: (o.meta.decision as string | undefined) ?? null, task: taskByOpp.get(o.id)?.state ?? null, research: (o.meta.research as Record<string, unknown> | undefined) ?? null,
       new: o.createdAt >= since,
     });
     return {
@@ -199,7 +223,7 @@ export async function registerProductRoutes(app: FastifyInstance, { db, bus }: C
       recoveredTotalCents: recovered.reduce((s, { r }) => s + r.amount, 0),
       recovered: week.map(({ r, o, t }) => ({ id: r.id, merchant: o.merchant, amount: r.amount, currency: r.currency, confirmedAt: r.confirmedAt, mode: t.mode })),
       awaiting: pending.map((a) => ({ id: a.id, taskId: a.taskId, step: a.step, reason: a.reason, createdAt: a.createdAt })),
-      decide: opps.filter((o) => o.status === 'open' && !(o.meta.decision)).map(item),
+      decide: opps.filter((o) => (o.status === 'open' || o.status === 'in_progress' || o.status === 'queued') && !(o.meta.decision)).map(item),
       kept: opps.filter((o) => o.meta.decision === 'keep').map(item),
       removed: opps.filter((o) => o.status === 'dismissed').map(item),
       working: opps.filter((o) => o.status === 'queued' || o.status === 'in_progress').map(item),

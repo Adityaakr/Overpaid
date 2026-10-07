@@ -36,6 +36,7 @@ export class Verifier {
       await ctx.addCookies([{ name: this.cfg.demoCookie.name, value: this.cfg.demoCookie.value, url: r.origin, sameSite: 'Lax' }]);
       const page = await ctx.newPage();
       const sig = r.recipe.successSignal;
+      if (!sig) throw new Error('recipe has no success signal to verify');
       const deadline = Date.now() + waitSeconds * 1000;
       const accept = new Set([...sig.successValues, ...sig.finalValues]);
       const isFinal = (st: string | null) => st !== null && (sig.finalValues.length ? sig.finalValues.includes(st) : sig.successValues.includes(st));
@@ -56,7 +57,7 @@ export class Verifier {
   }
 
   private async readOnce(page: Page, r: ResolvedRecipe): Promise<Verification> {
-    const sig = r.recipe.successSignal;
+    const sig = r.recipe.successSignal!;
     const base: Verification = { ok: false, final: false, status: null, confirmationCode: null, amountCents: null, excerpt: '', screenshot: null, detail: '' };
     try {
       await page.goto(r.statusUrl, { waitUntil: 'domcontentloaded', timeout: 15000 });

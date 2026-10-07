@@ -22,12 +22,12 @@ export function taskMessage(r: ResolvedRecipe): string {
   const rec = r.recipe;
   const lines = [
     `Goal: ${r.goal}`,
-    `Merchant: ${rec.merchant} (demo merchant built for this hackathon). Start page: ${r.entryUrl}`,
+    rec.merchant === 'external' ? `Merchant: a real company from the user's statement (see parameters). Start page: ${r.entryUrl}` : `Merchant: ${rec.merchant} (demo merchant built for this hackathon). Start page: ${r.entryUrl}`,
     `Allowed domains: ${r.allowedDomains.join(', ')}`,
     `Task parameters: ${JSON.stringify(r.params)}`,
   ];
   if (r.hints.length) lines.push('Recipe hints:', ...r.hints.map((h, i) => `${i + 1}. [${h.step}] ${h.hint}${h.selector ? ` (selector: ${h.selector})` : ''}`));
-  if (rec.irreversibleSteps.length) lines.push('Irreversible steps (request_approval first):', ...rec.irreversibleSteps.map((s) => `- ${s.id}: ${s.description}`));
+  if (rec.irreversibleSteps.length) lines.push('Irreversible steps (request_approval first):', ...rec.irreversibleSteps.map((s: { id: string; description: string }) => `- ${s.id}: ${s.description}`));
   lines.push(`Limits: at most ${rec.maxSteps} steps and ${rec.maxSeconds} seconds.`);
   return lines.join('\n');
 }

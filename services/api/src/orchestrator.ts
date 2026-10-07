@@ -42,6 +42,7 @@ type FleetEvent = {
     costCents?: number;
     recovered?: boolean;
     verifiedStatus?: string;
+    summary?: string;
   };
 };
 
@@ -63,8 +64,7 @@ export class Orchestrator {
     const existing = rows.length ? await this.db.select().from(tasks).where(inArray(tasks.opportunityId, rows.map((o) => o.id))) : [];
     const busy = new Set(existing.filter((t) => t.state !== 'failed').map((t) => t.opportunityId));
     for (const o of rows) {
-      // Browser recipes exist only for the demo merchant sites; real uploads are self-serve lines with drafted actions.
-      if (o.vigilType === 'bill_above_market' || busy.has(o.id) || (o.meta as { selfServe?: boolean })?.selfServe) continue;
+      if (o.vigilType === 'bill_above_market' || busy.has(o.id)) continue;
       const id = newId('task');
       if (o.vigilType === 'flight_compensation') {
         await this.db.insert(tasks).values({ id, opportunityId: o.id, recipeId: 'skylane-claim', state: 'needs_specialist', mode: 'agent', step: 'Needs an airline-compensation specialist' });
@@ -73,7 +73,21 @@ export class Orchestrator {
         created.push(id);
         continue;
       }
-      const r = recipeFor(o.vigilType, o.meta);
+      // Real statement lines get a research run on the merchant's own site; demo lines get their merchant recipe.
+      const selfServe = Boolean((o.meta as { selfServe?: boolean })?.selfServe);
+      const descriptor = Object.values(((o.meta as { sourceLabels?: Record<string, string> }).sourceLabels ?? {}))[0]?.split(' · ')[1] ?? o.merchant;
+      const r = selfServe
+        ? {
+            recipeId: 'research-merchant',
+            params: {
+              merchant: o.merchant,
+              descriptor,
+              kind: String((o.meta as { category?: string }).category ?? o.vigilType).toLowerCase(),
+              action: String((o.meta as { action?: string }).action ?? 'cancel or change the plan'),
+              query: `${o.merchant} ${/subscription|review/i.test(o.vigilType) ? 'cancel subscription' : /fee/i.test(o.vigilType) ? 'fee refund' : /duplicate/i.test(o.vigilType) ? 'refund duplicate charge' : 'plans pricing support'}`,
+            },
+          }
+        : recipeFor(o.vigilType, o.meta);
       if (!r) continue;
       await this.db.insert(tasks).values({ id, opportunityId: o.id, recipeId: r.recipeId, state: 'queued', mode: 'agent', step: 'Queued' });
       await this.db.update(opportunities).set({ status: 'queued' }).where(eq(opportunities.id, o.id));
@@ -188,7 +202,19 @@ export class Orchestrator {
 
     if (d.state === 'running') await this.db.update(opportunities).set({ status: 'in_progress' }).where(eq(opportunities.id, t.opportunityId));
     if (d.state === 'failed') await this.db.update(opportunities).set({ status: 'failed' }).where(eq(opportunities.id, t.opportunityId));
-    if (d.state === 'done') {
+    if (d.state === 'done' && d.verifiedStatus === 'researched') {
+      // A research run: keep the line open, attach what the agent found, never count money.
+      const [o] = await this.db.select().from(opportunities).where(eq(opportunities.id, t.opportunityId));
+      let research: Record<string, unknown> = { summary: d.summary ?? '' };
+      try {
+        const m = (d.summary ?? '').match(/\{[\s\S]*\}/);
+        if (m) research = { ...JSON.parse(m[0]), summary: d.summary };
+      } catch {}
+      if (o) await this.db.update(opportunities).set({ status: 'open', meta: { ...o.meta, research: { ...research, taskId: t.id, at: new Date().toISOString() } } }).where(eq(opportunities.id, o.id));
+      if (d.evidenceSha256) await this.db.insert(evidence).values({ id: newId('ev'), taskId: t.id, manifestPath: d.manifestPath ?? '', sha256: d.evidenceSha256 }).onConflictDoNothing();
+      await this.db.update(tasks).set({ step: 'Researched on the merchant site' }).where(eq(tasks.id, t.id));
+      await this.bus.emit('money.found', { researched: t.opportunityId });
+    } else if (d.state === 'done') {
       await this.db.update(opportunities).set({ status: 'recovered' }).where(eq(opportunities.id, t.opportunityId));
       if (d.evidenceSha256) {
         await this.db.insert(evidence).values({ id: newId('ev'), taskId: t.id, manifestPath: d.manifestPath ?? '', sha256: d.evidenceSha256 }).onConflictDoNothing();

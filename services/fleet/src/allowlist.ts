@@ -22,6 +22,7 @@ export function isAllowedUrl(raw: string, patterns: readonly string[], blockedPa
   return patterns.some((p0) => {
     const p = p0.toLowerCase().trim();
     if (!p) return false;
+    if (p === '*') return true;
     if (p.startsWith('*.')) {
       const base = p.slice(2);
       return hostname.endsWith(`.${base}`);

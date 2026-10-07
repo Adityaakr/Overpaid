@@ -1,0 +1,81 @@
+{
+  "id": "research-merchant",
+  "title": "Find how to cancel, claim or renegotiate with a real merchant",
+  "merchant": "external",
+  "vigil": "forgotten_subscription",
+  "research": true,
+  "allowedDomains": [
+    "*"
+  ],
+  "blockedPaths": [
+    "/checkout",
+    "/pay",
+    "/payment",
+    "/billing/pay",
+    "/login",
+    "/signin",
+    "/sign-in",
+    "/account/login"
+  ],
+  "entryUrl": "{{origin}}/html/?q={{query}}",
+  "goal": "The user pays {{merchant}} (statement line \"{{descriptor}}\", finding: {{kind}}). Starting from the web search, open the merchant's OWN official website and find: (1) the page that explains how to {{action}} (cancellation, refund or dispute, or plan change), (2) the current plan prices or fees on the official site, (3) a support contact (email, form page or phone). Record an evidence screenshot on each page you rely on. NEVER log in, create an account, submit any form, or click anything that changes an account; you only read. If the statement line does not name an identifiable company, call complete and say so. Finish by calling complete with a summary in this exact JSON shape: {\"site\":\"https://...\",\"cancelUrl\":\"...\",\"pricingUrl\":\"...\",\"supportUrl\":\"...\",\"prices\":\"one line\",\"howTo\":\"two sentences on how the user cancels or claims\",\"notes\":\"anything the user should know\"} with null for anything not found.",
+  "params": {
+    "merchant": {
+      "description": "Merchant name as it appears on the statement"
+    },
+    "descriptor": {
+      "description": "The raw statement descriptor",
+      "required": false,
+      "default": ""
+    },
+    "kind": {
+      "description": "What was found on this line (e.g. subscription to review)",
+      "required": false,
+      "default": "recurring charge"
+    },
+    "action": {
+      "description": "What the user wants to do (cancel, refund, renegotiate)",
+      "required": false,
+      "default": "cancel or change the plan"
+    },
+    "query": {
+      "description": "The search query to start from"
+    }
+  },
+  "hints": [
+    {
+      "step": "search",
+      "hint": "The start page is a web search. Pick the result that is the merchant's own domain, not a review site or an app store listing."
+    },
+    {
+      "step": "help",
+      "hint": "Cancellation and refund instructions usually live under Help, Support, FAQ or Account pages; use the site search if there is one."
+    },
+    {
+      "step": "pricing",
+      "hint": "Pricing is usually at /pricing, /plans or /products. Note the plan that matches the amount on the statement."
+    },
+    {
+      "step": "stop",
+      "hint": "Do not log in or submit anything. If a page demands sign-in to continue, record it and move on."
+    }
+  ],
+  "irreversibleSteps": [],
+  "evidenceCheckpoints": [
+    {
+      "id": "official_site",
+      "description": "The merchant's official site"
+    },
+    {
+      "id": "cancel_page",
+      "description": "The page explaining how to cancel, refund or change the plan"
+    },
+    {
+      "id": "pricing",
+      "description": "Current pricing"
+    }
+  ],
+  "maxSteps": 30,
+  "maxSeconds": 240,
+  "scripted": null
+}

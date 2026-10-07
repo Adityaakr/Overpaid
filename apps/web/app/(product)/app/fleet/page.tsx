@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import { Check, X, ShieldWarning } from '@phosphor-icons/react';
 import { api, useLive } from '@/product/api';
 import { Money, PageHead } from '@/product/ui';
@@ -143,6 +144,9 @@ function Tile({ t }: { t: FleetTask }) {
             t.failureReason ?? t.step ?? v?.label
           )}
         </div>
+        {t.evidenceSha256 ? (
+          <Link href={`/app/evidence/${t.id}`} className="link" style={{ fontSize: 12 }} title={t.evidenceSha256}>What the agent saw</Link>
+        ) : null}
       </div>
     </div>
   );

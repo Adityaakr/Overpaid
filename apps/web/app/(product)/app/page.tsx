@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ArrowRight, CaretDown } from '@phosphor-icons/react';
 import { VIGIL } from '@/product/vigils';
 import { DraftButton, LedgerBrief } from '@/product/brief';
+import { ResearchResult, SendAgentButton, type Research } from '@/product/research';
 import { api, useLive } from '@/product/api';
 import { Money, PageHead } from '@/product/ui';
 
@@ -67,7 +68,7 @@ export default function MoneyOnTheTable() {
   };
 
   const selfServe = (i: Item) => Boolean(i.meta?.selfServe);
-  const fixable = data.items.filter((i) => i.status === 'open' && i.vigilType !== 'bill_above_market' && !selfServe(i)).length;
+  const fixable = data.items.filter((i) => i.status === 'open' && i.vigilType !== 'bill_above_market' && (data.demo || !i.meta?.research)).length;
   const working = data.items.filter((i) => i.status === 'in_progress' || i.status === 'queued').length;
 
   if (!data.count) {
@@ -103,13 +104,13 @@ export default function MoneyOnTheTable() {
         sub={
           working ? `${working} agents working, ${fixable} waiting for you`
           : data.demo ? `${data.count} leaks found, ${fixable} ready to fix`
-          : `${data.count} things found on your accounts. Decide on them in the Sunday review; the agents handle the rest.`
+          : `${data.count} things found on your accounts. Send agents to the merchants' sites, or decide in the Sunday review.`
         }
         actions={
           fixable || data.demo ? (
             <button className="op-btn" onClick={fixAll} disabled={!fixable || busy === 'fix'}>
               <span className="ico"><ArrowRight size={20} /></span>
-              {busy === 'fix' ? 'Starting agents…' : `Approve and fix ${fixable}`}
+              {busy === 'fix' ? 'Starting agents…' : data.demo ? `Approve and fix ${fixable}` : `Send agents to ${fixable} merchant${fixable === 1 ? '' : 's'}`}
             </button>
           ) : (
             <a className="op-btn" href="/app/review">
@@ -197,14 +198,18 @@ export default function MoneyOnTheTable() {
                   </div>
                   <div className="status">
                     <span className={`op-pill ${s.tone}`}>
-                      {it.vigilType === 'bill_above_market' && it.status === 'open' ? 'Join a bloc' : selfServe(it) && it.status === 'open' ? 'Your action' : s.label}
+                      {it.vigilType === 'bill_above_market' && it.status === 'open' ? 'Join a bloc' : selfServe(it) && it.status === 'in_progress' ? 'Agent on the site' : selfServe(it) && it.status === 'open' ? (it.meta?.research ? 'Checked' : 'Your action') : s.label}
                     </span>
                   </div>
                 </div>
                 {selfServe(it) && it.meta?.action ? (
                   <div style={{ padding: '0 4px 14px 64px', fontSize: 14, color: 'var(--ink-75)', display: 'grid', gap: 8 }}>
                     <div><b style={{ color: 'var(--ink)' }}>What to do:</b> {String(it.meta.action)}</div>
-                    {it.status === 'open' ? <DraftButton id={it.id} initial={typeof it.meta.draft === 'string' ? it.meta.draft : null} /> : null}
+                    {it.meta.research ? <ResearchResult r={it.meta.research as Research} /> : null}
+                    <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+                      {!it.meta.research ? <SendAgentButton id={it.id} status={it.status} onSent={reload} /> : null}
+                      {it.status === 'open' ? <DraftButton id={it.id} initial={typeof it.meta.draft === 'string' ? it.meta.draft : null} /> : null}
+                    </div>
                   </div>
                 ) : null}
                 {isOpen ? (

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { ArrowSquareOut, SealCheck } from '@phosphor-icons/react';
-import { API, useLive } from '@/product/api';
+import { useLive } from '@/product/api';
 import { Money, PageHead } from '@/product/ui';
 import { buildSignSubmit, ConnectButton, errText, fmtAda, SCAN, useWallet } from '@/product/wallet';
 import { VIGIL } from '@/product/vigils';
@@ -76,7 +76,7 @@ export default function Receipts() {
                     <td className="op-mono">{r.confirmation ?? '—'}</td>
                     <td>
                       {r.evidenceSha256 ? (
-                        <a className="link op-mono" href={`${API}${r.evidenceUrl}`} target="_blank" rel="noreferrer" title={r.evidenceSha256}>
+                        <a className="link op-mono" href={r.evidenceUrl ? r.evidenceUrl.replace('/api/evidence/', '/app/evidence/') : '#'} title={r.evidenceSha256}>
                           <SealCheck size={14} style={{ verticalAlign: -2 }} /> {r.evidenceSha256.slice(0, 12)}…
                         </a>
                       ) : (

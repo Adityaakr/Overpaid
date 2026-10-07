@@ -6,10 +6,11 @@ import { api, useLive } from '@/product/api';
 import { Money, PageHead } from '@/product/ui';
 import { VIGIL } from '@/product/vigils';
 import { LedgerBrief } from '@/product/brief';
+import { ResearchResult, SendAgentButton, type Research } from '@/product/research';
 
 type Item = {
   id: string; merchant: string; vigilType: string; valueEstimate: number; currency: string; status: string; reason: string;
-  action: string | null; valueBasis: string | null; selfServe: boolean; decision: string | null; task: string | null; new: boolean;
+  action: string | null; valueBasis: string | null; selfServe: boolean; decision: string | null; task: string | null; new: boolean; research?: Research | null;
 };
 type Review = {
   since: string; nextReviewAt: string; recoveredWeekCents: number; recoveredTotalCents: number;
@@ -122,6 +123,7 @@ export default function SundayReview() {
                     <div className="merchant">{it.merchant} {it.new ? <span className="op-pill lime" style={{ marginLeft: 6 }}>new</span> : null}</div>
                     <div className="vigil">{v.label}</div>
                     <div className="op-muted" style={{ fontSize: 13, marginTop: 4 }}>{it.action ?? it.reason}</div>
+                    {it.research ? <div style={{ marginTop: 8 }}><ResearchResult r={it.research} /></div> : it.selfServe ? <div style={{ marginTop: 8 }}><SendAgentButton id={it.id} status={it.status} onSent={reload} /></div> : null}
                   </div>
                   <div className="value num">
                     <Money cents={it.valueEstimate} currency={it.currency} />

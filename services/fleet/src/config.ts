@@ -50,8 +50,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env) {
 export type FleetConfig = ReturnType<typeof loadConfig>;
 
 /** Origin of a demo merchant site. MERCHANT_BASE_<KEY> overrides (e.g. a tunnel hostname for AgentCore). */
-export function merchantOrigin(cfg: FleetConfig, key: MerchantKey, env: NodeJS.ProcessEnv = process.env): string {
+export function merchantOrigin(cfg: FleetConfig, key: MerchantKey | 'external', env: NodeJS.ProcessEnv = process.env): string {
+  // Research runs on a real merchant's own site start from a web search; the agent finds the site itself.
+  if (key === 'external') return env.RESEARCH_SEARCH_ORIGIN?.replace(/\/$/, '') || 'https://html.duckduckgo.com';
   const override = env[`MERCHANT_BASE_${key.toUpperCase()}`];
   if (override) return override.replace(/\/$/, '');
-  return `http://localhost:${PORTS[key] + cfg.merchantPortOffset}`;
+  return `http://localhost:${PORTS[key as MerchantKey] + cfg.merchantPortOffset}`;
 }

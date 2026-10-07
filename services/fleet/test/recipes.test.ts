@@ -12,16 +12,17 @@ describe('recipes', () => {
   const recipes = loadRecipes();
 
   it('loads the five demo recipes and every one validates', () => {
-    expect([...recipes.keys()].sort()).toEqual(['cartwell-duplicate', 'cartwell-price-adjust', 'parcelo-undelivered', 'skylane-claim', 'vistaflix-cancel']);
+    expect([...recipes.keys()].sort()).toEqual(['cartwell-duplicate', 'cartwell-price-adjust', 'parcelo-undelivered', 'research-merchant', 'skylane-claim', 'vistaflix-cancel']);
     for (const r of recipes.values()) {
       expect(RecipeSchema.parse(r)).toEqual(r);
-      expect(r.irreversibleSteps.length).toBeGreaterThan(0);
+      if (!r.research) expect(r.irreversibleSteps.length).toBeGreaterThan(0);
       expect(r.allowedDomains.length).toBeGreaterThan(0);
     }
   });
 
   it('every recipe names a scripted solution that exists in services/merchants/scripted', () => {
     for (const r of recipes.values()) {
+      if (r.research) continue; // read-only research runs on real sites have no scripted fallback
       expect(r.scripted, r.id).toBeTruthy();
       expect(scriptedPath(r.scripted!), `${r.id} -> ${r.scripted}`).not.toBeNull();
     }
