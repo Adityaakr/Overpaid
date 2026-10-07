@@ -84,3 +84,6 @@
 
 /* The template uses one arrow icon for both carousel buttons; mirror the previous one. */
 [data-name="ButtonPrev"] [style*="mask-image"] { rotate: 180deg; }
+/* Inline links inside copy (sources, references): blue and obviously clickable. */
+.fr-text p a, .fr-text li a, .fr-text h1 a, .fr-text h2 a, .fr-text h3 a, .fr-text h4 a, .fr-text h5 a, .fr-text h6 a { color: #1a56db !important; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.fr-text p a:hover, .fr-text li a:hover { color: #1240a8 !important; }
