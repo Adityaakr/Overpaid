@@ -297,9 +297,15 @@ export function imageUrl(v: any): string | undefined {
 
 // Matched on the button's visible text (hover effects repeat the label, so prefix match).
 const CTA_ROUTES: Record<string, string> = {
+  'Audit my statement': '/audit',
   'Find my money': '/audit',
   'Start finding money': '/audit',
+  'Hire the audit as a Coworker on Sokosumi': 'https://preprod.sokosumi.com',
+  'Introducing Overpaid': 'https://github.com/Adityaakr/Overpaid#readme',
+  'Why Overpaid Pays Specialists': 'https://github.com/Adityaakr/Overpaid/blob/main/docs/COWORKER.md',
+  'Five Places Your Money': 'https://github.com/Adityaakr/Overpaid/blob/main/docs/IMPLEMENTATION.md',
   'Join blocs with one tap': '/app/bloc',
+  'Group bargaining': '/app/bloc',
   'Read the build notes': 'https://github.com/Adityaakr/Overpaid',
   'Visit Blog': 'https://github.com/Adityaakr/Overpaid',
 };
